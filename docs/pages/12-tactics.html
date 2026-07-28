@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>战术题库 / 每日挑战 · Othello 黑白棋</title>
+  <link rel="preconnect" href="https://unpkg.com" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>*{scrollbar-width:none;}*::-webkit-scrollbar{display:none;}</style>
+</head>
+<body class="bg-[#0f1117] min-h-screen text-[#f0f0f0] overflow-x-hidden" style="font-family:'DM Sans',system-ui,sans-serif;">
+<link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+<style type="text/tailwindcss">
+@theme {
+  --color-primary: #0f1117;
+  --color-board-green: #1a6b3c;
+  --color-board-dark: #145a30;
+  --color-gold: #d4a843;
+  --color-gold-light: #e8c96a;
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #8a8f98;
+  --color-surface: #161922;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes pulse-hint{0%,100%{box-shadow:0 0 0 0 rgba(212,168,67,0.5)}50%{box-shadow:0 0 0 6px rgba(212,168,67,0)}}
+@keyframes pop{0%{transform:scale(0.9);opacity:0}100%{transform:scale(1);opacity:1}}
+</style>
+<div class="fixed inset-0 opacity-[0.04] pointer-events-none" style="background-image:linear-gradient(rgba(26,107,60,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,60,0.8) 1px,transparent 1px);background-size:80px 80px;"></div>
+
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border">
+  <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+    <!-- Left: Logo -->
+    <div class="flex items-center gap-3">
+      <div class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28]">
+        <div class="grid grid-cols-2 gap-0.5">
+          <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+          <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+        </div>
+      </div>
+      <span class="text-lg font-bold tracking-wide" style="font-family:'DM Sans',system-ui,sans-serif;">Othello</span>
+    </div>
+    <!-- Center: My Ratings -->
+    <div class="hidden md:flex items-center gap-4">
+      <div class="flex items-center gap-2 bg-gold/5 border border-gold/20 rounded-full px-3 py-1.5">
+        <i data-lucide="trophy" class="w-3 h-3 text-gold"></i>
+        <span class="text-[11px] text-gold font-medium" style="font-family:'DM Sans',system-ui,sans-serif;">ELO: 1580</span>
+      </div>
+      <div class="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full px-3 py-1.5">
+        <i data-lucide="star" class="w-3 h-3 text-emerald-400"></i>
+        <span class="text-[11px] text-emerald-400 font-medium" style="font-family:'DM Sans',system-ui,sans-serif;">经典积分: 72</span>
+      </div>
+    </div>
+    <!-- Right: User info -->
+    <div class="flex items-center gap-5">
+      <a href="14-settings.html" class="p-2 rounded-lg hover:bg-glass transition-colors" title="设置"><i data-lucide="settings" class="w-4 h-4 text-text-secondary"></i></a>
+      <a href="01-login.html" class="p-2 rounded-lg hover:bg-glass transition-colors" title="登出"><i data-lucide="log-out" class="w-4 h-4 text-text-secondary"></i></a>
+      <div class="flex items-center gap-3 pl-2 border-l border-glass-border">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-gold/30 to-gold/10 border border-gold/30 flex items-center justify-center"><i data-lucide="user" class="w-4 h-4 text-gold"></i></div>
+        <div class="hidden sm:block">
+          <span class="text-sm font-medium" style="font-family:'DM Sans',system-ui,sans-serif;">ChessKing</span>
+          <span class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">1580</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-20 max-w-[1280px] mx-auto px-8 pb-12 relative z-10">
+  <div class="grid grid-cols-12 gap-6">
+
+    <!-- Left: Puzzle list -->
+    <aside class="col-span-3 space-y-4">
+      <!-- Daily challenge -->
+      <div class="backdrop-blur-xl bg-gradient-to-br from-purple-500/10 to-transparent border border-purple-500/25 rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center"><i data-lucide="calendar-check" class="w-4 h-4 text-purple-400"></i></div>
+          <div><p class="text-xs font-semibold text-purple-400">每日挑战</p><p class="text-[9px] text-text-secondary">7月23日</p></div>
+        </div>
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-2xl font-black text-purple-400" style="font-family:'Space Mono',monospace;">3/5</p>
+          <span class="text-[10px] text-text-secondary">已完成</span>
+        </div>
+        <!-- Streak dots -->
+        <div class="flex items-center gap-1.5 mb-3">
+          <div class="flex-1 h-1.5 rounded-full bg-purple-400"></div>
+          <div class="flex-1 h-1.5 rounded-full bg-purple-400"></div>
+          <div class="flex-1 h-1.5 rounded-full bg-purple-400"></div>
+          <div class="flex-1 h-1.5 rounded-full bg-[rgba(255,255,255,0.08)]"></div>
+          <div class="flex-1 h-1.5 rounded-full bg-[rgba(255,255,255,0.08)]"></div>
+        </div>
+        <div class="flex items-center gap-1.5 text-[10px] text-text-secondary">
+          <i data-lucide="flame" class="w-3 h-3 text-orange-400"></i><span>连做 <span class="text-orange-400 font-medium">7</span> 天</span>
+          <span class="ml-auto">奖励 +50 积分</span>
+        </div>
+      </div>
+
+      <!-- Difficulty filter -->
+      <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-4">
+        <p class="text-[10px] uppercase tracking-wider text-text-secondary mb-3">难度筛选</p>
+        <div class="space-y-1.5">
+          <button class="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-gold/10 border border-gold/20 text-xs">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>入门</span>
+            <span class="text-[9px] text-text-secondary">128 题</span>
+          </button>
+          <button class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.03)] transition-colors text-xs text-text-secondary">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span>简单</span>
+            <span class="text-[9px]">96 题</span>
+          </button>
+          <button class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.03)] transition-colors text-xs text-text-secondary">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-400"></span>中等</span>
+            <span class="text-[9px]">72 题</span>
+          </button>
+          <button class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.03)] transition-colors text-xs text-text-secondary">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-400"></span>困难</span>
+            <span class="text-[9px]">48 题</span>
+          </button>
+          <button class="w-full flex items-center justify-between px-3 py-2 rounded-lg hover:bg-[rgba(255,255,255,0.03)] transition-colors text-xs text-text-secondary">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-400"></span>专家</span>
+            <span class="text-[9px]">24 题</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Topic tags -->
+      <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-4">
+        <p class="text-[10px] uppercase tracking-wider text-text-secondary mb-3">专题</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="text-[10px] px-2 py-1 rounded-full bg-gold/10 text-gold border border-gold/20 cursor-pointer">角点争夺</span>
+          <span class="text-[10px] px-2 py-1 rounded-full bg-[rgba(255,255,255,0.03)] text-text-secondary border border-glass-border cursor-pointer hover:text-text-primary transition-colors">边线控制</span>
+          <span class="text-[10px] px-2 py-1 rounded-full bg-[rgba(255,255,255,0.03)] text-text-secondary border border-glass-border cursor-pointer hover:text-text-primary transition-colors">X 位陷阱</span>
+          <span class="text-[10px] px-2 py-1 rounded-full bg-[rgba(255,255,255,0.03)] text-text-secondary border border-glass-border cursor-pointer hover:text-text-primary transition-colors">残局精确</span>
+          <span class="text-[10px] px-2 py-1 rounded-full bg-[rgba(255,255,255,0.03)] text-text-secondary border border-glass-border cursor-pointer hover:text-text-primary transition-colors">翻子最大化</span>
+          <span class="text-[10px] px-2 py-1 rounded-full bg-[rgba(255,255,255,0.03)] text-text-secondary border border-glass-border cursor-pointer hover:text-text-primary transition-colors">少子策略</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: Puzzle board -->
+    <section class="col-span-6">
+      <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-6">
+        <!-- Puzzle header -->
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <h2 class="text-base font-bold">第 042 题 · 角点争夺</h2>
+              <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 font-medium">入门</span>
+            </div>
+            <p class="text-xs text-text-secondary">黑先 · 找出最佳一手</p>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-text-secondary">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i><span style="font-family:'Space Mono',monospace;">00:42</span></span>
+            <span class="flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3 text-emerald-400"></i>今日 3/5</span>
+          </div>
+        </div>
+
+        <!-- Question prompt -->
+        <div class="bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl px-4 py-3 mb-5 flex items-start gap-2">
+          <i data-lucide="lightbulb" class="w-4 h-4 text-gold mt-0.5 flex-shrink-0"></i>
+          <p class="text-xs text-text-secondary leading-relaxed">黑方目前形势胶着。注意白方在 <span class="text-gold font-medium" style="font-family:'Space Mono',monospace;">b2</span> 的 X 位弱点——找出能逼迫白方让出角点 <span class="text-gold font-medium" style="font-family:'Space Mono',monospace;">a1</span> 的关键一手。</p>
+        </div>
+
+        <!-- Board -->
+        <div class="flex justify-center mb-5">
+          <div class="grid grid-cols-8 border-2 border-[#0d4a28] rounded-lg overflow-hidden shadow-[0_0_40px_rgba(26,107,60,0.2),0_16px_40px_rgba(0,0,0,0.5)]">
+            <!-- Row 1 -->
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors" style="animation:pulse-hint 2s ease-in-out infinite;"><div class="w-3 h-3 rounded-full bg-gold/40 border border-gold/60"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-white via-gray-100 to-gray-200 shadow-[0_3px_6px_rgba(0,0,0,0.4),inset_0_2px_5px_rgba(255,255,255,0.9)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-white via-gray-100 to-gray-200 shadow-[0_3px_6px_rgba(0,0,0,0.4),inset_0_2px_5px_rgba(255,255,255,0.9)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"><div class="w-2.5 h-2.5 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"><div class="w-2.5 h-2.5 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <!-- Row 2 -->
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-white via-gray-100 to-gray-200 shadow-[0_3px_6px_rgba(0,0,0,0.4),inset_0_2px_5px_rgba(255,255,255,0.9)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center relative"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-white via-gray-100 to-gray-200 shadow-[0_3px_6px_rgba(0,0,0,0.4),inset_0_2px_5px_rgba(255,255,255,0.9)]"></div><span class="absolute top-0.5 left-0.5 text-[8px] text-rose-400 font-bold">X</span></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"><div class="w-2.5 h-2.5 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 via-gray-900 to-black shadow-[0_3px_6px_rgba(0,0,0,0.6),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <!-- Row 3 -->
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-white via-gray-100 to-gray-200 shadow-[0_3px_6px_rgba(0,0,0,0.4),inset_0_2px_5px_rgba(255,255,255,0.9)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"><div class="w-2.5 h-2.5 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 via-gray-900 to-black shadow-[0_3px_6px_rgba(0,0,0,0.6),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 via-gray-900 to-black shadow-[0_3px_6px_rgba(0,0,0,0.6),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"><div class="w-2.5 h-2.5 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <!-- Row 4 -->
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 via-gray-900 to-black shadow-[0_3px_6px_rgba(0,0,0,0.6),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-white via-gray-100 to-gray-200 shadow-[0_3px_6px_rgba(0,0,0,0.4),inset_0_2px_5px_rgba(255,255,255,0.9)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"><div class="w-2.5 h-2.5 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <!-- Row 5-8 mostly empty -->
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center hover:bg-[#1f8045] cursor-pointer transition-colors"><div class="w-2.5 h-2.5 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 via-gray-900 to-black shadow-[0_3px_6px_rgba(0,0,0,0.6),inset_0_2px_4px_rgba(255,255,255,0.1)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"><div class="w-9 h-9 rounded-full bg-gradient-to-br from-white via-gray-100 to-gray-200 shadow-[0_3px_6px_rgba(0,0,0,0.4),inset_0_2px_5px_rgba(255,255,255,0.9)]"></div></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+            <div class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center"></div>
+          </div>
+        </div>
+
+        <!-- Submit / verdict -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl px-4 py-3">
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">你的选择</span>
+            <div class="w-4 h-4 rounded-full bg-gradient-to-br from-gray-700 to-gray-900"></div>
+            <span class="text-sm font-bold text-gold" style="font-family:'Space Mono',monospace;">a1</span>
+            <span class="text-[10px] text-text-secondary">点击棋盘落子</span>
+            <button class="ml-auto text-[10px] text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"><i data-lucide="eraser" class="w-3 h-3"></i>清除</button>
+          </div>
+          <div class="flex gap-3">
+            <button class="flex-1 py-3 rounded-xl font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2">
+              <i data-lucide="check" class="w-4 h-4"></i>提交答案
+            </button>
+            <button class="px-5 py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-all text-sm flex items-center gap-2">
+              <i data-lucide="lightbulb" class="w-4 h-4"></i>提示
+            </button>
+            <button class="px-5 py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-text-secondary/40 hover:text-text-primary transition-all text-sm flex items-center gap-2">
+              <i data-lucide="skip-forward" class="w-4 h-4"></i>跳过
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verdict preview (correct) -->
+      <div class="backdrop-blur-xl bg-emerald-500/5 border border-emerald-500/25 rounded-2xl p-5 mt-4" style="animation:pop 0.4s ease-out;">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i></div>
+          <div>
+            <p class="text-sm font-bold text-emerald-400">回答正确！</p>
+            <p class="text-[10px] text-text-secondary">用时 00:42 · 评级 S · 获得 +10 积分</p>
+          </div>
+          <button class="ml-auto px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all flex items-center gap-1"><i data-lucide="eye" class="w-3 h-3"></i>查看解析</button>
+        </div>
+        <div class="bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg p-3 text-xs text-text-secondary leading-relaxed">
+          <span class="text-gold font-medium">解析：</span><span style="font-family:'Space Mono',monospace;" class="text-emerald-400">a1</span> 落子后，黑方沿 a 列向下翻转白子，迫使白方在 <span style="font-family:'Space Mono',monospace;" class="text-rose-400">b2</span> 的 X 位被动落子，最终让黑方占据角点 <span style="font-family:'Space Mono',monospace;" class="text-gold">a1</span>。这是典型的"诱使对手让角"战术。
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: stats + history -->
+    <aside class="col-span-3 space-y-4">
+      <!-- My stats -->
+      <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
+        <p class="text-[10px] uppercase tracking-wider text-text-secondary mb-4">我的战绩</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="text-center bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg p-3">
+            <p class="text-xl font-bold text-emerald-400" style="font-family:'Space Mono',monospace;">86</p>
+            <p class="text-[9px] text-text-secondary mt-0.5">已解决</p>
+          </div>
+          <div class="text-center bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg p-3">
+            <p class="text-xl font-bold text-gold" style="font-family:'Space Mono',monospace;">72%</p>
+            <p class="text-[9px] text-text-secondary mt-0.5">正确率</p>
+          </div>
+          <div class="text-center bg-[rgba(255,255,255,0.02)] border border-gold/20 rounded-lg p-3">
+            <p class="text-xl font-bold text-orange-400" style="font-family:'Space Mono',monospace;">7</p>
+            <p class="text-[9px] text-orange-400/70 mt-0.5">连做天数</p>
+          </div>
+          <div class="text-center bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg p-3">
+            <p class="text-xl font-bold text-text-primary" style="font-family:'Space Mono',monospace;">S</p>
+            <p class="text-[9px] text-text-secondary mt-0.5">平均评级</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent attempts -->
+      <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
+        <p class="text-[10px] uppercase tracking-wider text-text-secondary mb-3">最近答题</p>
+        <div class="space-y-2">
+          <div class="flex items-center gap-3 text-xs"><span class="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i></span><span class="flex-1">第 041 题 · 边线控制</span><span class="text-[9px] text-emerald-400">S</span></div>
+          <div class="flex items-center gap-3 text-xs"><span class="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i></span><span class="flex-1">第 040 题 · 角点争夺</span><span class="text-[9px] text-amber-400">A</span></div>
+          <div class="flex items-center gap-3 text-xs"><span class="w-5 h-5 rounded-full bg-rose-500/15 flex items-center justify-center"><i data-lucide="x" class="w-3 h-3 text-rose-400"></i></span><span class="flex-1">第 039 题 · X 位陷阱</span><span class="text-[9px] text-rose-400">重试</span></div>
+          <div class="flex items-center gap-3 text-xs"><span class="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i></span><span class="flex-1">第 038 题 · 残局精确</span><span class="text-[9px] text-emerald-400">S</span></div>
+          <div class="flex items-center gap-3 text-xs"><span class="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center"><i data-lucide="check" class="w-3 h-3 text-emerald-400"></i></span><span class="flex-1">第 037 题 · 翻子最大化</span><span class="text-[9px] text-amber-400">A</span></div>
+        </div>
+      </div>
+
+      <!-- Streak reward -->
+      <div class="backdrop-blur-xl bg-gradient-to-br from-orange-500/10 to-transparent border border-orange-500/25 rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <i data-lucide="flame" class="w-4 h-4 text-orange-400"></i>
+          <span class="text-xs font-semibold text-orange-400">连做奖励</span>
+        </div>
+        <p class="text-[10px] text-text-secondary mb-3">连续答题 7 天解锁额外奖励</p>
+        <div class="flex items-center justify-between text-[10px]">
+          <span class="text-text-secondary">3 天</span><span class="text-emerald-400">+10 积分</span>
+        </div>
+        <div class="flex items-center justify-between text-[10px] mt-1.5">
+          <span class="text-text-secondary">7 天</span><span class="text-gold">+50 积分 · 徽章</span>
+        </div>
+        <div class="flex items-center justify-between text-[10px] mt-1.5 opacity-50">
+          <span class="text-text-secondary">30 天</span><span class="text-purple-400">专属称号</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+</body>
+<script>if(window.lucide) lucide.createIcons();</script>
+</html>

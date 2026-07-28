@@ -1,0 +1,58 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #0f1117;
+  --color-board-green: #1a6b3c;
+  --color-board-dark: #145a30;
+  --color-gold: #d4a843;
+  --color-gold-light: #e8c96a;
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #8a8f98;
+  --color-surface: #161922;
+
+  --font-sans:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-serif:
+    Georgia, 'Times New Roman', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, 'Courier New', monospace;
+}
+
+/* ─── 高对比模式（T19，F-E-14）：增强文字/边框对比 ─── */
+[data-contrast='high'] {
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #d0d4da;
+  --color-glass-border: rgba(255, 255, 255, 0.4);
+  --color-gold: #ffd24d;
+  --color-gold-light: #ffe08a;
+}
+
+/* ─── 减少动效（T19，F-E-14）：尊重用户偏好，关闭动画 ─── */
+[data-motion='reduce'] *,
+[data-motion='reduce'] *::before,
+[data-motion='reduce'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* 系统级 prefers-reduced-motion 默认尊重（无显式设置时） */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion='normal']) *,
+  :root:not([data-motion='normal']) *::before,
+  :root:not([data-motion='normal']) *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 键盘焦点可见性增强（无障碍） */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}

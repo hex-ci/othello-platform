@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>排行榜 · Othello 黑白棋</title>
+    <link rel="preconnect" href="https://unpkg.com" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      * {
+        scrollbar-width: none;
+      }
+      *::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[#0f1117] min-h-screen text-[#f0f0f0]"
+    style="font-family: 'DM Sans', system-ui, sans-serif"
+  >
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    />
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #0f1117;
+        --color-board-green: #1a6b3c;
+        --color-board-dark: #145a30;
+        --color-gold: #d4a843;
+        --color-gold-light: #e8c96a;
+        --color-glass: rgba(255, 255, 255, 0.05);
+        --color-glass-border: rgba(255, 255, 255, 0.1);
+        --color-text-primary: #f0f0f0;
+        --color-text-secondary: #8a8f98;
+        --color-surface: #161922;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+    </style>
+    <div
+      class="fixed inset-0 opacity-[0.04] pointer-events-none"
+      style="
+        background-image:
+          linear-gradient(rgba(26, 107, 60, 0.8) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(26, 107, 60, 0.8) 1px, transparent 1px);
+        background-size: 80px 80px;
+      "
+    ></div>
+    <div
+      class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(212,168,67,0.1)_0%,transparent_70%)] pointer-events-none"
+    ></div>
+
+    <!-- Top Navigation Bar -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
+    >
+      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+        <!-- Left: Logo -->
+        <div class="flex items-center gap-3">
+          <div
+            class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28]"
+          >
+            <div class="grid grid-cols-2 gap-0.5">
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+            </div>
+          </div>
+          <span
+            class="text-lg font-bold tracking-wide"
+            style="font-family: 'DM Sans', system-ui, sans-serif"
+            >Othello</span
+          >
+        </div>
+        <!-- Center: My Ratings -->
+        <div class="hidden md:flex items-center gap-4">
+          <div
+            class="flex items-center gap-2 bg-gold/5 border border-gold/20 rounded-full px-3 py-1.5"
+          >
+            <i data-lucide="trophy" class="w-3 h-3 text-gold"></i>
+            <span
+              class="text-[11px] text-gold font-medium"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+              >ELO: 1580</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full px-3 py-1.5"
+          >
+            <i data-lucide="star" class="w-3 h-3 text-emerald-400"></i>
+            <span
+              class="text-[11px] text-emerald-400 font-medium"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+              >经典积分: 72</span
+            >
+          </div>
+        </div>
+        <!-- Right: User info -->
+        <div class="flex items-center gap-5">
+          <a
+            href="14-settings.html"
+            class="p-2 rounded-lg hover:bg-glass transition-colors"
+            title="设置"
+            ><i data-lucide="settings" class="w-4 h-4 text-text-secondary"></i
+          ></a>
+          <a
+            href="01-login.html"
+            class="p-2 rounded-lg hover:bg-glass transition-colors"
+            title="登出"
+            ><i data-lucide="log-out" class="w-4 h-4 text-text-secondary"></i
+          ></a>
+          <div class="flex items-center gap-3 pl-2 border-l border-glass-border">
+            <div
+              class="w-8 h-8 rounded-full bg-gradient-to-br from-gold/30 to-gold/10 border border-gold/30 flex items-center justify-center"
+            >
+              <i data-lucide="user" class="w-4 h-4 text-gold"></i>
+            </div>
+            <div class="hidden sm:block">
+              <span
+                class="text-sm font-medium"
+                style="font-family: 'DM Sans', system-ui, sans-serif"
+                >ChessKing</span
+              >
+              <span class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">1580</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="pt-20 max-w-[1280px] mx-auto px-8 pb-12 relative z-10">
+      <!-- Header -->
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <h1
+            class="text-3xl font-bold flex items-center gap-3"
+            style="font-family: 'DM Sans', system-ui, sans-serif"
+          >
+            <i data-lucide="trophy" class="w-7 h-7 text-gold"></i>竞技榜单
+          </h1>
+          <p class="text-text-secondary text-sm mt-2">
+            赛季 2026-S2 · 每周一结算 · 段位晋降基于 ELO
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span
+            class="text-[10px] px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5"
+            ><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>距结算 3
+            天</span
+          >
+        </div>
+      </div>
+
+      <!-- TOP 3 podium -->
+      <div class="grid grid-cols-3 gap-5 mb-8">
+        <!-- 2nd -->
+        <div
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-6 text-center mt-6"
+        >
+          <div class="relative inline-block mb-3">
+            <div
+              class="w-16 h-16 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center mx-auto"
+            >
+              <span
+                class="text-xl font-bold text-gray-700"
+                style="font-family: 'DM Sans', system-ui, sans-serif"
+                >翻</span
+              >
+            </div>
+            <div
+              class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gray-300 border-2 border-[#0f1117] flex items-center justify-center"
+            >
+              <span class="text-[11px] font-black text-gray-700">2</span>
+            </div>
+          </div>
+          <p class="font-bold text-sm">翻转高手</p>
+          <p
+            class="text-2xl font-black text-gray-300 mt-1"
+            style="font-family: 'Space Mono', monospace"
+          >
+            1890
+          </p>
+          <span
+            class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20"
+            >大师段</span
+          >
+        </div>
+        <!-- 1st -->
+        <div
+          class="backdrop-blur-xl bg-gold/5 border border-gold/40 rounded-2xl p-6 text-center relative overflow-hidden"
+          style="animation: float 5s ease-in-out infinite"
+        >
+          <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 rounded-full bg-[radial-gradient(circle,rgba(212,168,67,0.3)_0%,transparent_70%)]"
+          ></div>
+          <div class="relative">
+            <div class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-gold mb-2">
+              <i data-lucide="crown" class="w-4 h-4 text-[#0f1117]"></i>
+            </div>
+            <div class="relative inline-block mb-3">
+              <div
+                class="w-20 h-20 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center mx-auto border-4 border-gold/30"
+              >
+                <span
+                  class="text-2xl font-bold text-[#0f1117]"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >R</span
+                >
+              </div>
+              <div
+                class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gold border-2 border-[#0f1117] flex items-center justify-center"
+              >
+                <span class="text-xs font-black text-[#0f1117]">1</span>
+              </div>
+            </div>
+            <p class="font-bold text-base text-gold">Reversi_Pro</p>
+            <p
+              class="text-3xl font-black text-gold mt-1"
+              style="font-family: 'Space Mono', monospace"
+            >
+              2010
+            </p>
+            <span
+              class="inline-block mt-2 text-[10px] px-2.5 py-1 rounded-full bg-rose-500/15 text-rose-400 border border-rose-500/25"
+              >王者段</span
+            >
+          </div>
+        </div>
+        <!-- 3rd -->
+        <div
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-6 text-center mt-6"
+        >
+          <div class="relative inline-block mb-3">
+            <div
+              class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-700 to-amber-800 flex items-center justify-center mx-auto"
+            >
+              <span
+                class="text-xl font-bold text-amber-200"
+                style="font-family: 'DM Sans', system-ui, sans-serif"
+                >D</span
+              >
+            </div>
+            <div
+              class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-amber-700 border-2 border-[#0f1117] flex items-center justify-center"
+            >
+              <span class="text-[11px] font-black text-amber-200">3</span>
+            </div>
+          </div>
+          <p class="font-bold text-sm">DarkMaster</p>
+          <p
+            class="text-2xl font-black text-amber-600 mt-1"
+            style="font-family: 'Space Mono', monospace"
+          >
+            1720
+          </p>
+          <span
+            class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20"
+            >大师段</span
+          >
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="flex items-center justify-between mb-5">
+        <div
+          class="flex items-center gap-1 bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl p-1"
+        >
+          <button
+            class="px-4 py-2 rounded-lg text-xs font-medium bg-gold/10 text-gold border border-gold/20 flex items-center gap-1.5"
+          >
+            <i data-lucide="trophy" class="w-3.5 h-3.5"></i>ELO 评级
+          </button>
+          <button
+            class="px-4 py-2 rounded-lg text-xs font-medium text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5"
+          >
+            <i data-lucide="star" class="w-3.5 h-3.5"></i>经典积分
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="relative">
+            <select
+              class="appearance-none bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg py-2 pl-3 pr-8 text-xs text-text-primary focus:outline-none focus:border-gold/30 cursor-pointer"
+            >
+              <option>全部段位</option>
+              <option>王者</option>
+              <option>大师</option>
+              <option selected>钻石</option>
+              <option>铂金</option>
+              <option>黄金</option>
+              <option>白银</option>
+              <option>青铜</option>
+            </select>
+            <i
+              data-lucide="chevron-down"
+              class="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-text-secondary pointer-events-none"
+            ></i>
+          </div>
+          <div class="relative">
+            <select
+              class="appearance-none bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg py-2 pl-3 pr-8 text-xs text-text-primary focus:outline-none focus:border-gold/30 cursor-pointer"
+            >
+              <option>本赛季</option>
+              <option>上赛季</option>
+              <option>全部时间</option>
+            </select>
+            <i
+              data-lucide="chevron-down"
+              class="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-text-secondary pointer-events-none"
+            ></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl overflow-hidden">
+        <!-- Table header -->
+        <div
+          class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3 border-b border-glass-border text-[10px] uppercase tracking-wider text-text-secondary"
+        >
+          <span>排名</span><span>玩家</span><span>ELO</span><span>胜率</span><span>对局</span
+          ><span>段位</span>
+        </div>
+        <!-- Rows -->
+        <div class="divide-y divide-glass-border">
+          <!-- Row template repeated -->
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+          >
+            <span class="text-sm font-bold text-gold" style="font-family: 'Space Mono', monospace"
+              >1</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-[#0f1117]">R</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">Reversi_Pro</p>
+                <p class="text-[9px] text-text-secondary">连胜 8</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold text-gold" style="font-family: 'Space Mono', monospace"
+              >2010</span
+            >
+            <span class="text-xs text-emerald-400" style="font-family: 'Space Mono', monospace"
+              >78%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >156</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 inline-block w-fit"
+              >王者</span
+            >
+          </div>
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+          >
+            <span
+              class="text-sm font-bold text-gray-300"
+              style="font-family: 'Space Mono', monospace"
+              >2</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-gray-700">翻</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">翻转高手</p>
+                <p class="text-[9px] text-text-secondary">连胜 3</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold" style="font-family: 'Space Mono', monospace">1890</span>
+            <span class="text-xs text-emerald-400" style="font-family: 'Space Mono', monospace"
+              >71%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >134</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 inline-block w-fit"
+              >大师</span
+            >
+          </div>
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+          >
+            <span
+              class="text-sm font-bold text-amber-600"
+              style="font-family: 'Space Mono', monospace"
+              >3</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-700 to-amber-800 flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-amber-200">D</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">DarkMaster</p>
+                <p class="text-[9px] text-text-secondary">连胜 1</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold" style="font-family: 'Space Mono', monospace">1720</span>
+            <span class="text-xs text-emerald-400" style="font-family: 'Space Mono', monospace"
+              >66%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >98</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20 inline-block w-fit"
+              >大师</span
+            >
+          </div>
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+          >
+            <span
+              class="text-sm font-bold text-text-secondary"
+              style="font-family: 'Space Mono', monospace"
+              >4</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500/30 to-blue-600/20 flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-blue-300">白</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium">白棋女王</p>
+                <p class="text-[9px] text-text-secondary">连败 2</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold" style="font-family: 'Space Mono', monospace">1650</span>
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >58%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >87</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 inline-block w-fit"
+              >钻石</span
+            >
+          </div>
+          <!-- My row highlighted -->
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center bg-gold/5 border-l-2 border-gold"
+          >
+            <span class="text-sm font-bold text-gold" style="font-family: 'Space Mono', monospace"
+              >5</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-board-green to-gold/40 flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-white">棋</span>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gold">ChessKing（你）</p>
+                <p class="text-[9px] text-emerald-400">连胜 3 ↑2</p>
+              </div>
+            </div>
+            <span class="text-sm font-bold text-gold" style="font-family: 'Space Mono', monospace"
+              >1598</span
+            >
+            <span class="text-xs text-emerald-400" style="font-family: 'Space Mono', monospace"
+              >62%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >75</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20 inline-block w-fit"
+              >钻石</span
+            >
+          </div>
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+          >
+            <span
+              class="text-sm font-bold text-text-secondary"
+              style="font-family: 'Space Mono', monospace"
+              >6</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500/30 to-purple-600/20 flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-purple-300">O</span>
+              </div>
+              <div><p class="text-sm font-medium">OthelloFan</p></div>
+            </div>
+            <span class="text-sm font-bold" style="font-family: 'Space Mono', monospace">1430</span>
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >52%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >62</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 inline-block w-fit"
+              >铂金</span
+            >
+          </div>
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+          >
+            <span
+              class="text-sm font-bold text-text-secondary"
+              style="font-family: 'Space Mono', monospace"
+              >7</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500/30 to-cyan-600/20 flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-cyan-300">棋</span>
+              </div>
+              <div><p class="text-sm font-medium">棋盘观察者</p></div>
+            </div>
+            <span class="text-sm font-bold" style="font-family: 'Space Mono', monospace">1280</span>
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >45%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >54</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 inline-block w-fit"
+              >黄金</span
+            >
+          </div>
+          <div
+            class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3.5 items-center hover:bg-[rgba(255,255,255,0.02)] transition-colors"
+          >
+            <span
+              class="text-sm font-bold text-text-secondary"
+              style="font-family: 'Space Mono', monospace"
+              >8</span
+            >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/30 to-amber-600/20 flex items-center justify-center"
+              >
+                <span class="text-[10px] font-bold text-amber-300">新</span>
+              </div>
+              <div><p class="text-sm font-medium">新手村村长</p></div>
+            </div>
+            <span class="text-sm font-bold" style="font-family: 'Space Mono', monospace">1150</span>
+            <span class="text-xs text-rose-400" style="font-family: 'Space Mono', monospace"
+              >38%</span
+            >
+            <span class="text-xs text-text-secondary" style="font-family: 'Space Mono', monospace"
+              >41</span
+            >
+            <span
+              class="text-[9px] px-2 py-0.5 rounded-full bg-gray-500/10 text-gray-400 border border-gray-500/20 inline-block w-fit"
+              >白银</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Season info -->
+      <div class="grid grid-cols-3 gap-5 mt-6">
+        <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="calendar" class="w-4 h-4 text-gold"></i
+            ><span class="text-xs uppercase tracking-wider text-text-secondary">本赛季</span>
+          </div>
+          <p class="text-lg font-bold">2026-S2</p>
+          <p class="text-[10px] text-text-secondary mt-1">7月1日 - 7月26日 · 共 4 周</p>
+        </div>
+        <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="users" class="w-4 h-4 text-gold"></i
+            ><span class="text-xs uppercase tracking-wider text-text-secondary">参赛人数</span>
+          </div>
+          <p class="text-lg font-bold" style="font-family: 'Space Mono', monospace">1,284</p>
+          <p class="text-[10px] text-text-secondary mt-1">较上周 +12%</p>
+        </div>
+        <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="award" class="w-4 h-4 text-gold"></i
+            ><span class="text-xs uppercase tracking-wider text-text-secondary">我的段位</span>
+          </div>
+          <p class="text-lg font-bold text-purple-400">钻石 III</p>
+          <p class="text-[10px] text-text-secondary mt-1">距晋升大师 需 ELO 1700+</p>
+        </div>
+      </div>
+    </main>
+  </body>
+  <script>
+    if (window.lucide) lucide.createIcons()
+  </script>
+</html>

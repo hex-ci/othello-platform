@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      * {
+        scrollbar-width: none;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-14px);
+        }
+      }
+      @keyframes floatAlt {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(10px);
+        }
+      }
+      @keyframes stoneSpin {
+        0%,
+        100% {
+          transform: rotate(-8deg);
+        }
+        50% {
+          transform: rotate(8deg);
+        }
+      }
+      @keyframes lostGlow {
+        0%,
+        100% {
+          box-shadow:
+            0 0 0 2px #d4a843,
+            0 0 12px rgba(212, 168, 67, 0.5);
+        }
+        50% {
+          box-shadow:
+            0 0 0 3px #e8c96a,
+            0 0 32px rgba(212, 168, 67, 0.95);
+        }
+      }
+      .stone-b {
+        background: radial-gradient(circle at 35% 30%, #4a4a4a, #0a0a0a 62%);
+        box-shadow:
+          0 2px 6px rgba(0, 0, 0, 0.55),
+          inset 0 1px 2px rgba(255, 255, 255, 0.14);
+      }
+      .stone-w {
+        background: radial-gradient(circle at 35% 30%, #ffffff, #c9ced6 68%);
+        box-shadow:
+          0 2px 6px rgba(0, 0, 0, 0.45),
+          inset 0 -1px 2px rgba(0, 0, 0, 0.12);
+      }
+      /* 404 里充当 "0" 的大棋子：白子 + 金色光晕 */
+      .stone-hero {
+        background: radial-gradient(circle at 35% 30%, #ffffff, #c9ced6 68%);
+        box-shadow:
+          0 10px 40px rgba(212, 168, 67, 0.35),
+          0 0 0 3px rgba(212, 168, 67, 0.5),
+          inset 0 -4px 10px rgba(0, 0, 0, 0.15);
+      }
+      .board-cell {
+        background: linear-gradient(135deg, #1a6b3c, #17613a);
+        border: 1px solid rgba(0, 0, 0, 0.28);
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#0f1117] min-h-screen text-[#f0f0f0]"
+    style="font-family: 'DM Sans', system-ui, sans-serif"
+  >
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #0f1117;
+        --color-board-green: #1a6b3c;
+        --color-board-dark: #145a30;
+        --color-gold: #d4a843;
+        --color-gold-light: #e8c96a;
+        --color-glass: rgba(255, 255, 255, 0.05);
+        --color-glass-border: rgba(255, 255, 255, 0.1);
+        --color-text-primary: #f0f0f0;
+        --color-text-secondary: #8a8f98;
+        --color-surface: #161922;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap"
+    />
+
+    <!-- 极简顶栏：Logo（回首页） -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
+    >
+      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3 cursor-pointer group">
+          <div
+            class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
+          >
+            <div class="grid grid-cols-2 gap-0.5">
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+            </div>
+          </div>
+          <span class="text-lg font-bold tracking-wide group-hover:text-gold transition-colors"
+            >Othello</span
+          >
+        </a>
+        <a
+          href="/"
+          class="text-xs text-text-secondary hover:text-gold transition-colors flex items-center gap-1.5"
+        >
+          <i data-lucide="home" class="w-3.5 h-3.5"></i>回首页
+        </a>
+      </div>
+    </nav>
+
+    <main class="pt-16 min-h-screen relative overflow-hidden">
+      <!-- 氛围层 -->
+      <div
+        class="absolute -top-40 left-[-12%] w-[680px] h-[680px] rounded-full bg-board-green/15 blur-[140px] pointer-events-none"
+      ></div>
+      <div
+        class="absolute bottom-[-25%] right-[-8%] w-[560px] h-[560px] rounded-full bg-gold/10 blur-[130px] pointer-events-none"
+      ></div>
+      <div
+        class="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style="
+          background-image:
+            linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+          background-size: 56px 56px;
+        "
+      ></div>
+
+      <div
+        class="max-w-[1440px] mx-auto px-8 min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-14 items-center py-14 relative"
+      >
+        <!-- 左：404 + 文案 + 出口 -->
+        <div class="lg:col-span-7">
+          <p
+            class="text-[11px] uppercase tracking-[0.35em] text-gold/80 mb-6"
+            style="font-family: 'Space Mono', monospace"
+          >
+            ERROR 404 · ILLEGAL MOVE
+          </p>
+
+          <!-- 巨型 404：中间的 "0" 是一颗棋子 -->
+          <div
+            class="flex items-center gap-2 select-none"
+            style="font-size: clamp(6.5rem, 17vw, 12.5rem); line-height: 0.9"
+          >
+            <span class="font-black text-gold tracking-tighter">4</span>
+            <span
+              class="stone-hero rounded-full inline-block shrink-0"
+              style="
+                width: 0.72em;
+                height: 0.72em;
+                animation:
+                  float 5s ease-in-out infinite,
+                  stoneSpin 9s ease-in-out infinite;
+              "
+            ></span>
+            <span class="font-black text-gold tracking-tighter">4</span>
+          </div>
+
+          <h1 class="text-2xl xl:text-3xl font-black mt-8 tracking-tight">这一格，不在棋盘上。</h1>
+          <p class="text-text-secondary text-sm mt-3 max-w-md leading-relaxed">
+            你刚才那步"着法"被判为非法——页面不存在，或者已经被移除。与其盯着空格发呆，不如回棋盘再来一局？
+          </p>
+
+          <!-- 出口按钮 -->
+          <div class="flex flex-wrap items-center gap-3.5 mt-9">
+            <a
+              href="/"
+              class="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light hover:-translate-y-0.5 transition-all shadow-[0_8px_28px_rgba(212,168,67,0.3)]"
+            >
+              <i data-lucide="home" class="w-4 h-4"></i>回首页
+            </a>
+            <a
+              href="/lobby"
+              class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-medium text-text-primary border border-glass-border bg-glass hover:border-gold/40 hover:text-gold transition-all"
+            >
+              <i data-lucide="users" class="w-4 h-4"></i>去大厅
+            </a>
+            <a
+              href="/local"
+              class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-medium text-emerald-300 border border-board-green/50 bg-board-green/10 hover:bg-board-green/20 transition-all"
+            >
+              <i data-lucide="play" class="w-4 h-4 fill-current"></i>马上玩一局
+            </a>
+          </div>
+
+          <p
+            class="text-[11px] text-text-secondary/70 mt-6"
+            style="font-family: 'Space Mono', monospace"
+          >
+            &gt; 提示：角部（A1）是必争之地，但这个页面不是。
+          </p>
+        </div>
+
+        <!-- 右：棋盘（初始局面 + 迷失的 A1） -->
+        <div class="lg:col-span-5 relative">
+          <div
+            class="absolute -top-9 -right-5 w-9 h-9 rounded-full stone-w opacity-60"
+            style="animation: floatAlt 7s ease-in-out infinite"
+          ></div>
+          <div
+            class="absolute -bottom-7 -left-5 w-11 h-11 rounded-full stone-b opacity-70"
+            style="animation: float 6s ease-in-out infinite"
+          ></div>
+
+          <div
+            class="relative rounded-2xl p-3 bg-gradient-to-br from-[#0d4a28] to-[#0a3a20] border border-board-green/40 shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
+          >
+            <div
+              id="nf-board"
+              class="grid grid-cols-8 rounded-lg overflow-hidden aspect-square"
+            ></div>
+
+            <!-- 覆盖层：坐标提示 -->
+            <div
+              class="absolute bottom-6 right-6 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[rgba(15,17,23,0.82)] border border-gold/40 backdrop-blur-sm"
+            >
+              <span class="w-2 h-2 rounded-full bg-gold"></span>
+              <span class="text-[10px] text-gold" style="font-family: 'Space Mono', monospace"
+                >A1 · NOT FOUND</span
+              >
+            </div>
+          </div>
+
+          <div
+            class="flex items-center justify-between mt-4 px-1 text-[11px] text-text-secondary"
+            style="font-family: 'Space Mono', monospace"
+          >
+            <span>初始局面</span>
+            <span class="text-gold/70">第 0 手</span>
+            <span>黑 2 · 白 2</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // 初始局面：仅中央 4 子；A1（index 0）为"迷失格"，渲染金色 ? 脉冲
+      const POS = '...........................WB......BW...........................'
+      const LOST = 0
+      const el = document.getElementById('nf-board')
+      el.innerHTML = POS.split('')
+        .map((c, i) => {
+          let inner = ''
+          if (c === 'B') inner = '<div class="w-[76%] h-[76%] rounded-full stone-b"></div>'
+          else if (c === 'W') inner = '<div class="w-[76%] h-[76%] rounded-full stone-w"></div>'
+          else if (i === LOST)
+            inner =
+              '<div class="w-[80%] h-[80%] rounded-md flex items-center justify-center text-gold font-black" style="animation:lostGlow 2s ease-in-out infinite; font-family:\'Space Mono\',monospace; font-size:1.4rem;">?</div>'
+          return '<div class="board-cell flex items-center justify-center">' + inner + '</div>'
+        })
+        .join('')
+      lucide.createIcons()
+    </script>
+  </body>
+</html>

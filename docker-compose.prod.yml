@@ -1,0 +1,64 @@
+# Othello Platform 生产编排（一键部署）
+# 用法：cp .env.prod.example .env  →  改 JWT_SECRET  →  docker compose -f docker-compose.prod.yml up -d --build
+# 与 dev 的 docker-compose.yml（仅 postgres）相互独立：独立项目名 + 容器名/卷名 -prod 后缀，可在同机共存。
+name: othello-prod
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: othello-prod-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-othello}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-othello}
+      POSTGRES_DB: ${POSTGRES_DB:-othello}
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-othello}']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  # 一次性迁移：跑完即退出（Exited 0），server 依赖其成功完成才启动
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    image: othello-server:latest
+    container_name: othello-prod-migrate
+    command:
+      ['pnpm', '--filter', '@othello-platform/server', 'exec', 'tsx', 'src/db/migrate.ts', 'up']
+    env_file: .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    image: othello-server:latest
+    container_name: othello-prod-server
+    env_file: .env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: othello-web:latest
+    container_name: othello-prod-web
+    ports:
+      - '${WEB_PORT:-80}:80'
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+    name: othello-prod-pgdata

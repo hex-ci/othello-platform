@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      * {
+        scrollbar-width: none;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#0f1117] min-h-screen text-[#f0f0f0]"
+    style="font-family: 'DM Sans', system-ui, sans-serif"
+  >
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #0f1117;
+        --color-board-green: #1a6b3c;
+        --color-board-dark: #145a30;
+        --color-gold: #d4a843;
+        --color-gold-light: #e8c96a;
+        --color-glass: rgba(255, 255, 255, 0.05);
+        --color-glass-border: rgba(255, 255, 255, 0.1);
+        --color-text-primary: #f0f0f0;
+        --color-text-secondary: #8a8f98;
+        --color-surface: #161922;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    />
+
+    <!-- Settings page -->
+    <div class="w-full max-w-2xl mx-auto px-6 py-12">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28] flex items-center justify-center shadow-md"
+          >
+            <i data-lucide="settings" class="w-5 h-5 text-emerald-200"></i>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold" style="font-family: 'DM Sans', system-ui, sans-serif">
+              游戏设置
+            </h1>
+            <p
+              class="text-xs text-text-secondary"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              自定义你的游戏体验
+            </p>
+          </div>
+        </div>
+        <button class="p-2 rounded-lg hover:bg-glass border border-glass-border transition-colors">
+          <i data-lucide="x" class="w-5 h-5 text-text-secondary"></i>
+        </button>
+      </div>
+
+      <!-- Settings sections -->
+      <div class="space-y-6">
+        <!-- Section: Accessibility（F-E-14 无障碍） -->
+        <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-6">
+          <div class="flex items-center gap-2 mb-5">
+            <i data-lucide="accessibility" class="w-4 h-4 text-gold"></i>
+            <h2
+              class="text-sm font-semibold uppercase tracking-wider"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              无障碍
+            </h2>
+          </div>
+          <div class="space-y-5">
+            <!-- High contrast -->
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium">高对比模式</p>
+                <p class="text-xs text-text-secondary mt-0.5">增强界面对比度</p>
+              </div>
+              <div class="w-11 h-6 rounded-full bg-[rgba(255,255,255,0.08)] p-0.5 cursor-pointer">
+                <div class="w-5 h-5 rounded-full bg-white/60 shadow-md transition-transform"></div>
+              </div>
+            </div>
+            <!-- Colorblind -->
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium">色盲友好模式</p>
+                <p class="text-xs text-text-secondary mt-0.5">
+                  启用后棋子用描边/纹理区分，而非仅颜色
+                </p>
+              </div>
+              <div class="w-11 h-6 rounded-full bg-[rgba(255,255,255,0.08)] p-0.5 cursor-pointer">
+                <div class="w-5 h-5 rounded-full bg-white/60 shadow-md transition-transform"></div>
+              </div>
+            </div>
+            <!-- Reduce motion -->
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium">减少动效</p>
+                <p class="text-xs text-text-secondary mt-0.5">
+                  尊重 prefers-reduced-motion，关闭动画
+                </p>
+              </div>
+              <div class="w-11 h-6 rounded-full bg-[rgba(255,255,255,0.08)] p-0.5 cursor-pointer">
+                <div class="w-5 h-5 rounded-full bg-white/60 shadow-md transition-transform"></div>
+              </div>
+            </div>
+            <!-- Keyboard navigation description -->
+            <div
+              class="bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg px-4 py-3"
+            >
+              <div class="flex items-center gap-2 mb-1.5">
+                <i data-lucide="keyboard" class="w-3.5 h-3.5 text-text-secondary"></i>
+                <span class="text-xs font-medium text-text-primary">键盘操作模式</span>
+              </div>
+              <p class="text-[10px] text-text-secondary leading-relaxed">
+                方向键移动焦点，回车键落子，Tab 键切换操作区域，Esc 键退出当前面板。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Privacy & Security（F-E-14 BossKey） -->
+        <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-6">
+          <div class="flex items-center gap-2 mb-5">
+            <i data-lucide="shield" class="w-4 h-4 text-gold"></i>
+            <h2
+              class="text-sm font-semibold uppercase tracking-wider"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              隐私与安全
+            </h2>
+          </div>
+          <div class="space-y-5">
+            <!-- Boss Key -->
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm font-medium">Boss Key（老板键）</p>
+                <p class="text-xs text-text-secondary mt-0.5">一键切换为中性页面，防他人窥屏</p>
+              </div>
+              <div class="w-11 h-6 rounded-full bg-[rgba(255,255,255,0.08)] p-0.5 cursor-pointer">
+                <div class="w-5 h-5 rounded-full bg-white/60 shadow-md transition-transform"></div>
+              </div>
+            </div>
+            <p
+              class="text-[10px] text-text-secondary bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg px-3 py-2"
+            >
+              快捷键：按 ` 键（反引号）随时切换伪装/恢复
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom actions -->
+      <div class="flex gap-3 mt-8">
+        <button
+          class="flex-1 py-3.5 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300 hover:-translate-y-0.5"
+          style="font-family: 'DM Sans', system-ui, sans-serif"
+        >
+          <i data-lucide="save" class="inline w-4 h-4 mr-2 -mt-0.5"></i>保存设置
+        </button>
+        <button
+          class="px-6 py-3.5 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-text-secondary/30 hover:text-text-primary transition-all duration-300"
+          style="font-family: 'DM Sans', system-ui, sans-serif"
+        >
+          重置默认
+        </button>
+      </div>
+    </div>
+  </body>
+  <script>
+    if (window.lucide) lucide.createIcons()
+  </script>
+</html>

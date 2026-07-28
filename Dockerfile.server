@@ -1,0 +1,31 @@
+# Othello Platform 后端镜像
+# 说明：后端以 tsx 直接运行 TS 源码（与 dev/migrate/loadtest 一致，无编译产物），
+# shared/engine 为 src-only 包，故镜像内需包含完整 workspace 源码与依赖。
+FROM node:24-slim AS base
+
+# pnpm 经 corepack 激活，版本由根 package.json 的 packageManager 字段锁定
+RUN corepack enable
+
+WORKDIR /app
+
+# 仅先拷依赖清单，最大化利用安装层缓存
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY packages/shared/package.json packages/shared/
+COPY packages/engine/package.json packages/engine/
+COPY apps/server/package.json apps/server/
+
+# argon2 在 linux x64 有预编译包；若目标平台无 prebuild，
+# 取消下行注释以提供编译工具链（ARM 等场景）：
+# RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
+RUN pnpm install --frozen-lockfile
+
+# 拷入后端与其依赖包的全部源码，以及迁移文件（migrate.ts 相对定位 ../../../../migrations）
+COPY packages/shared/ packages/shared/
+COPY packages/engine/ packages/engine/
+COPY apps/server/ apps/server/
+COPY migrations/ migrations/
+
+ENV NODE_ENV=production
+EXPOSE 3000
+
+CMD ["pnpm", "--filter", "@othello-platform/server", "exec", "tsx", "src/index.ts"]

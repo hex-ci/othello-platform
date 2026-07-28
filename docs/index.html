@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Othello 黑白棋 · 全界面设计总览</title>
+    <link rel="preconnect" href="https://unpkg.com" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      * {
+        scrollbar-width: none;
+      }
+      *::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="bg-[#0f1117] min-h-screen text-[#f0f0f0]" style="font-family: 'DM Sans', sans-serif">
+    <style type="text/tailwindcss">
+      @theme {
+        --color-board-green: #1a6b3c;
+        --color-gold: #d4a843;
+        --color-gold-light: #e8c96a;
+        --color-glass: rgba(255, 255, 255, 0.05);
+        --color-glass-border: rgba(255, 255, 255, 0.1);
+        --color-text-primary: #f0f0f0;
+        --color-text-secondary: #8a8f98;
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.cn/css2?family=Noto+Serif+SC:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap"
+    />
+    <div
+      class="absolute inset-0 opacity-[0.04] pointer-events-none"
+      style="
+        background-image:
+          linear-gradient(rgba(26, 107, 60, 0.8) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(26, 107, 60, 0.8) 1px, transparent 1px);
+        background-size: 80px 80px;
+      "
+    ></div>
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(26,107,60,0.12)_0%,transparent_70%)] pointer-events-none"
+    ></div>
+
+    <div class="relative z-10 max-w-[1200px] mx-auto px-8 py-14">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <div
+          class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28] shadow-[0_8px_32px_rgba(26,107,60,0.3)] mb-5"
+        >
+          <div class="grid grid-cols-2 gap-1">
+            <div class="w-5 h-5 rounded-full bg-black"></div>
+            <div class="w-5 h-5 rounded-full bg-white"></div>
+            <div class="w-5 h-5 rounded-full bg-white"></div>
+            <div class="w-5 h-5 rounded-full bg-black"></div>
+          </div>
+        </div>
+        <h1 class="text-3xl font-bold tracking-wide" style="font-family: 'Noto Serif SC', serif">
+          Othello · 黑白棋 全平台界面设计
+        </h1>
+        <p class="text-text-secondary text-sm mt-3">
+          基于 PRD v1.0 · 共 14 个界面 · 深色玻璃拟态风格 · 棋盘绿 + 鎏金
+        </p>
+        <div class="flex items-center justify-center gap-2 mt-4">
+          <span
+            class="text-[10px] px-2.5 py-1 rounded-full bg-board-green/15 text-emerald-400 border border-board-green/30"
+            >零安装</span
+          >
+          <span
+            class="text-[10px] px-2.5 py-1 rounded-full bg-gold/10 text-gold border border-gold/20"
+            >服务端权威</span
+          >
+          <span
+            class="text-[10px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
+            >多难度 AI</span
+          >
+          <span
+            class="text-[10px] px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20"
+            >ELO 匹配</span
+          >
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-3 gap-5">
+        <!-- 00 Home NEW -->
+        <a
+          href="pages/00-home.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">00</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="home" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">首页（双态）</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            落地页：未登录=棋盘开场+「马上玩」试玩漏斗 / 已登录=快速开局·直播观战·最近对局·每日挑战
+          </p>
+        </a>
+
+        <!-- 01 Login -->
+        <a
+          href="pages/01-login.html"
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 hover:border-emerald-400/40 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">01</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="log-in" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">登录页</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-11 登录 / 记住密码 / 忘记密码 / 游客模式 / 马上玩
+          </p>
+        </a>
+
+        <!-- 02 Register -->
+        <a
+          href="pages/02-register.html"
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 hover:border-emerald-400/40 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">02</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="user-plus" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">注册页</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-10 注册向导 / 用户名·邮箱·口令 / 密码强度 / 协议
+          </p>
+        </a>
+
+        <!-- 03 Lobby -->
+        <a
+          href="pages/03-lobby.html"
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 hover:border-emerald-400/40 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">03</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="layout-grid" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">大厅</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-07/09 房间列表 / 在线用户 / 公共聊天 / F-E-06 匹配 / F-E-08 迷你榜 / F-E-10 观战大厅
+          </p>
+        </a>
+
+        <!-- 04 Room NEW -->
+        <a
+          href="pages/04-room.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">04</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="door-open" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">房间等待 / 准备</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-07/08/09 玩家位 / 准备 / 房间聊天 / 退出房间 / 模式难度设置
+          </p>
+        </a>
+
+        <!-- 05 Game -->
+        <a
+          href="pages/05-game.html"
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 hover:border-emerald-400/40 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">05</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="grid-3x3" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">对局进行中</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-01/03/04 棋盘 / 合法手提示 / 计时棋数 / F-E-02 提示 / F-E-03 悔棋 / 认输求和
+          </p>
+        </a>
+
+        <!-- 06 GameOver NEW -->
+        <a
+          href="pages/06-game-over.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">06</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="flag" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">对局结算</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-01 终局比子 / F-E-11 分享链接 / ELO·积分变化 / 再战·复盘
+          </p>
+        </a>
+
+        <!-- 07 Reconnect NEW -->
+        <a
+          href="pages/07-reconnect.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">07</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="refresh-cw" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">断线重连</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-E-04 重连恢复 / 走子历史回放 / 不扣分提示 / 状态同步
+          </p>
+        </a>
+
+        <!-- 08 Spectate NEW -->
+        <a
+          href="pages/08-spectate.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">08</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="eye" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">观战</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-E-05 只读订阅 / 实时走子 / 观战人数 / 观战聊天（不干扰对局）
+          </p>
+        </a>
+
+        <!-- 09 Profile -->
+        <a
+          href="pages/09-profile.html"
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 hover:border-emerald-400/40 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">09</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="user" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">个人中心</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-12 资料 / 战绩 / 对局历史 / F-E-18 段位徽章 / ELO 走势
+          </p>
+        </a>
+
+        <!-- 10 Leaderboard NEW -->
+        <a
+          href="pages/10-leaderboard.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">10</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="trophy" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">排行榜</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-E-08 ELO / 经典积分双榜 / 赛季段位筛选 / 我的排名高亮
+          </p>
+        </a>
+
+        <!-- 11 Replay -->
+        <a
+          href="pages/11-replay.html"
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 hover:border-emerald-400/40 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">11</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="film" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">复盘查看器</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-E-09 步进回放 / F-E-11 分享 / F-E-15 AI 分析 / F-E-19 记谱导出
+          </p>
+        </a>
+
+        <!-- 12 Tactics NEW -->
+        <a
+          href="pages/12-tactics.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">12</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="puzzle" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">战术题库 / 每日挑战</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-E-17 找最佳一手 / 每日挑战 / 连做激励 / 提交判定
+          </p>
+        </a>
+
+        <!-- 13 Friends NEW -->
+        <a
+          href="pages/13-friends.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">13</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">好友 / 社交</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-E-07 好友列表 / 好友请求 / 屏蔽列表 / 在线状态 / 快速邀战
+          </p>
+        </a>
+
+        <!-- 14 Settings -->
+        <a
+          href="pages/14-settings.html"
+          class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 hover:border-emerald-400/40 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">14</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="settings" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">设置</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-14 难度/声音/服务器 / F-E-12 i18n / F-E-13 主题无障碍 / F-E-14 BossKey
+          </p>
+        </a>
+
+        <!-- 15 NotFound NEW -->
+        <a
+          href="pages/15-not-found.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">15</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="search-x" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">404 未找到</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            趣味 404：棋子拼「404」/ 初始局面迷失格 / 回首页·去大厅·马上玩三出口
+          </p>
+        </a>
+
+        <!-- 16 Local NEW -->
+        <a
+          href="pages/16-local.html"
+          class="backdrop-blur-xl bg-glass border border-gold/30 rounded-2xl p-5 hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 group"
+        >
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] text-text-secondary font-mono">16</span>
+          </div>
+          <div class="flex items-center gap-3 mb-2">
+            <div
+              class="w-9 h-9 rounded-xl bg-board-green/15 border border-board-green/30 flex items-center justify-center"
+            >
+              <i data-lucide="monitor" class="w-4 h-4 text-emerald-400"></i>
+            </div>
+            <h3 class="font-semibold text-sm">离线练习（人机）</h3>
+          </div>
+          <p class="text-[11px] text-text-secondary leading-relaxed">
+            F-C-05「马上玩」/local：全高棋盘页 + 顶栏返回出口 +
+            侧栏（比分/回合/难度/提示悔棋/小贴士）
+          </p>
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <div class="text-center mt-14">
+        <p class="text-[#3a3f48] text-xs tracking-wider">
+          v2.1.0 · Othello Online Platform · 全部页面均可独立运行预览
+        </p>
+      </div>
+    </div>
+    <script>
+      if (window.lucide) lucide.createIcons()
+    </script>
+  </body>
+</html>

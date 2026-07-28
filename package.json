@@ -1,0 +1,51 @@
+{
+  "name": "othello-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "全栈黑白棋（Othello/Reversi）对战平台：服务端权威对战、AI 人机、复盘、观战、题库与赛季段位",
+  "license": "MIT",
+  "author": "Hex",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hex-ci/othello-platform.git"
+  },
+  "homepage": "https://github.com/hex-ci/othello-platform#readme",
+  "bugs": {
+    "url": "https://github.com/hex-ci/othello-platform/issues"
+  },
+  "keywords": [
+    "othello",
+    "reversi",
+    "board-game",
+    "multiplayer",
+    "websocket",
+    "vue3",
+    "fastify",
+    "typescript"
+  ],
+  "type": "module",
+  "packageManager": "pnpm@11.17.0",
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=11"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "pnpm -r test",
+    "dev:web": "pnpm --filter @othello-platform/web dev",
+    "dev:server": "pnpm --filter @othello-platform/server dev",
+    "migrate:up": "pnpm --filter @othello-platform/server migrate:up",
+    "migrate:down": "pnpm --filter @othello-platform/server migrate:down"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "prettier": "^3.9.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.65.0"
+  }
+}

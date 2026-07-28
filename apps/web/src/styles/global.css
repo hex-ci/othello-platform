@@ -1,0 +1,74 @@
+@reference './tokens.css';
+
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  @apply bg-primary text-text-primary font-sans antialiased;
+}
+
+/* 原生 select 下拉选项：浏览器默认白底渲染，浅色字会与之重合不可读。
+   显式指定跟随主题的底色/文字色（深色 #161922/#f0f0f0，
+   高对比模式由 tokens.css 的 data-contrast 覆写自动生效）。 */
+select option {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+/* 漂浮动画（设计稿领奖台/装饰元素） */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* vue-sonner Toast：对齐游戏暗色玻璃风（tokens.css 配色）。
+   覆盖默认亮色卡片为 bg-surface + glass-border，文字用 text-primary/secondary。 */
+[data-sonner-toaster] [data-sonner-toast] {
+  background: var(--color-surface);
+  border: 1px solid var(--color-glass-border);
+  color: var(--color-text-primary);
+  backdrop-filter: blur(16px);
+  border-radius: 0.75rem;
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  font-family: var(--font-sans);
+}
+[data-sonner-toaster] [data-sonner-toast] [data-title] {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+[data-sonner-toaster] [data-sonner-toast] [data-description] {
+  color: var(--color-text-secondary);
+}
+[data-sonner-toaster] [data-sonner-toast] [data-close-button] {
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+}
+[data-sonner-toaster] [data-sonner-toast] [data-close-button]:hover {
+  color: var(--color-text-primary);
+}
+/* 按类型加左边框点缀（success/error/warning/info） */
+[data-sonner-toaster] [data-sonner-toast][data-type='success'] {
+  border-left: 3px solid #34d399;
+}
+[data-sonner-toaster] [data-sonner-toast][data-type='error'] {
+  border-left: 3px solid #fb7185;
+}
+[data-sonner-toaster] [data-sonner-toast][data-type='warning'] {
+  border-left: 3px solid #fbbf24;
+}
+[data-sonner-toaster] [data-sonner-toast][data-type='info'] {
+  border-left: 3px solid #60a5fa;
+}

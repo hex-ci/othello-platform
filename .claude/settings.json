@@ -1,0 +1,35 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; case \"$f\" in *.ts|*.tsx|*.js|*.mjs|*.cjs|*.json|*.css|*.vue|*.html|*.md|*.yaml|*.yml) pnpm exec prettier --write \"$f\";; esac; } 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Formatting with prettier…"
+          },
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath' | { read -r f; case \"$f\" in *.ts|*.tsx|*.js|*.mjs|*.cjs|*.vue) pnpm exec eslint --fix \"$f\";; esac; } 2>/dev/null || true",
+            "timeout": 30,
+            "statusMessage": "Linting with eslint…"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "timeout 60 pnpm -r typecheck 2>/dev/null || true",
+            "timeout": 70,
+            "statusMessage": "Type-checking…"
+          }
+        ]
+      }
+    ]
+  }
+}

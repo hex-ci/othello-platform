@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>断线重连 · Othello 黑白棋</title>
+  <link rel="preconnect" href="https://unpkg.com" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://unpkg.com/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>*{scrollbar-width:none;}*::-webkit-scrollbar{display:none;}</style>
+</head>
+<body class="bg-[#0f1117] min-h-screen text-[#f0f0f0] flex items-center justify-center relative overflow-hidden" style="font-family:'DM Sans',system-ui,sans-serif;">
+<link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+<style type="text/tailwindcss">
+@theme {
+  --color-primary: #0f1117;
+  --color-board-green: #1a6b3c;
+  --color-board-dark: #145a30;
+  --color-gold: #d4a843;
+  --color-gold-light: #e8c96a;
+  --color-glass: rgba(255, 255, 255, 0.05);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #8a8f98;
+  --color-surface: #161922;
+}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
+@keyframes pulse-ring{0%{transform:scale(0.8);opacity:0.6}100%{transform:scale(2);opacity:0}}
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes dot-bounce{0%,80%,100%{transform:scale(0.6);opacity:0.4}40%{transform:scale(1);opacity:1}}
+@keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+</style>
+
+<!-- Decorative bg -->
+<div class="absolute inset-0 opacity-[0.04]" style="background-image:linear-gradient(rgba(26,107,60,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(26,107,60,0.8) 1px,transparent 1px);background-size:80px 80px;"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-[radial-gradient(circle,rgba(26,107,60,0.15)_0%,transparent_70%)]"></div>
+
+<!-- Main reconnect card -->
+<div class="relative z-10 w-full max-w-lg px-8">
+
+  <!-- Logo & Brand -->
+  <div class="text-center mb-8">
+    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28] shadow-[0_8px_32px_rgba(26,107,60,0.3)] mb-5">
+      <div class="grid grid-cols-2 gap-1"><div class="w-5 h-5 rounded-full bg-black"></div><div class="w-5 h-5 rounded-full bg-white"></div><div class="w-5 h-5 rounded-full bg-white"></div><div class="w-5 h-5 rounded-full bg-black"></div></div>
+    </div>
+    <h1 class="text-2xl font-bold tracking-wide" style="font-family:'DM Sans',system-ui,sans-serif;">正在重新连接</h1>
+    <p class="text-text-secondary text-sm mt-2">检测到网络中断，正在恢复你的对局</p>
+  </div>
+
+  <!-- Reconnect status card -->
+  <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+
+    <!-- Animated spinner -->
+    <div class="flex items-center justify-center mb-6">
+      <div class="relative w-24 h-24">
+        <!-- Pulse rings -->
+        <div class="absolute inset-0 rounded-full border-2 border-board-green/40" style="animation:pulse-ring 2s ease-out infinite;"></div>
+        <div class="absolute inset-0 rounded-full border-2 border-board-green/40" style="animation:pulse-ring 2s ease-out infinite 1s;"></div>
+        <!-- Spinner -->
+        <div class="absolute inset-2 rounded-full border-4 border-glass border-t-gold" style="animation:spin-slow 1.2s linear infinite;"></div>
+        <!-- Center icon -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <i data-lucide="refresh-cw" class="w-7 h-7 text-gold" style="animation:spin-slow 2s linear infinite reverse;"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status text -->
+    <div class="text-center mb-6">
+      <p class="text-base font-semibold text-text-primary mb-1">基于走子历史回放恢复中</p>
+      <div class="flex items-center justify-center gap-1.5 text-text-secondary text-xs">
+        <span>连接服务器</span>
+        <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i>
+        <span class="mx-1">·</span>
+        <span>拉取走子历史</span>
+        <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i>
+        <span class="mx-1">·</span>
+        <span class="text-gold">回放至断线点</span>
+        <span class="flex gap-0.5 ml-1"><span class="w-1 h-1 rounded-full bg-gold" style="animation:dot-bounce 1.4s infinite;animation-delay:0s"></span><span class="w-1 h-1 rounded-full bg-gold" style="animation:dot-bounce 1.4s infinite;animation-delay:0.2s"></span><span class="w-1 h-1 rounded-full bg-gold" style="animation:dot-bounce 1.4s infinite;animation-delay:0.4s"></span></span>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="mb-6">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-[10px] uppercase tracking-wider text-text-secondary">恢复进度</span>
+        <span class="text-xs font-bold text-gold" style="font-family:'Space Mono',monospace;">8 / 10 手</span>
+      </div>
+      <div class="relative h-2 rounded-full bg-[rgba(255,255,255,0.08)] overflow-hidden">
+        <div class="absolute left-0 top-0 h-full w-[80%] rounded-full bg-gradient-to-r from-board-green to-emerald-400"></div>
+        <div class="absolute top-0 h-full w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent" style="animation:scan 1.5s linear infinite;left:0;"></div>
+      </div>
+    </div>
+
+    <!-- Game info -->
+    <div class="bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl p-4 mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] uppercase tracking-wider text-text-secondary">恢复对局</span>
+          <span class="text-[10px] text-gold font-mono">g_101</span>
+        </div>
+        <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">轮到对方</span>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center"><span class="text-[10px] font-bold text-white">棋</span></div>
+          <div><p class="text-xs font-medium">ChessKing（你）</p><p class="text-[9px] text-text-secondary">执黑 · 已落子</p></div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-white to-gray-200 flex items-center justify-center"><span class="text-[10px] font-bold text-gray-700">白</span></div>
+          <div><p class="text-xs font-medium">白棋女王</p><p class="text-[9px] text-text-secondary">执白 · 思考中</p></div>
+        </div>
+      </div>
+      <div class="mt-3 pt-3 border-t border-glass-border flex items-center justify-between text-[10px] text-text-secondary">
+        <span>当前比分 黑 <span class="font-bold text-text-primary" style="font-family:'Space Mono',monospace;">12</span> : <span class="font-bold text-text-primary" style="font-family:'Space Mono',monospace;">8</span> 白</span>
+        <span>已断线 <span class="text-amber-400" style="font-family:'Space Mono',monospace;">00:14</span></span>
+      </div>
+    </div>
+
+    <!-- No-penalty notice -->
+    <div class="flex items-start gap-3 bg-emerald-500/5 border border-emerald-500/20 rounded-xl px-4 py-3 mb-5">
+      <div class="w-8 h-8 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0">
+        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+      </div>
+      <div>
+        <p class="text-xs font-medium text-emerald-400">短时断线不扣分</p>
+        <p class="text-[10px] text-text-secondary leading-relaxed mt-0.5">本次为真实短时掉线，对局将原样恢复，不计为逃跑。仅「轮到己方且非明显优势时长时间断线」才判定逃跑。</p>
+      </div>
+    </div>
+
+    <!-- Replayed moves -->
+    <div class="mb-5">
+      <p class="text-[10px] uppercase tracking-wider text-text-secondary mb-2">已回放手</p>
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <span class="px-2 py-1 rounded-md bg-[rgba(255,255,255,0.03)] border border-glass-border text-[10px]" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-gray-800 mr-1 align-middle"></span>d3</span>
+        <span class="px-2 py-1 rounded-md bg-[rgba(255,255,255,0.03)] border border-glass-border text-[10px]" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-white mr-1 align-middle"></span>c3</span>
+        <span class="px-2 py-1 rounded-md bg-[rgba(255,255,255,0.03)] border border-glass-border text-[10px]" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-gray-800 mr-1 align-middle"></span>c4</span>
+        <span class="px-2 py-1 rounded-md bg-[rgba(255,255,255,0.03)] border border-glass-border text-[10px]" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-white mr-1 align-middle"></span>c5</span>
+        <span class="px-2 py-1 rounded-md bg-[rgba(255,255,255,0.03)] border border-glass-border text-[10px]" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-gray-800 mr-1 align-middle"></span>b3</span>
+        <span class="px-2 py-1 rounded-md bg-[rgba(255,255,255,0.03)] border border-glass-border text-[10px]" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-white mr-1 align-middle"></span>d6</span>
+        <span class="px-2 py-1 rounded-md bg-[rgba(255,255,255,0.03)] border border-glass-border text-[10px]" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-gray-800 mr-1 align-middle"></span>e3</span>
+        <span class="px-2 py-1 rounded-md bg-gold/10 border border-gold/30 text-[10px] text-gold" style="font-family:'Space Mono',monospace;"><span class="inline-block w-2 h-2 rounded-full bg-white mr-1 align-middle"></span>f4 ←</span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex gap-3">
+      <a href="05-game.html" class="flex-1 py-3 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2">
+        <i data-lucide="play" class="w-4 h-4"></i>进入对局
+      </a>
+      <a href="03-lobby.html" class="px-5 py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-rose-500/40 hover:text-rose-400 transition-all text-sm flex items-center gap-2">
+        <i data-lucide="x" class="w-4 h-4"></i>放弃
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer hint -->
+  <div class="text-center mt-6">
+    <p class="text-[10px] text-text-secondary/60">若长时间无法恢复，请检查网络后刷新页面。对局状态以服务端为准。</p>
+  </div>
+</div>
+
+</body>
+<script>if(window.lucide) lucide.createIcons();</script>
+</html>

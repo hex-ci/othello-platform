@@ -1,0 +1,857 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      * {
+        scrollbar-width: none;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#0f1117] min-h-screen text-[#f0f0f0]"
+    style="font-family: 'DM Sans', system-ui, sans-serif"
+  >
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #0f1117;
+        --color-board-green: #1a6b3c;
+        --color-board-dark: #145a30;
+        --color-gold: #d4a843;
+        --color-gold-light: #e8c96a;
+        --color-glass: rgba(255, 255, 255, 0.05);
+        --color-glass-border: rgba(255, 255, 255, 0.1);
+        --color-text-primary: #f0f0f0;
+        --color-text-secondary: #8a8f98;
+        --color-surface: #161922;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    />
+
+    <!-- Top Navigation -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
+    >
+      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+        <!-- Left: Logo -->
+        <div class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-lg bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28] flex items-center justify-center shadow-md"
+          >
+            <div class="grid grid-cols-2 gap-0.5">
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+            </div>
+          </div>
+          <span
+            class="text-lg font-bold tracking-wide"
+            style="font-family: 'DM Sans', system-ui, sans-serif"
+            >Othello</span
+          >
+        </div>
+        <!-- Center: My Ratings -->
+        <div class="flex items-center gap-4">
+          <div
+            class="flex items-center gap-2 bg-gold/5 border border-gold/20 rounded-full px-3 py-1.5"
+          >
+            <i data-lucide="trophy" class="w-3 h-3 text-gold"></i>
+            <span
+              class="text-[11px] text-gold font-medium"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+              >ELO: 1580</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full px-3 py-1.5"
+          >
+            <i data-lucide="star" class="w-3 h-3 text-emerald-400"></i>
+            <span
+              class="text-[11px] text-emerald-400 font-medium"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+              >经典积分: 72</span
+            >
+          </div>
+        </div>
+        <!-- Right: User info -->
+        <div class="flex items-center gap-6">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-8 h-8 rounded-full bg-gradient-to-br from-gold/30 to-gold/10 border border-gold/30 flex items-center justify-center"
+            >
+              <i data-lucide="user" class="w-4 h-4 text-gold"></i>
+            </div>
+            <div>
+              <span
+                class="text-sm font-medium"
+                style="font-family: 'DM Sans', system-ui, sans-serif"
+                >ChessKing</span
+              >
+              <span class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">1580</span>
+            </div>
+          </div>
+          <button class="p-2 rounded-lg hover:bg-glass transition-colors" title="首页">
+            <i data-lucide="home" class="w-4 h-4 text-text-secondary"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-glass transition-colors">
+            <i data-lucide="settings" class="w-4 h-4 text-text-secondary"></i>
+          </button>
+          <button class="p-2 rounded-lg hover:bg-glass transition-colors">
+            <i data-lucide="log-out" class="w-4 h-4 text-text-secondary"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-12 max-w-[1440px] mx-auto px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:h-[calc(100vh-8rem)]">
+        <!-- Left: Online Players -->
+        <aside
+          class="lg:col-span-3 backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 flex flex-col max-h-[45vh] lg:max-h-none overflow-y-auto lg:overflow-hidden"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h2
+              class="text-sm font-semibold uppercase tracking-wider text-text-secondary"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              在线玩家
+            </h2>
+            <span class="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">24人</span>
+          </div>
+          <div class="flex-1 overflow-y-auto space-y-2 pr-1">
+            <!-- Player item 1 -->
+            <div
+              class="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer group"
+            >
+              <div class="relative">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 border border-emerald-500/20 flex items-center justify-center"
+                >
+                  <i data-lucide="user" class="w-4 h-4 text-emerald-400"></i>
+                </div>
+                <div
+                  class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-surface"
+                ></div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p
+                    class="text-sm font-medium truncate"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    DarkMaster
+                  </p>
+                  <span class="text-[9px] text-gold/80 font-medium">1720</span>
+                </div>
+                <p class="text-xs text-text-secondary">ELO 1720</p>
+              </div>
+              <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all"
+                >
+                  邀战
+                </button>
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
+                >
+                  私聊
+                </button>
+              </div>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                >空闲</span
+              >
+            </div>
+
+            <!-- Player item 2 -->
+            <div
+              class="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer group"
+            >
+              <div class="relative">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/10 border border-blue-500/20 flex items-center justify-center"
+                >
+                  <i data-lucide="user" class="w-4 h-4 text-blue-400"></i>
+                </div>
+                <div
+                  class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-amber-400 border-2 border-surface"
+                ></div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p
+                    class="text-sm font-medium truncate"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    白棋女王
+                  </p>
+                  <span class="text-[9px] text-gold/80 font-medium">1650</span>
+                </div>
+                <p class="text-xs text-text-secondary">ELO 1650</p>
+              </div>
+              <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all"
+                >
+                  邀战
+                </button>
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
+                >
+                  私聊
+                </button>
+              </div>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                >游戏中</span
+              >
+            </div>
+
+            <!-- Player item 3 -->
+            <div
+              class="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer group"
+            >
+              <div class="relative">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500/20 to-purple-600/10 border border-purple-500/20 flex items-center justify-center"
+                >
+                  <i data-lucide="user" class="w-4 h-4 text-purple-400"></i>
+                </div>
+                <div
+                  class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-surface"
+                ></div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p
+                    class="text-sm font-medium truncate"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    OthelloFan
+                  </p>
+                  <span class="text-[9px] text-gold/80 font-medium">1430</span>
+                </div>
+                <p class="text-xs text-text-secondary">ELO 1430</p>
+              </div>
+              <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all"
+                >
+                  邀战
+                </button>
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
+                >
+                  私聊
+                </button>
+              </div>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                >空闲</span
+              >
+            </div>
+
+            <!-- Player item 4 -->
+            <div
+              class="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer group"
+            >
+              <div class="relative">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-rose-500/20 to-rose-600/10 border border-rose-500/20 flex items-center justify-center"
+                >
+                  <i data-lucide="user" class="w-4 h-4 text-rose-400"></i>
+                </div>
+                <div
+                  class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-amber-400 border-2 border-surface"
+                ></div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p
+                    class="text-sm font-medium truncate"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    翻转高手
+                  </p>
+                  <span class="text-[9px] text-gold/80 font-medium">1890</span>
+                </div>
+                <p class="text-xs text-text-secondary">ELO 1890</p>
+              </div>
+              <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all"
+                >
+                  邀战
+                </button>
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
+                >
+                  私聊
+                </button>
+              </div>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                >游戏中</span
+              >
+            </div>
+
+            <!-- Player item 5 -->
+            <div
+              class="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer group"
+            >
+              <div class="relative">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border border-cyan-500/20 flex items-center justify-center"
+                >
+                  <i data-lucide="user" class="w-4 h-4 text-cyan-400"></i>
+                </div>
+                <div
+                  class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-surface"
+                ></div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p
+                    class="text-sm font-medium truncate"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    Reversi_Pro
+                  </p>
+                  <span class="text-[9px] text-gold/80 font-medium">2010</span>
+                </div>
+                <p class="text-xs text-text-secondary">ELO 2010</p>
+              </div>
+              <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all"
+                >
+                  邀战
+                </button>
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
+                >
+                  私聊
+                </button>
+              </div>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                >空闲</span
+              >
+            </div>
+
+            <!-- Player item 6 -->
+            <div
+              class="flex items-center gap-3 p-3 rounded-xl hover:bg-[rgba(255,255,255,0.03)] transition-colors cursor-pointer group"
+            >
+              <div class="relative">
+                <div
+                  class="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500/20 to-amber-600/10 border border-amber-500/20 flex items-center justify-center"
+                >
+                  <i data-lucide="user" class="w-4 h-4 text-amber-400"></i>
+                </div>
+                <div
+                  class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-surface"
+                ></div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2">
+                  <p
+                    class="text-sm font-medium truncate"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    棋盘观察者
+                  </p>
+                  <span class="text-[9px] text-gold/80 font-medium">1280</span>
+                </div>
+                <p class="text-xs text-text-secondary">ELO 1280</p>
+              </div>
+              <div class="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all"
+                >
+                  邀战
+                </button>
+                <button
+                  class="px-2 py-0.5 rounded text-[9px] bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
+                >
+                  私聊
+                </button>
+              </div>
+              <span
+                class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                >空闲</span
+              >
+            </div>
+          </div>
+        </aside>
+
+        <!-- Center: Room List -->
+        <section class="lg:col-span-5 flex flex-col overflow-hidden max-h-[60vh] lg:max-h-none">
+          <!-- Action buttons row 1 -->
+          <div class="flex gap-3 mb-3">
+            <button
+              class="flex-1 py-3 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              <i data-lucide="plus" class="inline w-4 h-4 mr-2 -mt-0.5"></i>创建房间
+            </button>
+            <button
+              class="flex-1 py-3 rounded-xl font-medium text-text-primary border border-board-green/50 bg-board-green/10 hover:bg-board-green/20 transition-all duration-300"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              <i data-lucide="zap" class="inline w-4 h-4 mr-2 -mt-0.5"></i>快速加入
+            </button>
+            <button
+              class="flex-1 py-3 rounded-xl font-medium text-text-primary border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 transition-all duration-300 relative"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              <i data-lucide="radar" class="inline w-4 h-4 mr-2 -mt-0.5"></i>自动匹配
+              <span
+                class="absolute -top-1.5 -right-1.5 text-[9px] px-1.5 py-0.5 rounded-full bg-purple-500 text-white font-medium"
+                >3</span
+              >
+            </button>
+          </div>
+          <!-- Action buttons row 2: AI play -->
+          <div class="flex gap-3 mb-5">
+            <button
+              class="flex-1 py-2.5 rounded-xl font-medium text-[#0f1117] bg-gradient-to-r from-blue-400 to-cyan-400 shadow-[0_4px_16px_rgba(59,130,246,0.25)] hover:shadow-[0_6px_24px_rgba(59,130,246,0.4)] transition-all duration-300"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              <i data-lucide="cpu" class="inline w-4 h-4 mr-2 -mt-0.5"></i>人机对战
+            </button>
+            <div class="relative">
+              <select
+                class="appearance-none h-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-2.5 pl-3 pr-8 text-xs text-text-primary focus:outline-none focus:border-gold/30 cursor-pointer"
+                style="font-family: 'DM Sans', system-ui, sans-serif"
+              >
+                <option>L0 热身</option>
+                <option>L1 入门</option>
+                <option>L2 简单</option>
+                <option selected>L3 中等</option>
+                <option>L4 困难</option>
+                <option>L5 专家</option>
+              </select>
+              <i
+                data-lucide="chevron-down"
+                class="absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-text-secondary pointer-events-none"
+              ></i>
+            </div>
+          </div>
+
+          <!-- Mini Leaderboard -->
+          <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <div class="flex items-center gap-2">
+                <i data-lucide="trophy" class="w-3.5 h-3.5 text-gold"></i>
+                <span
+                  class="text-[11px] font-semibold uppercase tracking-wider text-text-secondary"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >ELO 排行榜</span
+                >
+              </div>
+              <a href="#" class="text-[10px] text-gold/70 hover:text-gold transition-colors"
+                >查看全部</a
+              >
+            </div>
+            <div class="flex items-center gap-3">
+              <div
+                class="flex items-center gap-2 bg-gold/5 border border-gold/10 rounded-lg px-2.5 py-1.5"
+              >
+                <span class="text-[10px] font-bold text-gold">1</span>
+                <span
+                  class="text-[11px] font-medium"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >Reversi_Pro</span
+                >
+                <span class="text-[10px] text-gold">2010</span>
+              </div>
+              <div
+                class="flex items-center gap-2 bg-glass border border-glass-border rounded-lg px-2.5 py-1.5"
+              >
+                <span class="text-[10px] font-bold text-text-secondary">2</span>
+                <span
+                  class="text-[11px] font-medium"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >翻转高手</span
+                >
+                <span class="text-[10px] text-text-secondary">1890</span>
+              </div>
+              <div
+                class="flex items-center gap-2 bg-glass border border-glass-border rounded-lg px-2.5 py-1.5"
+              >
+                <span class="text-[10px] font-bold text-text-secondary">3</span>
+                <span
+                  class="text-[11px] font-medium"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >DarkMaster</span
+                >
+                <span class="text-[10px] text-text-secondary">1720</span>
+              </div>
+              <div
+                class="flex items-center gap-2 bg-glass border border-glass-border rounded-lg px-2.5 py-1.5"
+              >
+                <span class="text-[10px] font-bold text-text-secondary">4</span>
+                <span
+                  class="text-[11px] font-medium"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >白棋女王</span
+                >
+                <span class="text-[10px] text-text-secondary">1650</span>
+              </div>
+              <div
+                class="flex items-center gap-2 bg-glass border border-glass-border rounded-lg px-2.5 py-1.5"
+              >
+                <span class="text-[10px] font-bold text-text-secondary">5</span>
+                <span
+                  class="text-[11px] font-medium"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >ChessKing</span
+                >
+                <span class="text-[10px] text-text-secondary">1580</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Room tab switcher -->
+          <div
+            class="flex items-center gap-1 mb-4 bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl p-1"
+          >
+            <button
+              class="flex-1 py-2 rounded-lg text-xs font-medium bg-gold/10 text-gold border border-gold/20 transition-all"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              <i data-lucide="clock" class="inline w-3 h-3 mr-1 -mt-0.5"></i>等待中房间
+            </button>
+            <button
+              class="flex-1 py-2 rounded-lg text-xs font-medium text-text-secondary hover:text-text-primary transition-all"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              <i data-lucide="eye" class="inline w-3 h-3 mr-1 -mt-0.5"></i>进行中对局（可观战）
+            </button>
+          </div>
+
+          <!-- Room cards -->
+          <div class="flex-1 overflow-y-auto space-y-3 pr-1">
+            <!-- Room 1 -->
+            <div
+              class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-4 hover:border-gold/30 transition-all duration-300 cursor-pointer group"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <h3
+                    class="font-semibold text-sm"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    高手过招
+                  </h3>
+                  <i data-lucide="lock" class="w-3 h-3 text-amber-400/70" title="需要密码"></i>
+                </div>
+                <span
+                  class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                  >等待中</span
+                >
+              </div>
+              <div class="flex items-center justify-between text-xs text-text-secondary">
+                <div class="flex items-center gap-4">
+                  <span><i data-lucide="users" class="inline w-3 h-3 mr-1"></i>1/2</span>
+                  <span><i data-lucide="eye" class="inline w-3 h-3 mr-1"></i>3 观战</span>
+                  <span class="text-gold"
+                    ><i data-lucide="trophy" class="inline w-3 h-3 mr-1"></i>高级</span
+                  >
+                </div>
+                <div class="flex items-center gap-2">
+                  <button
+                    class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border group-hover:bg-board-green/20 group-hover:text-emerald-300 transition-all"
+                  >
+                    观战
+                  </button>
+                  <button
+                    class="px-4 py-1.5 rounded-lg text-[11px] font-medium bg-gold/10 text-gold border border-gold/20 group-hover:bg-gold group-hover:text-primary transition-all"
+                  >
+                    加入
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Room 2 -->
+            <div
+              class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-4 hover:border-gold/30 transition-all duration-300 cursor-pointer group"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <h3
+                  class="font-semibold text-sm"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                >
+                  新手友好局
+                </h3>
+                <span
+                  class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                  >游戏中</span
+                >
+              </div>
+              <div class="flex items-center justify-between text-xs text-text-secondary">
+                <div class="flex items-center gap-4">
+                  <span><i data-lucide="users" class="inline w-3 h-3 mr-1"></i>2/2</span>
+                  <span><i data-lucide="eye" class="inline w-3 h-3 mr-1"></i>8 观战</span>
+                  <span class="text-emerald-400"
+                    ><i data-lucide="trophy" class="inline w-3 h-3 mr-1"></i>入门</span
+                  >
+                </div>
+                <button
+                  class="px-4 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border group-hover:bg-board-green/20 group-hover:text-emerald-300 transition-all"
+                >
+                  观战
+                </button>
+              </div>
+            </div>
+
+            <!-- Room 3: AI room -->
+            <div
+              class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-4 hover:border-gold/30 transition-all duration-300 cursor-pointer group"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <h3
+                    class="font-semibold text-sm"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    人机训练场
+                  </h3>
+                  <span
+                    class="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/20 font-medium"
+                    >L3</span
+                  >
+                </div>
+                <span
+                  class="text-[10px] px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                  >AI对战</span
+                >
+              </div>
+              <div class="flex items-center justify-between text-xs text-text-secondary">
+                <div class="flex items-center gap-4">
+                  <span><i data-lucide="users" class="inline w-3 h-3 mr-1"></i>1/2</span>
+                  <span><i data-lucide="eye" class="inline w-3 h-3 mr-1"></i>0 观战</span>
+                  <span class="text-blue-400"
+                    ><i data-lucide="cpu" class="inline w-3 h-3 mr-1"></i>中级AI</span
+                  >
+                </div>
+                <div class="flex items-center gap-2">
+                  <button
+                    class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border group-hover:bg-board-green/20 group-hover:text-emerald-300 transition-all"
+                  >
+                    观战
+                  </button>
+                  <button
+                    class="px-4 py-1.5 rounded-lg text-[11px] font-medium bg-gold/10 text-gold border border-gold/20 group-hover:bg-gold group-hover:text-primary transition-all"
+                  >
+                    加入
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Room 4 -->
+            <div
+              class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-4 hover:border-gold/30 transition-all duration-300 cursor-pointer group"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <h3
+                  class="font-semibold text-sm"
+                  style="font-family: 'DM Sans', system-ui, sans-serif"
+                >
+                  周末锦标赛 #3
+                </h3>
+                <span
+                  class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20"
+                  >游戏中</span
+                >
+              </div>
+              <div class="flex items-center justify-between text-xs text-text-secondary">
+                <div class="flex items-center gap-4">
+                  <span><i data-lucide="users" class="inline w-3 h-3 mr-1"></i>2/2</span>
+                  <span><i data-lucide="eye" class="inline w-3 h-3 mr-1"></i>15 观战</span>
+                  <span class="text-rose-400"
+                    ><i data-lucide="trophy" class="inline w-3 h-3 mr-1"></i>大师</span
+                  >
+                </div>
+                <button
+                  class="px-4 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border group-hover:bg-board-green/20 group-hover:text-emerald-300 transition-all"
+                >
+                  观战
+                </button>
+              </div>
+            </div>
+
+            <!-- Room 5: AI with L5 -->
+            <div
+              class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-4 hover:border-gold/30 transition-all duration-300 cursor-pointer group"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <h3
+                    class="font-semibold text-sm"
+                    style="font-family: 'DM Sans', system-ui, sans-serif"
+                  >
+                    专家挑战
+                  </h3>
+                  <span
+                    class="text-[9px] px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20 font-medium"
+                    >L5</span
+                  >
+                </div>
+                <span
+                  class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                  >等待中</span
+                >
+              </div>
+              <div class="flex items-center justify-between text-xs text-text-secondary">
+                <div class="flex items-center gap-4">
+                  <span><i data-lucide="users" class="inline w-3 h-3 mr-1"></i>1/2</span>
+                  <span><i data-lucide="eye" class="inline w-3 h-3 mr-1"></i>1 观战</span>
+                  <span class="text-rose-400"
+                    ><i data-lucide="cpu" class="inline w-3 h-3 mr-1"></i>专家AI</span
+                  >
+                </div>
+                <div class="flex items-center gap-2">
+                  <button
+                    class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border group-hover:bg-board-green/20 group-hover:text-emerald-300 transition-all"
+                  >
+                    观战
+                  </button>
+                  <button
+                    class="px-4 py-1.5 rounded-lg text-[11px] font-medium bg-gold/10 text-gold border border-gold/20 group-hover:bg-gold group-hover:text-primary transition-all"
+                  >
+                    加入
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Right: Chat -->
+        <aside
+          class="lg:col-span-4 backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5 flex flex-col max-h-[45vh] lg:max-h-none overflow-y-auto lg:overflow-hidden"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h2
+              class="text-sm font-semibold uppercase tracking-wider text-text-secondary"
+              style="font-family: 'DM Sans', system-ui, sans-serif"
+            >
+              公共聊天室
+            </h2>
+            <i data-lucide="message-circle" class="w-4 h-4 text-text-secondary"></i>
+          </div>
+          <!-- Messages -->
+          <div class="flex-1 overflow-y-auto space-y-3 pr-1 mb-4">
+            <div class="flex gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-emerald-500/20 flex-shrink-0 flex items-center justify-center mt-1"
+              >
+                <span class="text-[9px] text-emerald-400">D</span>
+              </div>
+              <div>
+                <p class="text-[10px] text-text-secondary mb-1">DarkMaster · 2分钟前</p>
+                <div
+                  class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg rounded-tl-none px-3 py-2 text-sm"
+                >
+                  有人来一局高级对战吗？
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-purple-500/20 flex-shrink-0 flex items-center justify-center mt-1"
+              >
+                <span class="text-[9px] text-purple-400">O</span>
+              </div>
+              <div>
+                <p class="text-[10px] text-text-secondary mb-1">OthelloFan · 1分钟前</p>
+                <div
+                  class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg rounded-tl-none px-3 py-2 text-sm"
+                >
+                  来了来了，我创建了"高手过招"房间
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-gold/20 flex-shrink-0 flex items-center justify-center mt-1"
+              >
+                <span class="text-[9px] text-gold">C</span>
+              </div>
+              <div>
+                <p class="text-[10px] text-text-secondary mb-1">ChessKing · 刚刚</p>
+                <div
+                  class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg rounded-tl-none px-3 py-2 text-sm"
+                >
+                  周末锦标赛第三轮正在直播，快去观战！
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <div
+                class="w-6 h-6 rounded-full bg-rose-500/20 flex-shrink-0 flex items-center justify-center mt-1"
+              >
+                <span class="text-[9px] text-rose-400">翻</span>
+              </div>
+              <div>
+                <p class="text-[10px] text-text-secondary mb-1">翻转高手 · 刚刚</p>
+                <div
+                  class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg rounded-tl-none px-3 py-2 text-sm"
+                >
+                  刚赢了一局，开心 🎉
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Input -->
+          <div class="flex gap-2">
+            <input
+              type="text"
+              placeholder="输入消息..."
+              class="flex-1 bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-2.5 px-4 text-sm text-text-primary placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/30 transition-colors"
+            />
+            <button
+              class="px-4 rounded-xl bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all"
+            >
+              <i data-lucide="send" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <!-- Bottom status bar -->
+    <div
+      class="fixed bottom-0 left-0 right-0 h-8 bg-[rgba(15,17,23,0.9)] border-t border-glass-border flex items-center px-8 text-[10px] text-text-secondary"
+      style="font-family: 'DM Sans', system-ui, sans-serif"
+    >
+      <div class="flex items-center gap-4 max-w-[1440px] mx-auto w-full">
+        <span class="flex items-center gap-1"
+          ><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> 服务器正常</span
+        >
+        <span>在线: 24 人</span>
+        <span class="ml-auto">2024-01-15 20:32:18</span>
+      </div>
+    </div>
+  </body>
+  <script>
+    if (window.lucide) lucide.createIcons()
+  </script>
+</html>

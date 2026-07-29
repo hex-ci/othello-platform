@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { User, Mail, Lock, Check, Zap } from '@lucide/vue'
+import { User, Mail, Lock, Zap } from '@lucide/vue'
 import { useAuthStore } from '@/stores/auth-store'
 import LanguageSwitcher from '@/components/LanguageSwitcher.vue'
 
@@ -14,7 +14,7 @@ const username = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
-const agreed = ref(false)
+const agreed = ref(true)
 const error = ref('')
 const loading = ref(false)
 
@@ -52,10 +52,6 @@ async function onRegister() {
   }
   if (password.value.length < 8) {
     error.value = t('register.errShort')
-    return
-  }
-  if (!agreed.value) {
-    error.value = t('register.errAgree')
     return
   }
   loading.value = true
@@ -226,31 +222,7 @@ function goPlayOffline() {
             </div>
           </div>
 
-          <!-- 协议勾选 -->
-          <div class="flex items-start gap-3 pt-1">
-            <button
-              type="button"
-              class="w-4 h-4 mt-0.5 rounded border flex items-center justify-center flex-shrink-0 transition-colors"
-              :class="
-                agreed
-                  ? 'bg-gold/20 border-gold/50'
-                  : 'border-glass-border bg-[rgba(255,255,255,0.03)]'
-              "
-              @click="agreed = !agreed"
-            >
-              <Check v-if="agreed" class="w-2.5 h-2.5 text-gold" />
-            </button>
-            <span class="text-xs text-text-secondary leading-relaxed">
-              {{ $t('register.agreePrefix') }}
-              <a href="#" class="text-gold hover:text-gold-light transition-colors">{{
-                $t('register.terms')
-              }}</a>
-              {{ $t('register.and') }}
-              <a href="#" class="text-gold hover:text-gold-light transition-colors">{{
-                $t('register.privacy')
-              }}</a>
-            </span>
-          </div>
+          <!-- 协议勾选（暂隐藏：无实际法律文本，待公开部署时恢复） -->
 
           <p v-if="error" class="text-red-400 text-sm">{{ error }}</p>
 

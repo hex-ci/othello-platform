@@ -76,7 +76,7 @@ function goPlayOffline() {
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(26,107,60,0.15)_0%,transparent_70%)] pointer-events-none"
     />
 
-    <div class="relative z-10 w-full max-w-md px-8">
+    <div class="relative z-10 w-full max-w-md px-8 py-8">
       <!-- 语言切换 -->
       <div class="flex justify-end mb-4">
         <LanguageSwitcher />

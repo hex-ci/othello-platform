@@ -1,165 +1,258 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://unpkg.com" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <script src="https://unpkg.com/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    * {
-      scrollbar-width: none;
-      scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-    }
-  </style>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+      * {
+        scrollbar-width: none;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+      }
+    </style>
+  </head>
 
-<body class="bg-[#0f1117] min-h-screen flex items-center justify-center relative overflow-hidden" style="font-family:'DM Sans',system-ui,sans-serif;">
-<style type="text/tailwindcss">
-@theme {
-  --color-primary: #0f1117;
-  --color-board-green: #1a6b3c;
-  --color-board-dark: #145a30;
-  --color-gold: #d4a843;
-  --color-gold-light: #e8c96a;
-  --color-glass: rgba(255, 255, 255, 0.05);
-  --color-glass-border: rgba(255, 255, 255, 0.1);
-  --color-text-primary: #f0f0f0;
-  --color-text-secondary: #8a8f98;
-  --color-surface: #161922;
-}
+  <body
+    class="bg-[#0f1117] min-h-screen flex items-center justify-center relative overflow-hidden"
+    style="font-family: 'DM Sans', system-ui, sans-serif"
+  >
+    <style type="text/tailwindcss">
+      @theme {
+        --color-primary: #0f1117;
+        --color-board-green: #1a6b3c;
+        --color-board-dark: #145a30;
+        --color-gold: #d4a843;
+        --color-gold-light: #e8c96a;
+        --color-glass: rgba(255, 255, 255, 0.05);
+        --color-glass-border: rgba(255, 255, 255, 0.1);
+        --color-text-primary: #f0f0f0;
+        --color-text-secondary: #8a8f98;
+        --color-surface: #161922;
+      }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(1deg); }
-}
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(1deg);
+        }
+      }
 
-@keyframes pulse-gold {
-  0%, 100% { box-shadow: 0 0 20px rgba(212, 168, 67, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(212, 168, 67, 0.6); }
-}
-</style>
+      @keyframes pulse-gold {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(212, 168, 67, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(212, 168, 67, 0.6);
+        }
+      }
+    </style>
 
-<link rel="stylesheet" href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.cn/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    />
 
-<!-- Decorative grid background -->
-<div class="absolute inset-0 opacity-[0.04]">
-  <div class="w-full h-full" style="background-image: linear-gradient(rgba(26,107,60,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(26,107,60,0.8) 1px, transparent 1px); background-size: 80px 80px;"></div>
-</div>
-
-<!-- Decorative chess pieces floating -->
-<div class="absolute top-[12%] right-[10%] w-16 h-16 rounded-full bg-gradient-to-br from-gray-900 to-black shadow-[0_4px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.1)] opacity-20" style="animation: float 7s ease-in-out infinite 0.5s;"></div>
-<div class="absolute top-[25%] left-[10%] w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-200 shadow-[0_4px_15px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.8)] opacity-15" style="animation: float 6s ease-in-out infinite 1.5s;"></div>
-<div class="absolute bottom-[20%] right-[14%] w-10 h-10 rounded-full bg-gradient-to-br from-white to-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_2px_3px_rgba(255,255,255,0.9)] opacity-10" style="animation: float 8s ease-in-out infinite 2.5s;"></div>
-<div class="absolute bottom-[12%] left-[8%] w-14 h-14 rounded-full bg-gradient-to-br from-gray-800 to-black shadow-[0_4px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.05)] opacity-15" style="animation: float 9s ease-in-out infinite 3s;"></div>
-
-<!-- Radial glow -->
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(26,107,60,0.15)_0%,transparent_70%)]"></div>
-
-<!-- Main register card -->
-<div class="relative z-10 w-full max-w-md px-6 py-8">
-  <!-- Logo & Brand -->
-  <div class="text-center mb-6">
-    <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28] shadow-[0_8px_32px_rgba(26,107,60,0.3)] mb-5">
-      <div class="grid grid-cols-2 gap-1">
-        <div class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"></div>
-        <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"></div>
-        <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"></div>
-        <div class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"></div>
-      </div>
-    </div>
-    <h1 class="text-2xl font-bold text-text-primary tracking-wide" style="font-family:'DM Sans',system-ui,sans-serif;">创建账号</h1>
-    <p class="text-text-secondary text-sm mt-2">加入黑白棋对战社区</p>
-  </div>
-
-  <!-- Register Form Card -->
-  <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-    <div class="space-y-4">
-      <!-- Username -->
-      <div>
-        <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2">用户名</label>
-        <div class="relative">
-          <i data-lucide="user" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"></i>
-          <input type="text" placeholder="3-32 字符，字母数字下划线" class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors" />
-        </div>
-      </div>
-
-      <!-- Email -->
-      <div>
-        <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2">邮箱地址</label>
-        <div class="relative">
-          <i data-lucide="mail" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"></i>
-          <input type="email" placeholder="用于找回密码" class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors" />
-        </div>
-      </div>
-
-      <!-- Password -->
-      <div>
-        <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2">设置密码</label>
-        <div class="relative">
-          <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"></i>
-          <input type="password" placeholder="至少 8 位" class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors" />
-        </div>
-        <!-- Password strength indicator -->
-        <div class="flex items-center gap-2 mt-2">
-          <div class="flex-1 h-1 rounded-full bg-[#e74c3c]"></div>
-          <div class="flex-1 h-1 rounded-full bg-[#f1c40f]"></div>
-          <div class="flex-1 h-1 rounded-full bg-[rgba(255,255,255,0.08)]"></div>
-          <span class="text-[10px] text-[#f1c40f] ml-1">中等</span>
-        </div>
-      </div>
-
-      <!-- Confirm Password -->
-      <div>
-        <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2">确认密码</label>
-        <div class="relative">
-          <i data-lucide="lock" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"></i>
-          <input type="password" placeholder="再次输入密码" class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors" />
-        </div>
-      </div>
-
-      <!-- Terms checkbox -->
-      <div class="flex items-start gap-3 pt-1">
-        <div class="w-4 h-4 mt-0.5 rounded border border-glass-border bg-[rgba(255,255,255,0.03)] flex items-center justify-center flex-shrink-0">
-          <i data-lucide="check" class="w-2.5 h-2.5 text-gold"></i>
-        </div>
-        <span class="text-xs text-text-secondary leading-relaxed">我同意 <a href="#" class="text-gold hover:text-gold-light transition-colors">用户协议</a> 和 <a href="#" class="text-gold hover:text-gold-light transition-colors">隐私政策</a></span>
-      </div>
-
-      <!-- Register Button -->
-      <button class="w-full py-3.5 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300 hover:-translate-y-0.5 mt-2" style="font-family:'DM Sans',system-ui,sans-serif;">
-        立即注册
-      </button>
-
-      <!-- Email verification hint -->
-      <p class="text-center text-[10px] text-text-secondary/60">注册后请验证邮箱以启用完整功能</p>
+    <!-- Decorative grid background -->
+    <div class="absolute inset-0 opacity-[0.04]">
+      <div
+        class="w-full h-full"
+        style="
+          background-image:
+            linear-gradient(rgba(26, 107, 60, 0.8) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(26, 107, 60, 0.8) 1px, transparent 1px);
+          background-size: 80px 80px;
+        "
+      ></div>
     </div>
 
-    <!-- Divider -->
-    <div class="flex items-center my-5">
-      <div class="flex-1 h-px bg-glass-border"></div>
-      <span class="px-4 text-text-secondary text-xs">或</span>
-      <div class="flex-1 h-px bg-glass-border"></div>
+    <!-- Decorative chess pieces floating -->
+    <div
+      class="absolute top-[12%] right-[10%] w-16 h-16 rounded-full bg-gradient-to-br from-gray-900 to-black shadow-[0_4px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.1)] opacity-20"
+      style="animation: float 7s ease-in-out infinite 0.5s"
+    ></div>
+    <div
+      class="absolute top-[25%] left-[10%] w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-200 shadow-[0_4px_15px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.8)] opacity-15"
+      style="animation: float 6s ease-in-out infinite 1.5s"
+    ></div>
+    <div
+      class="absolute bottom-[20%] right-[14%] w-10 h-10 rounded-full bg-gradient-to-br from-white to-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_2px_3px_rgba(255,255,255,0.9)] opacity-10"
+      style="animation: float 8s ease-in-out infinite 2.5s"
+    ></div>
+    <div
+      class="absolute bottom-[12%] left-[8%] w-14 h-14 rounded-full bg-gradient-to-br from-gray-800 to-black shadow-[0_4px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.05)] opacity-15"
+      style="animation: float 9s ease-in-out infinite 3s"
+    ></div>
+
+    <!-- Radial glow -->
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(26,107,60,0.15)_0%,transparent_70%)]"
+    ></div>
+
+    <!-- Main register card -->
+    <div class="relative z-10 w-full max-w-md px-6 py-8">
+      <!-- Logo & Brand -->
+      <div class="text-center mb-6">
+        <div
+          class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1a6b3c] to-[#0d4a28] shadow-[0_8px_32px_rgba(26,107,60,0.3)] mb-5"
+        >
+          <div class="grid grid-cols-2 gap-1">
+            <div
+              class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
+            ></div>
+            <div
+              class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"
+            ></div>
+            <div
+              class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"
+            ></div>
+            <div
+              class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
+            ></div>
+          </div>
+        </div>
+        <h1
+          class="text-2xl font-bold text-text-primary tracking-wide"
+          style="font-family: 'DM Sans', system-ui, sans-serif"
+        >
+          创建账号
+        </h1>
+        <p class="text-text-secondary text-sm mt-2">加入黑白棋对战社区</p>
+      </div>
+
+      <!-- Register Form Card -->
+      <div
+        class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+      >
+        <div class="space-y-4">
+          <!-- Username -->
+          <div>
+            <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
+              >用户名</label
+            >
+            <div class="relative">
+              <i
+                data-lucide="user"
+                class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+              ></i>
+              <input
+                type="text"
+                placeholder="3-32 字符，字母数字下划线"
+                class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors"
+              />
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
+              >邮箱地址</label
+            >
+            <div class="relative">
+              <i
+                data-lucide="mail"
+                class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+              ></i>
+              <input
+                type="email"
+                placeholder="用于找回密码"
+                class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors"
+              />
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
+              >设置密码</label
+            >
+            <div class="relative">
+              <i
+                data-lucide="lock"
+                class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+              ></i>
+              <input
+                type="password"
+                placeholder="至少 8 位"
+                class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors"
+              />
+            </div>
+            <!-- Password strength indicator -->
+            <div class="flex items-center gap-2 mt-2">
+              <div class="flex-1 h-1 rounded-full bg-[#e74c3c]"></div>
+              <div class="flex-1 h-1 rounded-full bg-[#f1c40f]"></div>
+              <div class="flex-1 h-1 rounded-full bg-[rgba(255,255,255,0.08)]"></div>
+              <span class="text-[10px] text-[#f1c40f] ml-1">中等</span>
+            </div>
+          </div>
+
+          <!-- Confirm Password -->
+          <div>
+            <label class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
+              >确认密码</label
+            >
+            <div class="relative">
+              <i
+                data-lucide="lock"
+                class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary"
+              ></i>
+              <input
+                type="password"
+                placeholder="再次输入密码"
+                class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors"
+              />
+            </div>
+          </div>
+
+          <!-- Register Button -->
+          <button
+            class="w-full py-3.5 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300 hover:-translate-y-0.5 mt-2"
+            style="font-family: 'DM Sans', system-ui, sans-serif"
+          >
+            立即注册
+          </button>
+
+          <!-- Email verification hint -->
+          <p class="text-center text-[10px] text-text-secondary/60">
+            注册后请验证邮箱以启用完整功能
+          </p>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center my-5">
+          <div class="flex-1 h-px bg-glass-border"></div>
+          <span class="px-4 text-text-secondary text-xs">或</span>
+          <div class="flex-1 h-px bg-glass-border"></div>
+        </div>
+
+        <!-- Guest mode -->
+        <button
+          class="w-full py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-text-secondary/30 hover:text-text-primary transition-all duration-300"
+        >
+          <i data-lucide="zap" class="inline w-4 h-4 mr-2 -mt-0.5"></i>游客模式体验
+        </button>
+
+        <!-- Login link -->
+        <p class="text-center mt-5 text-text-secondary text-sm">
+          已有账号？<a href="#" class="text-gold hover:text-gold-light transition-colors"
+            >立即登录</a
+          >
+        </p>
+      </div>
+
+      <!-- Version -->
+      <div class="flex items-center justify-center gap-3 mt-6">
+        <p class="text-[#3a3f48] text-xs tracking-wider">v2.1.0 · Othello Online Platform</p>
+      </div>
     </div>
-
-    <!-- Guest mode -->
-    <button class="w-full py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-text-secondary/30 hover:text-text-primary transition-all duration-300">
-      <i data-lucide="zap" class="inline w-4 h-4 mr-2 -mt-0.5"></i>游客模式体验
-    </button>
-
-    <!-- Login link -->
-    <p class="text-center mt-5 text-text-secondary text-sm">
-      已有账号？<a href="#" class="text-gold hover:text-gold-light transition-colors">立即登录</a>
-    </p>
-  </div>
-
-  <!-- Version -->
-  <div class="flex items-center justify-center gap-3 mt-6">
-    <p class="text-[#3a3f48] text-xs tracking-wider">v2.1.0 · Othello Online Platform</p>
-  </div>
-</div>
-
-</body>
-<script>if (window.lucide) lucide.createIcons();</script>
+  </body>
+  <script>
+    if (window.lucide) lucide.createIcons()
+  </script>
 </html>

@@ -7,7 +7,15 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { Home, Users, ChevronDown, Lightbulb, Undo2, RotateCw, GraduationCap } from '@lucide/vue'
+import {
+  Home,
+  ArrowLeft,
+  ChevronDown,
+  Lightbulb,
+  Undo2,
+  RotateCw,
+  GraduationCap,
+} from '@lucide/vue'
 import { useGameStore } from '@/stores/game-store'
 import type { AiLevel } from '@othello-platform/engine'
 import BoardCanvas from '@/components/game/BoardCanvas.vue'
@@ -85,7 +93,7 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
             class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-text-secondary hover:text-gold hover:bg-glass transition-all"
             @click="router.push('/lobby')"
           >
-            <Users class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
+            <ArrowLeft class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
               $t('common.backToLobby')
             }}</span>
           </button>

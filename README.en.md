@@ -103,7 +103,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 docker compose -f docker-compose.prod.yml ps
 ```
 
-Open http://localhost to start playing (the host port is set via `WEB_PORT` in `.env`, default 80).
+Open http://localhost:3000 to start playing (the host port is set via `WEB_PORT` in `.env`, default 3000).
 
 - Migrations run automatically at startup via a one-shot `migrate` service; the backend waits for it to succeed before starting
 - The frontend is served by nginx, which reverse-proxies `/api` and `/ws` to the backend container on the same origin — no CORS to configure

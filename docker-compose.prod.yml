@@ -54,7 +54,7 @@ services:
     image: othello-web:latest
     container_name: othello-prod-web
     ports:
-      - '${WEB_PORT:-80}:80'
+      - '${WEB_PORT:-3000}:80'
     depends_on:
       - server
     restart: unless-stopped

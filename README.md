@@ -103,7 +103,7 @@ docker compose -f docker-compose.prod.yml up -d --build
 docker compose -f docker-compose.prod.yml ps
 ```
 
-打开 http://localhost 即可（宿主机端口经 `.env` 的 `WEB_PORT` 配置，默认 80）。
+打开 http://localhost:3000 即可（宿主机端口经 `.env` 的 `WEB_PORT` 配置，默认 3000）。
 
 - 迁移由一次性 `migrate` 服务在启动时自动执行，后端待其成功后才启动
 - 前端经 nginx 同源反代 `/api` 与 `/ws` 到后端容器，无 CORS 配置负担

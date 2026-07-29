@@ -181,7 +181,7 @@ postgres (healthcheck)
 
 - `migrate` 以 `service_completed_successfully` 条件门控 `server`，确保库结构就绪后才起服务
 - `web` 经 nginx 同源反代 REST 与 WS，前端无需配置后端地址，无 CORS
-- 仅 `web` 暴露宿主机端口（`WEB_PORT`，默认 80）；postgres/server 仅在 compose 内部网络可达
+- 仅 `web` 暴露宿主机端口（`WEB_PORT`，默认 3000）；postgres/server 仅在 compose 内部网络可达
 
 ### 部署
 
@@ -190,7 +190,7 @@ cp .env.prod.example .env
 # 编辑 .env，务必修改 JWT_SECRET（openssl rand -hex 32）
 docker compose -f docker-compose.prod.yml up -d --build
 docker compose -f docker-compose.prod.yml ps   # migrate=Exited(0)，其余 Up
-curl http://localhost/api/v1/health            # {"ok":true,...}
+curl http://localhost:3000/api/v1/health       # {"ok":true,...}
 ```
 
 跨平台构建（Apple Silicon → x64 服务器）：

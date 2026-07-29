@@ -30,6 +30,7 @@ interface PuzzleRow {
   best_pos_y: number
   solution: string
   explanation: string
+  explanation_en: string | null
 }
 
 function rowToDTO(r: PuzzleRow): PuzzleDTO {
@@ -43,6 +44,7 @@ function rowToDTO(r: PuzzleRow): PuzzleDTO {
     bestPos: { x: r.best_pos_x, y: r.best_pos_y },
     solution: r.solution,
     explanation: r.explanation,
+    explanationEn: r.explanation_en,
   }
 }
 

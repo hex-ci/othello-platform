@@ -215,6 +215,8 @@ export interface PuzzleDTO {
   solution: string
   /** 解析文本 */
   explanation: string
+  /** 英文解析文本 */
+  explanationEn: string | null
   /** 题号（展示用） */
   puzzleNo: number
 }

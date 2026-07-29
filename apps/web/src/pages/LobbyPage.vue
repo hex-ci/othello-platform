@@ -193,9 +193,9 @@ function onLogout() {
     <nav
       class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
     >
-      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between relative">
+      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
         <!-- 左：Logo -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 flex-shrink-0">
           <div
             class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center shadow-md"
           >
@@ -209,10 +209,8 @@ function onLogout() {
           <span class="text-lg font-bold tracking-wide">Othello</span>
         </div>
 
-        <!-- 中：我的积分（ELO + 经典积分胶囊），绝对居中避免与右侧控件挤占 -->
-        <div
-          class="hidden lg:flex items-center gap-4 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        >
+        <!-- 中：我的积分（ELO + 经典积分胶囊），flex-1 居中避免与右侧控件重叠 -->
+        <div class="hidden lg:flex items-center gap-4 flex-1 justify-center">
           <div
             class="flex items-center gap-2 bg-gold/5 border border-gold/20 rounded-full px-3 py-1.5"
           >
@@ -232,7 +230,7 @@ function onLogout() {
         </div>
 
         <!-- 右：导航 + 用户信息 -->
-        <div class="flex items-center justify-end gap-4">
+        <div class="flex items-center justify-end gap-4 flex-shrink-0">
           <LanguageSwitcher />
           <button
             class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"

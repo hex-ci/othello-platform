@@ -67,7 +67,7 @@ function onLogout() {
       </button>
 
       <!-- 中：我的评级胶囊 -->
-      <div class="hidden md:flex items-center gap-4">
+      <div class="hidden md:flex items-center gap-4 flex-1 justify-center">
         <div
           class="flex items-center gap-2 bg-gold/5 border border-gold/20 rounded-full px-3 py-1.5"
         >
@@ -87,7 +87,7 @@ function onLogout() {
       </div>
 
       <!-- 右：首页 / 设置 / 登出 / 用户区 -->
-      <div class="flex items-center gap-5">
+      <div class="flex items-center gap-5 flex-shrink-0">
         <button
           class="p-2 rounded-lg hover:bg-glass transition-colors"
           :title="$t('common.home')"

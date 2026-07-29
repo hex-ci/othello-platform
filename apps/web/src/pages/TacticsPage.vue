@@ -35,7 +35,7 @@ import { toast } from 'vue-sonner'
 const router = useRouter()
 const tactics = useTacticsStore()
 const auth = useAuthStore()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const {
   puzzles,
@@ -122,6 +122,13 @@ function posLabel(p: Pos | null): string {
 const hintText = computed(() => {
   const sol = currentPuzzle.value?.solution ?? ''
   return sol.length > 1 ? `${sol[0]}_` : sol
+})
+
+/** 按当前语言选择解析文本 */
+const puzzleExplanation = computed(() => {
+  const p = currentPuzzle.value
+  if (!p) return ''
+  return locale.value === 'en' && p.explanationEn ? p.explanationEn : p.explanation
 })
 
 /** P6：下一题，已是最后一题时 toast 提示 */
@@ -360,7 +367,7 @@ onUnmounted(() => {
               >
                 <Lightbulb class="w-4 h-4 text-gold mt-0.5 flex-shrink-0" />
                 <p class="text-xs text-text-secondary leading-relaxed">
-                  {{ currentPuzzle.explanation }}
+                  {{ puzzleExplanation }}
                 </p>
               </div>
 

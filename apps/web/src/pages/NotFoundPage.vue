@@ -137,7 +137,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
           <div
             class="relative rounded-2xl p-3 bg-gradient-to-br from-[#0d4a28] to-[#0a3a20] border border-board-green/40 shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
           >
-            <div class="grid grid-cols-8 rounded-lg overflow-hidden aspect-square">
+            <div class="grid grid-cols-8 grid-rows-8 rounded-lg overflow-hidden aspect-square">
               <div
                 v-for="(cell, i) in boardCells"
                 :key="i"

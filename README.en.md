@@ -16,6 +16,26 @@ A full-stack online Othello (Reversi) game platform. Server-authoritative play, 
 - **Internationalization**: 中文 / English
 - **Dark theme**: glassmorphism style, system font stack
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="assets/screenshots/home.en.png" alt="Home"><br><sub>Home · Action Hub</sub></td>
+    <td align="center" width="50%"><img src="assets/screenshots/lobby.en.png" alt="Lobby"><br><sub>Lobby · Live Room List</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/game.en.png" alt="Game"><br><sub>Online Match · Real-time Sync</sub></td>
+    <td align="center"><img src="assets/screenshots/replay.en.png" alt="Replay"><br><sub>Replay · AI Analysis Panel</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/tactics.en.png" alt="Tactics"><br><sub>Tactics Puzzles · Daily Challenge</sub></td>
+    <td align="center"><img src="assets/screenshots/leaderboard.en.png" alt="Leaderboard"><br><sub>Leaderboard · Seasonal Ranks</sub></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><img src="assets/screenshots/friends.en.png" alt="Friends" width="60%"><br><sub>Friends · Online Status & Challenges</sub></td>
+  </tr>
+</table>
+
 ## Tech Stack
 
 | Layer     | Technology                                                                                                        |

@@ -64,7 +64,7 @@ function ariaLabel(x: number, y: number, cell: number): string {
 <template>
   <div class="inline-block">
     <!-- 列标签 -->
-    <div class="grid grid-cols-8 mb-1">
+    <div class="grid grid-cols-8 mb-1 pl-5">
       <div v-for="label in COL_LABELS" :key="label" class="text-center text-[10px] text-text-secondary font-mono">
         {{ label }}
       </div>

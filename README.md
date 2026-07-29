@@ -16,6 +16,26 @@
 - **国际化**：中文 / English
 - **暗色主题**：玻璃拟态风格，系统字体栈
 
+## 界面预览
+
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="assets/screenshots/home.zh.png" alt="首页"><br><sub>首页 · 行动中枢</sub></td>
+    <td align="center" width="50%"><img src="assets/screenshots/lobby.zh.png" alt="大厅"><br><sub>对战大厅 · 实时房间列表</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/game.zh.png" alt="对局"><br><sub>在线对局 · 实时同步</sub></td>
+    <td align="center"><img src="assets/screenshots/replay.zh.png" alt="复盘"><br><sub>复盘 · AI 分析面板</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/screenshots/tactics.zh.png" alt="题库"><br><sub>战术题库 · 每日挑战</sub></td>
+    <td align="center"><img src="assets/screenshots/leaderboard.zh.png" alt="排行榜"><br><sub>排行榜 · 赛季段位</sub></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><img src="assets/screenshots/friends.zh.png" alt="好友" width="60%"><br><sub>好友系统 · 在线状态与邀战</sub></td>
+  </tr>
+</table>
+
 ## 技术栈
 
 | 层     | 技术                                                                                                              |

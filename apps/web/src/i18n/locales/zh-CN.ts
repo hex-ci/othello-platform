@@ -437,7 +437,7 @@ export default {
     threeMin: '30 秒',
     waited: '已等待 {time}',
     spectators: '{n} 人旁观',
-    blackMark: '棋',
+    blackMark: '黑',
     whiteMark: '白',
     host: '房主',
     ready: '已准备',

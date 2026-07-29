@@ -256,7 +256,7 @@ onMounted(() => {
     <!-- 顶栏（设计稿 09/10/12/13 统一） -->
     <PageNavBar />
 
-    <main class="pt-20 max-w-[1440px] mx-auto px-8 pb-12">
+    <main class="pt-20 max-w-[1440px] mx-auto px-4 sm:px-8 pb-12">
       <!-- 加载态 -->
       <div v-if="loading" class="text-center text-text-secondary text-sm py-20">
         {{ $t('common.loading') }}

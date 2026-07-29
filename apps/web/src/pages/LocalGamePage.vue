@@ -48,7 +48,7 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
     <nav
       class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
     >
-      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+      <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <button class="flex items-center gap-3 cursor-pointer group" @click="router.push('/')">
             <div
@@ -111,7 +111,7 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
       />
 
       <div
-        class="max-w-[1440px] mx-auto px-8 min-h-[calc(100vh-4rem)] flex flex-col lg:flex-row relative"
+        class="max-w-[1440px] mx-auto px-4 sm:px-8 min-h-[calc(100vh-4rem)] flex flex-col lg:flex-row relative"
       >
         <!-- 左：棋盘（居中） -->
         <div class="flex-1 flex items-center justify-center py-8">

@@ -163,7 +163,7 @@ onUnmounted(() => {
       <nav
         class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
       >
-        <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+        <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div
               class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
@@ -177,16 +177,16 @@ onUnmounted(() => {
             </div>
             <span class="text-lg font-bold tracking-wide">Othello</span>
           </div>
-          <div class="flex items-center gap-3">
-            <LanguageSwitcher />
+          <div class="flex items-center gap-2 sm:gap-3">
+            <div class="hidden sm:block"><LanguageSwitcher /></div>
             <button
-              class="px-4 py-2 rounded-lg text-xs font-medium text-text-secondary border border-glass-border hover:text-text-primary hover:border-gold/30 transition-all"
+              class="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium text-text-secondary border border-glass-border hover:text-text-primary hover:border-gold/30 transition-all"
               @click="router.push('/login')"
             >
               {{ $t('home.login') }}
             </button>
             <button
-              class="px-4 py-2 rounded-lg text-xs font-bold bg-gold text-primary hover:bg-gold-light transition-colors"
+              class="px-3 sm:px-4 py-2 rounded-lg text-xs font-bold bg-gold text-primary hover:bg-gold-light transition-colors"
               @click="router.push('/register')"
             >
               {{ $t('home.register') }}
@@ -213,14 +213,16 @@ onUnmounted(() => {
         />
 
         <div
-          class="max-w-[1440px] mx-auto px-8 min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-12 relative"
+          class="max-w-[1440px] mx-auto px-4 sm:px-8 min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center py-12 relative"
         >
           <!-- 左：品牌 + 试玩漏斗 -->
           <div class="lg:col-span-7">
             <p class="text-[11px] uppercase tracking-[0.3em] text-gold/80 mb-5 font-mono">
               {{ $t('home.tagline') }}
             </p>
-            <h1 class="text-5xl xl:text-6xl font-black leading-[1.08] tracking-tight">
+            <h1
+              class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black leading-[1.08] tracking-tight"
+            >
               {{ $t('home.headline1') }}<br />
               <span class="text-gold">{{ $t('home.headline2') }}</span>
               <span class="inline-block w-3.5 h-3.5 rounded-full stone-b ml-2.5" />
@@ -353,7 +355,7 @@ onUnmounted(() => {
     <template v-else>
       <PageNavBar />
 
-      <main class="pt-20 pb-12 max-w-[1440px] mx-auto px-8">
+      <main class="pt-20 pb-12 max-w-[1440px] mx-auto px-4 sm:px-8">
         <!-- 问候行 -->
         <div class="flex items-end justify-between mb-8">
           <div>
@@ -395,7 +397,7 @@ onUnmounted(() => {
 
               <!-- 在线人机（主入口，含难度选择） -->
               <div
-                class="group flex items-center justify-between gap-4 p-4 rounded-xl border border-gold/25 bg-gold/5 hover:bg-gold/10 hover:border-gold/40 transition-all mb-2.5"
+                class="group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 p-4 rounded-xl border border-gold/25 bg-gold/5 hover:bg-gold/10 hover:border-gold/40 transition-all mb-2.5"
               >
                 <div class="flex items-center gap-3.5">
                   <div
@@ -410,7 +412,7 @@ onUnmounted(() => {
                     </p>
                   </div>
                 </div>
-                <div class="flex items-center gap-2.5">
+                <div class="flex items-center gap-2.5 w-full sm:w-auto">
                   <div class="relative">
                     <select
                       v-model.number="aiQuickLevel"
@@ -435,7 +437,7 @@ onUnmounted(() => {
               </div>
 
               <!-- 次级入口行 -->
-              <div class="grid grid-cols-3 gap-2.5">
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 <button
                   class="group flex flex-col items-start gap-2.5 p-4 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-emerald-500/35 hover:bg-emerald-500/5 transition-all text-left"
                   @click="showCreate = true"

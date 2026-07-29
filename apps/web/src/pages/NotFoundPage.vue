@@ -29,7 +29,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
     <nav
       class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
     >
-      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+      <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         <button class="flex items-center gap-3 cursor-pointer group" @click="router.push('/')">
           <div
             class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
@@ -72,7 +72,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
       />
 
       <div
-        class="max-w-[1440px] mx-auto px-8 min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-14 items-center py-14 relative"
+        class="max-w-[1440px] mx-auto px-4 sm:px-8 min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center py-14 relative"
       >
         <!-- 左：404 + 文案 + 出口 -->
         <div class="lg:col-span-7">

@@ -5,7 +5,7 @@
  */
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Trophy, Star, Home, Settings, LogOut, User } from '@lucide/vue'
+import { Trophy, Star, Home, LayoutDashboard, Settings, LogOut, User } from '@lucide/vue'
 import type { UserDTO } from '@othello-platform/shared'
 import { useAuthStore } from '@/stores/auth-store'
 import * as usersApi from '@/api/users'
@@ -46,7 +46,7 @@ function onLogout() {
   <nav
     class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
   >
-    <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+    <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
       <!-- 左：Logo -->
       <button
         class="flex items-center gap-3 cursor-pointer"
@@ -86,14 +86,21 @@ function onLogout() {
         </div>
       </div>
 
-      <!-- 右：首页 / 设置 / 登出 / 用户区 -->
-      <div class="flex items-center gap-5 flex-shrink-0">
+      <!-- 右：首页 / 大厅 / 设置 / 登出 / 用户区 -->
+      <div class="flex items-center gap-2 sm:gap-5 flex-shrink-0">
         <button
           class="p-2 rounded-lg hover:bg-glass transition-colors"
           :title="$t('common.home')"
           @click="goHome"
         >
           <Home class="w-4 h-4 text-text-secondary" />
+        </button>
+        <button
+          class="p-2 rounded-lg hover:bg-glass transition-colors"
+          :title="$t('common.backToLobby')"
+          @click="goLobby"
+        >
+          <LayoutDashboard class="w-4 h-4 text-text-secondary" />
         </button>
         <button
           class="p-2 rounded-lg hover:bg-glass transition-colors"

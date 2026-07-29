@@ -193,7 +193,7 @@ function onLogout() {
     <nav
       class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
     >
-      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+      <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         <!-- 左：Logo -->
         <div class="flex items-center gap-3 flex-shrink-0">
           <div
@@ -230,8 +230,8 @@ function onLogout() {
         </div>
 
         <!-- 右：导航 + 用户信息 -->
-        <div class="flex items-center justify-end gap-4 flex-shrink-0">
-          <LanguageSwitcher />
+        <div class="flex items-center justify-end gap-1.5 sm:gap-4 flex-shrink-0">
+          <div class="hidden sm:block"><LanguageSwitcher /></div>
           <button
             class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('common.home')"
@@ -247,14 +247,14 @@ function onLogout() {
             <Users class="w-4 h-4" />
           </button>
           <button
-            class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
+            class="hidden sm:block p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('lobby.titleLeaderboard')"
             @click="router.push('/leaderboard')"
           >
             <Trophy class="w-4 h-4" />
           </button>
           <button
-            class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
+            class="hidden sm:block p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('tactics.title')"
             @click="router.push('/tactics')"
           >
@@ -278,7 +278,7 @@ function onLogout() {
             >
               {{ initial(auth.username ?? '') }}
             </div>
-            <div class="flex items-center">
+            <div class="hidden sm:flex items-center">
               <span class="text-sm font-medium">{{ auth.username }}</span>
               <span v-if="me" class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">{{
                 me.elo
@@ -297,7 +297,7 @@ function onLogout() {
     </nav>
 
     <!-- 主体三栏（高度自适应视口，对齐设计稿 03-lobby） -->
-    <main class="pt-20 pb-12 max-w-[1440px] mx-auto px-8">
+    <main class="pt-20 pb-12 max-w-[1440px] mx-auto px-4 sm:px-8">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:h-[calc(100vh-8rem)]">
         <!-- 左：在线玩家 -->
         <aside
@@ -558,7 +558,7 @@ function onLogout() {
 
     <!-- 底部状态栏 -->
     <div
-      class="fixed bottom-0 left-0 right-0 h-8 bg-[rgba(15,17,23,0.9)] border-t border-glass-border flex items-center px-8 text-[10px] text-text-secondary"
+      class="fixed bottom-0 left-0 right-0 h-8 bg-[rgba(15,17,23,0.9)] border-t border-glass-border flex items-center px-4 sm:px-8 text-[10px] text-text-secondary"
     >
       <div class="flex items-center gap-4 max-w-[1440px] mx-auto w-full">
         <span class="flex items-center gap-1"

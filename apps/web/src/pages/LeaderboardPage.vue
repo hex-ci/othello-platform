@@ -100,7 +100,7 @@ onMounted(() => {
     <!-- 顶栏（设计稿 09/10/12/13 统一） -->
     <PageNavBar />
 
-    <main class="pt-20 max-w-[1440px] mx-auto px-8 pb-12">
+    <main class="pt-20 max-w-[1440px] mx-auto px-4 sm:px-8 pb-12">
       <!-- 赛季段位卡 + 徽章墙（T22，F-E-18） -->
       <div v-if="season.currentSeason" class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <!-- 当前段位 -->

@@ -233,7 +233,7 @@ onUnmounted(() => {
     <!-- 顶栏（设计稿 09/10/12/13 统一） -->
     <PageNavBar />
 
-    <main class="pt-20 max-w-[1440px] mx-auto px-8 pb-12">
+    <main class="pt-20 max-w-[1440px] mx-auto px-4 sm:px-8 pb-12">
       <div class="grid grid-cols-12 gap-6">
         <!-- 左：每日挑战 + 难度 + 专题 -->
         <aside class="col-span-12 lg:col-span-3 space-y-4">

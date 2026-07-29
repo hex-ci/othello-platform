@@ -149,7 +149,7 @@ function clearPassword() {
     <nav
       class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
     >
-      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+      <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <div
             class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28]"
@@ -184,7 +184,7 @@ function clearPassword() {
       </div>
     </nav>
 
-    <main class="pt-20 max-w-[1440px] mx-auto px-8 pb-12">
+    <main class="pt-20 max-w-[1440px] mx-auto px-4 sm:px-8 pb-12">
       <!-- 加载态：未收到 room_state 也无 error，避免空房间闪现 -->
       <div v-if="loading" class="min-h-[60vh] flex items-center justify-center">
         <div class="flex flex-col items-center gap-4">

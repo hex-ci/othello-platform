@@ -148,7 +148,7 @@ onUnmounted(() => {
     <nav
       class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
     >
-      <div class="max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between">
+      <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         <!-- 左：Logo + 复盘模式徽章 -->
         <div class="flex items-center gap-3">
           <div
@@ -185,32 +185,44 @@ onUnmounted(() => {
         </div>
 
         <!-- 右：分享 / 导出 / 导入 / 返回 -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 sm:gap-3">
           <button
             v-if="game"
-            class="px-3 py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
+            class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
+            :title="$t('replay.share')"
             @click="shareGame"
           >
-            <Share2 class="w-3.5 h-3.5" />{{ $t('replay.share') }}
+            <Share2 class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
+              $t('replay.share')
+            }}</span>
           </button>
           <button
             v-if="game"
-            class="px-3 py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
+            class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
+            :title="$t('notation.export')"
             @click="exportNotation"
           >
-            <Download class="w-3.5 h-3.5" />{{ $t('notation.export') }}
+            <Download class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
+              $t('notation.export')
+            }}</span>
           </button>
           <button
-            class="px-3 py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
+            class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
+            :title="$t('notation.import')"
             @click="openImport"
           >
-            <Upload class="w-3.5 h-3.5" />{{ $t('notation.import') }}
+            <Upload class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
+              $t('notation.import')
+            }}</span>
           </button>
           <button
-            class="text-xs text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
+            class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
+            :title="$t('common.backToLobby')"
             @click="router.push('/lobby')"
           >
-            <ArrowLeft class="w-3 h-3" /> {{ $t('common.backToLobby') }}
+            <ArrowLeft class="w-3 h-3" /><span class="hidden sm:inline">{{
+              $t('common.backToLobby')
+            }}</span>
           </button>
         </div>
       </div>

@@ -96,9 +96,9 @@ onMounted(() => {
     <!-- 顶栏（设计稿 09/10/12/13 统一） -->
     <PageNavBar />
 
-    <main class="pt-20 max-w-[1440px] mx-auto px-8 pb-12">
+    <main class="pt-20 max-w-[1440px] mx-auto px-4 sm:px-8 pb-12">
       <!-- 标题 + 添加好友 -->
-      <div class="flex items-center justify-between mb-8">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 class="text-3xl font-bold flex items-center gap-3">
             <Users class="w-7 h-7 text-gold" />{{ $t('friends.title') }}
@@ -106,7 +106,7 @@ onMounted(() => {
           <p class="text-text-secondary text-sm mt-2">{{ $t('friends.subtitle') }}</p>
         </div>
         <div class="flex items-center gap-3">
-          <div class="relative">
+          <div class="relative w-full sm:w-auto">
             <Search
               class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-text-secondary"
             />
@@ -114,7 +114,7 @@ onMounted(() => {
               v-model="search"
               type="text"
               :placeholder="$t('friends.searchPlaceholder')"
-              class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-2 pl-9 pr-4 text-xs text-text-primary placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/30 w-48"
+              class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-2 pl-9 pr-4 text-xs text-text-primary placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/30 w-full sm:w-48"
             />
           </div>
         </div>
@@ -146,7 +146,7 @@ onMounted(() => {
       <!-- 挑战被拒/非好友/离线等反馈改用 toast（useChallenge 内统一处理） -->
 
       <!-- 统计卡 -->
-      <div class="grid grid-cols-4 gap-4 mb-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
         <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
           <div class="flex items-center gap-2 mb-2">
             <Users class="w-4 h-4 text-gold" /><span

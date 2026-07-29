@@ -159,3 +159,7 @@ pnpm -r test
 ## 许可证
 
 [MIT](./LICENSE) © Hex
+
+## 友情链接
+
+学AI上L站！ https://linux.do/

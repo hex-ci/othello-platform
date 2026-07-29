@@ -20,6 +20,9 @@
 
 <table>
   <tr>
+    <td align="center" colspan="2"><img src="assets/screenshots/landing.zh.png" alt="未登录首页"><br><sub>未登录首页 · 平台亮点</sub></td>
+  </tr>
+  <tr>
     <td align="center" width="50%"><img src="assets/screenshots/home.zh.png" alt="首页"><br><sub>首页 · 行动中枢</sub></td>
     <td align="center" width="50%"><img src="assets/screenshots/lobby.zh.png" alt="大厅"><br><sub>对战大厅 · 实时房间列表</sub></td>
   </tr>

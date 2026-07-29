@@ -20,6 +20,9 @@ A full-stack online Othello (Reversi) game platform. Server-authoritative play, 
 
 <table>
   <tr>
+    <td align="center" colspan="2"><img src="assets/screenshots/landing.en.png" alt="Landing page"><br><sub>Landing · Platform Highlights</sub></td>
+  </tr>
+  <tr>
     <td align="center" width="50%"><img src="assets/screenshots/home.en.png" alt="Home"><br><sub>Home · Action Hub</sub></td>
     <td align="center" width="50%"><img src="assets/screenshots/lobby.en.png" alt="Lobby"><br><sub>Lobby · Live Room List</sub></td>
   </tr>

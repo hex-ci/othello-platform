@@ -93,6 +93,7 @@ const AI_LEVEL_TAG: Record<number, string> = {
         </div>
         <button
           v-if="room.status !== 'finished'"
+          type="button"
           class="px-4 py-1.5 rounded-lg text-[11px] font-medium bg-gold/10 text-gold border border-gold/20 group-hover:bg-gold group-hover:text-primary transition-all"
           @click.stop="room.hasPassword ? emit('join-with-password', room) : emit('join', room)"
         >

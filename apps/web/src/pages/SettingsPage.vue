@@ -63,6 +63,7 @@ function close() {
           </div>
         </div>
         <button
+          type="button"
           class="p-2 rounded-lg hover:bg-glass border border-glass-border transition-colors"
           :aria-label="$t('common.backToLobby')"
           @click="close"
@@ -146,9 +147,9 @@ function close() {
             >
               <div class="flex items-center gap-2 mb-1.5">
                 <Keyboard class="w-3.5 h-3.5 text-text-secondary" />
-                <span class="text-xs font-medium text-text-primary">{{
-                  $t('settings.keyboardTitle')
-                }}</span>
+                <span class="text-xs font-medium text-text-primary">
+                  {{ $t('settings.keyboardTitle') }}
+                </span>
               </div>
               <p class="text-[10px] text-text-secondary leading-relaxed">
                 {{ $t('settings.keyboardHint') }}
@@ -196,12 +197,14 @@ function close() {
       <!-- Bottom actions -->
       <div class="flex gap-3 mt-8">
         <button
+          type="button"
           class="flex-1 py-3.5 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2"
           @click="onSave"
         >
           <Save class="w-4 h-4" />{{ $t('settings.save') }}
         </button>
         <button
+          type="button"
           class="px-6 py-3.5 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-text-secondary/30 hover:text-text-primary transition-all duration-300"
           @click="onReset"
         >

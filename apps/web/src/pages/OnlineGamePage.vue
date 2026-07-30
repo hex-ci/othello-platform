@@ -213,11 +213,12 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             </div>
           </div>
           <span class="text-sm font-bold">{{ headerTitle }}</span>
-          <span class="text-[10px] px-2 py-0.5 rounded-full border" :class="headerBadge.cls">{{
-            headerBadge.text
-          }}</span>
+          <span class="text-[10px] px-2 py-0.5 rounded-full border" :class="headerBadge.cls">
+            {{ headerBadge.text }}
+          </span>
         </div>
         <button
+          type="button"
           class="text-xs text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
           @click="backToLobby"
         >
@@ -258,6 +259,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
           {{ errorState.kind === 'not_found' ? $t('game.notFoundDesc') : $t('game.finishedDesc') }}
         </p>
         <button
+          type="button"
           class="px-6 py-2.5 rounded-xl text-sm font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 inline-flex items-center gap-2"
           @click="router.push('/lobby')"
         >
@@ -302,10 +304,10 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             </div>
             <div class="min-w-0">
               <p class="text-sm font-semibold truncate">
-                {{ displayName(blackName, blackFallback)
-                }}<span v-if="myColor === 'BLACK'" class="text-gold">{{
-                  $t('common.youSuffix')
-                }}</span>
+                {{ displayName(blackName, blackFallback) }}
+                <span v-if="myColor === 'BLACK'" class="text-gold">
+                  {{ $t('common.youSuffix') }}
+                </span>
               </p>
               <p
                 class="text-[10px]"
@@ -370,10 +372,10 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             </div>
             <div class="min-w-0">
               <p class="text-sm font-semibold truncate">
-                {{ displayName(whiteName, whiteFallback)
-                }}<span v-if="myColor === 'WHITE'" class="text-gold">{{
-                  $t('common.youSuffix')
-                }}</span>
+                {{ displayName(whiteName, whiteFallback) }}
+                <span v-if="myColor === 'WHITE'" class="text-gold">
+                  {{ $t('common.youSuffix') }}
+                </span>
               </p>
               <p
                 class="text-[10px]"
@@ -458,12 +460,12 @@ const whiteFallback = computed(() => t('common.whiteSide'))
           class="mt-4 backdrop-blur-xl bg-glass border border-glass-border rounded-xl px-4 py-3 w-full max-w-[448px]"
         >
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-              $t('game.moveLog')
-            }}</span>
-            <span class="text-[10px] text-text-secondary">{{
-              $t('game.recentN', { n: recentMoves.length })
-            }}</span>
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('game.moveLog') }}
+            </span>
+            <span class="text-[10px] text-text-secondary">
+              {{ $t('game.recentN', { n: recentMoves.length }) }}
+            </span>
           </div>
           <div v-if="recentMoves.length === 0" class="text-xs text-text-secondary text-center py-1">
             {{ isMyTurn ? $t('game.yourTurn') : $t('game.waitingMove') }}
@@ -504,6 +506,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
           <div class="grid grid-cols-2 gap-2">
             <button
               v-if="status === 'playing'"
+              type="button"
               class="py-2 px-3 rounded-lg text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 transition-all flex items-center justify-center gap-1"
               @click="game.resign()"
             >
@@ -512,6 +515,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             <template v-if="status === 'playing'">
               <button
                 v-if="drawRequestedBy !== null"
+                type="button"
                 class="py-2 px-3 rounded-lg text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all flex items-center justify-center gap-1"
                 @click="game.respondDraw(true)"
               >
@@ -519,6 +523,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               </button>
               <button
                 v-if="drawRequestedBy !== null"
+                type="button"
                 class="py-2 px-3 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all flex items-center justify-center gap-1"
                 @click="game.respondDraw(false)"
               >
@@ -527,6 +532,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               <!-- 求和：仅人人对局（AI 无接受/拒绝求和逻辑，人机局该按钮为死按钮，故隐藏） -->
               <button
                 v-if="drawRequestedBy === null && !isAiGame"
+                type="button"
                 class="py-2 px-3 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all flex items-center justify-center gap-1"
                 @click="game.requestDraw()"
               >
@@ -534,6 +540,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               </button>
               <!-- 悔棋/提示：仅人机对局可用（T12，F-E-02/03） -->
               <button
+                type="button"
                 :disabled="!isAiGame || !isMyTurn"
                 :title="isAiGame ? $t('game.undoTitle') : $t('game.undoDisabledTitle')"
                 class="py-2 px-3 rounded-lg text-[11px] font-medium bg-glass border border-glass-border transition-all flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -547,6 +554,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
                 <Undo2 class="w-3 h-3" />{{ $t('game.undo') }}
               </button>
               <button
+                type="button"
                 :disabled="!isAiGame || !isMyTurn"
                 :title="isAiGame ? $t('game.hintTitle') : $t('game.hintDisabledTitle')"
                 class="py-2 px-3 rounded-lg text-[11px] font-medium border transition-all flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -591,16 +599,18 @@ const whiteFallback = computed(() => t('common.whiteSide'))
                   v-if="rematchRequestedBy"
                   class="w-full p-3 rounded-xl bg-gold/10 border border-gold/30 flex items-center gap-2"
                 >
-                  <span class="flex-1 text-xs text-gold">{{
-                    $t('game.rematchRequest', { name: rematchRequestedBy.username })
-                  }}</span>
+                  <span class="flex-1 text-xs text-gold">
+                    {{ $t('game.rematchRequest', { name: rematchRequestedBy.username }) }}
+                  </span>
                   <button
+                    type="button"
                     class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all"
                     @click="game.respondRematch(true)"
                   >
                     {{ $t('common.accept') }}
                   </button>
                   <button
+                    type="button"
                     class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
                     @click="game.respondRematch(false)"
                   >
@@ -608,6 +618,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
                   </button>
                 </div>
                 <button
+                  type="button"
                   class="w-full py-3.5 rounded-xl font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
                   @click="router.push('/lobby')"
                 >
@@ -616,16 +627,17 @@ const whiteFallback = computed(() => t('common.whiteSide'))
                 <!-- 再战（T17，F-E-16）：仅人人对局 -->
                 <button
                   v-if="!isAiGame"
+                  type="button"
                   :disabled="rematchWaiting"
                   class="w-full py-3 rounded-xl font-medium text-text-primary border border-glass-border hover:border-gold/30 transition-all flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                   @click="game.requestRematch()"
                 >
-                  <RotateCcw class="w-4 h-4" />{{
-                    rematchWaiting ? $t('game.rematchWaiting') : $t('game.rematch')
-                  }}
+                  <RotateCcw class="w-4 h-4" />
+                  {{ rematchWaiting ? $t('game.rematchWaiting') : $t('game.rematch') }}
                 </button>
                 <!-- 复盘（T15，F-E-09）：跳转复盘查看器 -->
                 <button
+                  type="button"
                   class="w-full py-3 rounded-xl font-medium text-text-primary border border-glass-border hover:border-gold/30 transition-all flex items-center justify-center gap-2 text-sm"
                   @click="router.push(`/replay/${gameId}`)"
                 >
@@ -674,12 +686,12 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             <!-- 恢复进度 -->
             <div class="mb-5">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-                  $t('game.replayProgress')
-                }}</span>
-                <span class="text-xs font-bold text-gold font-mono">{{
-                  $t('game.movesUnit', { n: moveLog.length })
-                }}</span>
+                <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+                  {{ $t('game.replayProgress') }}
+                </span>
+                <span class="text-xs font-bold text-gold font-mono">
+                  {{ $t('game.movesUnit', { n: moveLog.length }) }}
+                </span>
               </div>
               <div class="relative h-2 rounded-full bg-[rgba(255,255,255,0.08)] overflow-hidden">
                 <div

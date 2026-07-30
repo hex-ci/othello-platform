@@ -89,7 +89,9 @@ function nameTag(name: string, isYou: boolean): string {
             >
               <span class="text-xl font-bold text-white">{{ $t('result.blackPiece') }}</span>
             </div>
-            <div v-if="result === 'BLACK' && !isDraw" class="absolute -top-2 -right-2 px-2 py-0.5 rounded-full bg-gold text-[9px] font-bold text-[#0f1117]">WIN</div>
+            <div v-if="result === 'BLACK' && !isDraw" class="absolute -top-2 -right-2 px-2 py-0.5 rounded-full bg-gold text-[9px] font-bold text-[#0f1117]">
+              WIN
+            </div>
           </div>
           <p class="text-sm font-bold" :class="blackIsYou ? '' : 'text-text-secondary'">{{ nameTag(blackName, blackIsYou) }}</p>
           <p class="text-[10px] text-text-secondary mt-0.5">{{ $t('result.playBlackFirst') }}</p>
@@ -117,7 +119,9 @@ function nameTag(name: string, isYou: boolean): string {
             >
               <span class="text-xl font-bold text-gray-700">{{ $t('result.whitePiece') }}</span>
             </div>
-            <div v-if="result === 'WHITE' && !isDraw" class="absolute -top-2 -right-2 px-2 py-0.5 rounded-full bg-gold text-[9px] font-bold text-[#0f1117]">WIN</div>
+            <div v-if="result === 'WHITE' && !isDraw" class="absolute -top-2 -right-2 px-2 py-0.5 rounded-full bg-gold text-[9px] font-bold text-[#0f1117]">
+              WIN
+            </div>
           </div>
           <p class="text-sm font-bold" :class="!blackIsYou ? '' : 'text-text-secondary'">{{ nameTag(whiteName, !blackIsYou) }}</p>
           <p class="text-[10px] text-text-secondary mt-0.5">{{ $t('result.playWhiteSecond') }}</p>

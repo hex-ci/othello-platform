@@ -124,16 +124,18 @@ onMounted(() => {
         class="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center gap-3"
       >
         <Swords class="w-5 h-5 text-amber-400 flex-shrink-0" />
-        <span class="flex-1 text-sm text-amber-200">{{
-          $t('friends.challengeIncoming', { name: incomingChallenge.fromUsername })
-        }}</span>
+        <span class="flex-1 text-sm text-amber-200">
+          {{ $t('friends.challengeIncoming', { name: incomingChallenge.fromUsername }) }}
+        </span>
         <button
+          type="button"
           class="px-4 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all"
           @click="respondChallenge(true)"
         >
           {{ $t('common.accept') }}
         </button>
         <button
+          type="button"
           class="px-4 py-1.5 rounded-lg text-xs font-medium bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all"
           @click="respondChallenge(false)"
         >
@@ -147,38 +149,37 @@ onMounted(() => {
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
         <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
           <div class="flex items-center gap-2 mb-2">
-            <Users class="w-4 h-4 text-gold" /><span
-              class="text-[10px] uppercase tracking-wider text-text-secondary"
-            >{{ $t('friends.statTotal') }}</span
-            >
+            <Users class="w-4 h-4 text-gold" />
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('friends.statTotal') }}
+            </span>
           </div>
           <p class="text-2xl font-bold font-mono">{{ friends.length }}</p>
         </div>
         <div class="backdrop-blur-xl bg-glass border border-emerald-500/20 rounded-2xl p-5">
           <div class="flex items-center gap-2 mb-2">
-            <span
-              class="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40"
-            ></span><span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-              $t('friends.statOnline')
-            }}</span>
+            <span class="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40"></span>
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('friends.statOnline') }}
+            </span>
           </div>
           <p class="text-2xl font-bold text-emerald-400 font-mono">{{ onlineFriends.length }}</p>
         </div>
         <div class="backdrop-blur-xl bg-glass border border-amber-500/20 rounded-2xl p-5">
           <div class="flex items-center gap-2 mb-2">
-            <UserPlus class="w-4 h-4 text-amber-400" /><span
-              class="text-[10px] uppercase tracking-wider text-text-secondary"
-            >{{ $t('friends.statPending') }}</span
-            >
+            <UserPlus class="w-4 h-4 text-amber-400" />
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('friends.statPending') }}
+            </span>
           </div>
           <p class="text-2xl font-bold text-amber-400 font-mono">{{ requests.length }}</p>
         </div>
         <div class="backdrop-blur-xl bg-glass border border-rose-500/20 rounded-2xl p-5">
           <div class="flex items-center gap-2 mb-2">
-            <Ban class="w-4 h-4 text-rose-400" /><span
-              class="text-[10px] uppercase tracking-wider text-text-secondary"
-            >{{ $t('friends.statBlocked') }}</span
-            >
+            <Ban class="w-4 h-4 text-rose-400" />
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('friends.statBlocked') }}
+            </span>
           </div>
           <p class="text-2xl font-bold text-rose-400 font-mono">{{ blocked.length }}</p>
         </div>
@@ -196,23 +197,24 @@ onMounted(() => {
           @keydown.enter="onAdd"
         >
         <button
+          type="button"
           class="px-4 py-2 rounded-xl text-xs font-medium text-[#0f1117] bg-gradient-to-r from-gold to-gold-light transition-all flex items-center gap-1.5 disabled:opacity-50"
           :disabled="adding"
           @click="onAdd"
         >
-          <UserPlus class="w-3.5 h-3.5" />{{
-            adding ? $t('friends.addSending') : $t('friends.addFriend')
-          }}
+          <UserPlus class="w-3.5 h-3.5" />
+          {{ adding ? $t('friends.addSending') : $t('friends.addFriend') }}
         </button>
         <span v-if="addError" class="text-[11px] text-rose-400">{{ addError }}</span>
-        <span v-else-if="addOk" class="text-[11px] text-emerald-400 flex items-center gap-1"
-        ><Check class="w-3 h-3" />{{ addOk }}</span
-        >
+        <span v-else-if="addOk" class="text-[11px] text-emerald-400 flex items-center gap-1">
+          <Check class="w-3 h-3" />{{ addOk }}
+        </span>
       </div>
 
       <!-- 标签页 -->
       <div class="flex items-center gap-1 mb-6 border-b border-glass-border">
         <button
+          type="button"
           class="px-4 py-2.5 text-sm font-medium transition-colors flex items-center gap-2"
           :class="
             tab === 'friends'
@@ -222,11 +224,12 @@ onMounted(() => {
           @click="tab = 'friends'"
         >
           {{ $t('friends.tabFriends') }}
-          <span class="text-[9px] bg-gold/20 text-gold px-1.5 py-0.5 rounded-full">{{
-            friends.length
-          }}</span>
+          <span class="text-[9px] bg-gold/20 text-gold px-1.5 py-0.5 rounded-full">
+            {{ friends.length }}
+          </span>
         </button>
         <button
+          type="button"
           class="px-4 py-2.5 text-sm font-medium transition-colors flex items-center gap-2"
           :class="
             tab === 'requests'
@@ -236,11 +239,12 @@ onMounted(() => {
           @click="tab = 'requests'"
         >
           {{ $t('friends.tabRequests') }}
-          <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full">{{
-            requests.length + sent.length
-          }}</span>
+          <span class="text-[9px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded-full">
+            {{ requests.length + sent.length }}
+          </span>
         </button>
         <button
+          type="button"
           class="px-4 py-2.5 text-sm font-medium transition-colors flex items-center gap-2"
           :class="
             tab === 'blocked'
@@ -250,9 +254,9 @@ onMounted(() => {
           @click="tab = 'blocked'"
         >
           {{ $t('friends.tabBlocked') }}
-          <span class="text-[9px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded-full">{{
-            blocked.length
-          }}</span>
+          <span class="text-[9px] bg-rose-500/20 text-rose-400 px-1.5 py-0.5 rounded-full">
+            {{ blocked.length }}
+          </span>
         </button>
       </div>
 
@@ -306,18 +310,17 @@ onMounted(() => {
                   </div>
                   <div class="flex gap-1.5">
                     <button
+                      type="button"
                       :disabled="challengingId === f.userId"
                       :title="$t('friends.inviteTitle')"
                       class="px-3 py-1.5 rounded-lg text-[10px] font-medium bg-gold/10 text-gold border border-gold/20 hover:bg-gold/20 transition-all flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                       @click="sendChallenge(f.userId)"
                     >
-                      <Swords class="w-3 h-3" />{{
-                        challengingId === f.userId
-                          ? $t('friends.inviteWaiting')
-                          : $t('friends.invite')
-                      }}
+                      <Swords class="w-3 h-3" />
+                      {{ challengingId === f.userId ? $t('friends.inviteWaiting') : $t('friends.invite') }}
                     </button>
                     <button
+                      type="button"
                       class="p-1.5 rounded-lg bg-glass text-text-secondary border border-glass-border hover:text-rose-400 transition-all"
                       :title="$t('friends.blockTitle')"
                       @click="store.block(f.userId)"
@@ -361,6 +364,7 @@ onMounted(() => {
                     <p class="text-[10px] text-text-secondary">{{ $t('common.offline') }}</p>
                   </div>
                   <button
+                    type="button"
                     class="p-1.5 rounded-lg bg-glass text-text-secondary border border-glass-border hover:text-rose-400 transition-all"
                     :title="$t('friends.blockTitle')"
                     @click="store.block(f.userId)"
@@ -408,12 +412,14 @@ onMounted(() => {
               </div>
               <div class="flex gap-2">
                 <button
+                  type="button"
                   class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all flex items-center gap-1"
                   @click="store.accept(r.userId)"
                 >
                   <Check class="w-3 h-3" />{{ $t('common.accept') }}
                 </button>
                 <button
+                  type="button"
                   class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all flex items-center gap-1"
                   @click="store.reject(r.userId)"
                 >
@@ -455,6 +461,7 @@ onMounted(() => {
                 <p class="text-[10px] text-amber-400/80">{{ $t('friends.waitingAccept') }}</p>
               </div>
               <button
+                type="button"
                 class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border hover:text-rose-400 hover:border-rose-500/20 transition-all flex items-center gap-1"
                 @click="store.cancel(s.userId)"
               >
@@ -488,6 +495,7 @@ onMounted(() => {
             <p class="text-[10px] text-text-secondary">{{ $t('friends.blockedNote') }}</p>
           </div>
           <button
+            type="button"
             class="px-3 py-1.5 rounded-lg text-[10px] font-medium bg-glass text-text-secondary border border-glass-border hover:text-text-primary transition-all"
             @click="store.unblock(b.userId)"
           >

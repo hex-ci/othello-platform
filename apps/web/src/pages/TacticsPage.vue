@@ -274,6 +274,7 @@ onUnmounted(() => {
               <button
                 v-for="d in DIFFICULTIES"
                 :key="d.label"
+                type="button"
                 class="w-full flex items-center justify-between px-3 py-2 rounded-lg transition-colors text-xs"
                 :class="
                   filter.difficulty === d.value
@@ -286,9 +287,9 @@ onUnmounted(() => {
                   <span class="w-2 h-2 rounded-full" :class="d.color"></span>
                   {{ d.label }}
                 </span>
-                <span class="text-[9px] text-text-secondary">{{
-                  d.value ? diffCounts[d.value] : totalCount
-                }}</span>
+                <span class="text-[9px] text-text-secondary">
+                  {{ d.value ? diffCounts[d.value] : totalCount }}
+                </span>
               </button>
             </div>
           </div>
@@ -302,6 +303,7 @@ onUnmounted(() => {
               <button
                 v-for="tp in TOPICS"
                 :key="tp.value"
+                type="button"
                 class="text-[10px] px-2 py-1 rounded-full border transition-colors cursor-pointer"
                 :class="
                   filter.topic === tp.value
@@ -404,6 +406,7 @@ onUnmounted(() => {
                       <button
                         v-for="i in 64"
                         :key="i"
+                        type="button"
                         class="w-[48px] h-[48px] bg-board-green border border-board-dark flex items-center justify-center transition-colors"
                         :class="
                           legalSet.has(i - 1) && !attemptResult
@@ -443,9 +446,9 @@ onUnmounted(() => {
                 <div
                   class="flex items-center gap-3 bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl px-4 py-3"
                 >
-                  <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-                    $t('tactics.yourChoice')
-                  }}</span>
+                  <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+                    {{ $t('tactics.yourChoice') }}
+                  </span>
                   <div
                     class="w-4 h-4 rounded-full"
                     :class="
@@ -454,14 +457,15 @@ onUnmounted(() => {
                         : 'bg-gradient-to-br from-white to-gray-200'
                     "
                   ></div>
-                  <span v-if="answerPos" class="text-sm font-bold text-gold font-mono">{{
-                    posLabel(answerPos)
-                  }}</span>
-                  <span v-else class="text-xs text-text-secondary">{{
-                    $t('tactics.clickToPlace')
-                  }}</span>
+                  <span v-if="answerPos" class="text-sm font-bold text-gold font-mono">
+                    {{ posLabel(answerPos) }}
+                  </span>
+                  <span v-else class="text-xs text-text-secondary">
+                    {{ $t('tactics.clickToPlace') }}
+                  </span>
                   <button
                     v-if="!attemptResult && answerPos"
+                    type="button"
                     class="ml-auto text-[10px] text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
                     @click="tactics.clearAnswer()"
                   >
@@ -470,6 +474,7 @@ onUnmounted(() => {
                 </div>
                 <div class="flex gap-3">
                   <button
+                    type="button"
                     class="flex-1 py-3 rounded-xl font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     :disabled="!answerPos || !!attemptResult"
                     @click="onSubmit()"
@@ -477,6 +482,7 @@ onUnmounted(() => {
                     <Check class="w-4 h-4" />{{ $t('tactics.submit') }}
                   </button>
                   <button
+                    type="button"
                     class="px-5 py-3 rounded-xl font-medium border transition-all text-sm flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                     :class="
                       showHint && !attemptResult
@@ -489,6 +495,7 @@ onUnmounted(() => {
                     <Lightbulb class="w-4 h-4" />{{ $t('tactics.hint') }}
                   </button>
                   <button
+                    type="button"
                     class="px-5 py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:text-text-primary transition-all text-sm flex items-center gap-2"
                     @click="tactics.skip()"
                   >
@@ -546,6 +553,7 @@ onUnmounted(() => {
                   </p>
                 </div>
                 <button
+                  type="button"
                   class="ml-auto px-3 py-1.5 rounded-lg text-[11px] font-medium bg-glass text-text-secondary border border-glass-border hover:bg-[rgba(255,255,255,0.08)] transition-all flex items-center gap-1"
                   @click="showExplanation = !showExplanation"
                 >
@@ -561,6 +569,7 @@ onUnmounted(() => {
                 {{ currentPuzzle.explanation }}
               </div>
               <button
+                type="button"
                 class="w-full mt-4 py-2.5 rounded-xl font-medium text-sm bg-glass border border-glass-border hover:border-gold/30 transition-colors"
                 @click="onNextPuzzle()"
               >
@@ -624,6 +633,7 @@ onUnmounted(() => {
               <button
                 v-for="(a, i) in recentAttempts.slice(0, 5)"
                 :key="i"
+                type="button"
                 class="w-full flex items-center gap-3 text-xs rounded-lg px-2 py-1.5 -mx-2 transition-colors hover:bg-[rgba(255,255,255,0.04)] cursor-pointer text-left"
                 :title="$t('tactics.retryTitle')"
                 @click="tactics.retryPuzzle(a.puzzleId)"
@@ -635,15 +645,16 @@ onUnmounted(() => {
                   <Check v-if="a.correct" class="w-3 h-3 text-emerald-400" />
                   <X v-else class="w-3 h-3 text-rose-400" />
                 </span>
-                <span class="flex-1 truncate">{{
-                  $t('tactics.puzzleN', { n: a.puzzleNo ?? a.puzzleId })
-                }}</span>
+                <span class="flex-1 truncate">
+                  {{ $t('tactics.puzzleN', { n: a.puzzleNo ?? a.puzzleId }) }}
+                </span>
                 <span
                   v-if="a.rating"
                   class="text-[9px]"
                   :class="a.correct ? 'text-emerald-400' : 'text-rose-400'"
-                >{{ a.rating }}</span
                 >
+                  {{ a.rating }}
+                </span>
                 <span v-else class="text-[9px] text-gold">{{ $t('tactics.retry') }}</span>
               </button>
             </div>
@@ -655,9 +666,9 @@ onUnmounted(() => {
           >
             <div class="flex items-center gap-2 mb-3">
               <Flame class="w-4 h-4 text-orange-400" />
-              <span class="text-xs font-semibold text-orange-400">{{
-                $t('tactics.streakReward')
-              }}</span>
+              <span class="text-xs font-semibold text-orange-400">
+                {{ $t('tactics.streakReward') }}
+              </span>
             </div>
             <p class="text-[10px] text-text-secondary mb-3">{{ $t('tactics.streak', { n: 7 }) }}</p>
             <div class="flex items-center justify-between text-[10px]">

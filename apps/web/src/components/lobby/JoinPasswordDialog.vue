@@ -69,9 +69,9 @@ function cancel() {
 
           <form class="space-y-4" @submit.prevent="submit">
             <div>
-              <label class="block text-sm text-text-secondary mb-1" for="join-room-password">{{
-                $t('createRoom.password')
-              }}</label>
+              <label class="block text-sm text-text-secondary mb-1" for="join-room-password">
+                {{ $t('createRoom.password') }}
+              </label>
               <input
                 id="join-room-password"
                 v-model="password"

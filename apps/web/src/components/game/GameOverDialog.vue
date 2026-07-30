@@ -30,6 +30,7 @@ const visible = computed(() => store.gameStatus === 'finished' && store.result !
             :move-count="store.moveHistory.length"
           >
             <button
+              type="button"
               class="w-full py-3.5 rounded-xl font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
               @click="store.newGame()"
             >

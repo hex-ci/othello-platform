@@ -101,21 +101,25 @@ function goPlayOffline() {
         <div class="flex items-center justify-center gap-2 mt-3">
           <span
             class="text-[10px] px-2.5 py-1 rounded-full bg-board-green/15 text-emerald-400 border border-board-green/30"
-          >{{ $t('login.tagNoInstall') }}</span
           >
+            {{ $t('login.tagNoInstall') }}
+          </span>
           <span
             class="text-[10px] px-2.5 py-1 rounded-full bg-gold/10 text-gold border border-gold/20"
-          >{{ $t('login.tagRealtime') }}</span
           >
+            {{ $t('login.tagRealtime') }}
+          </span>
           <span
             class="text-[10px] px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20"
-          >{{ $t('login.tagAi') }}</span
           >
+            {{ $t('login.tagAi') }}
+          </span>
         </div>
       </div>
 
       <!-- 马上玩 -->
       <button
+        type="button"
         class="w-full py-4 rounded-2xl font-bold text-lg text-[#0f1117] bg-gradient-to-r from-gold to-gold-light mb-5 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 animate-[glow-play_3s_ease-in-out_infinite]"
         @click="goPlayOffline"
       >
@@ -131,8 +135,9 @@ function goPlayOffline() {
             <label
               for="username"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-            >{{ $t('login.username') }}</label
             >
+              {{ $t('login.username') }}
+            </label>
             <div class="relative">
               <User
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
@@ -151,8 +156,9 @@ function goPlayOffline() {
             <label
               for="password"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-            >{{ $t('login.password') }}</label
             >
+              {{ $t('login.password') }}
+            </label>
             <div class="relative">
               <Lock
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
@@ -186,9 +192,9 @@ function goPlayOffline() {
               </span>
               <span class="text-xs text-text-secondary">{{ $t('login.remember') }}</span>
             </button>
-            <a href="#" class="text-xs text-gold/70 hover:text-gold transition-colors">{{
-              $t('login.forgot')
-            }}</a>
+            <a href="#" class="text-xs text-gold/70 hover:text-gold transition-colors">
+              {{ $t('login.forgot') }}
+            </a>
           </div>
 
           <p v-if="error" class="text-red-400 text-sm">{{ error }}</p>
@@ -209,6 +215,7 @@ function goPlayOffline() {
         </div>
 
         <button
+          type="button"
           class="w-full py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-text-secondary/30 hover:text-text-primary transition-all duration-300 flex items-center justify-center gap-2"
           @click="goPlayOffline"
         >
@@ -217,9 +224,9 @@ function goPlayOffline() {
 
         <p class="text-center mt-5 text-text-secondary text-sm">
           {{ $t('login.noAccount') }}
-          <RouterLink to="/register" class="text-gold hover:text-gold-light transition-colors">{{
-            $t('login.registerAccount')
-          }}</RouterLink>
+          <RouterLink to="/register" class="text-gold hover:text-gold-light transition-colors">
+            {{ $t('login.registerAccount') }}
+          </RouterLink>
         </p>
       </div>
 

@@ -161,25 +161,30 @@ function clearPassword() {
           <span class="text-sm font-semibold hidden sm:inline">{{ $t('room.roomLobby') }}</span>
           <span
             class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/15 text-amber-400 border border-amber-500/25"
-          >{{ $t('room.waiting') }}</span
           >
+            {{ $t('room.waiting') }}
+          </span>
         </div>
         <div class="flex items-center gap-2 shrink-0">
           <button
+            type="button"
             class="px-3 py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
             @click="shareInvite"
           >
-            <Share2 class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
-              $t('room.invite')
-            }}</span>
+            <Share2 class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">
+              {{ $t('room.invite') }}
+            </span>
           </button>
           <button
+            type="button"
             class="px-3 py-1.5 rounded-lg text-[11px] font-medium text-rose-400 border border-rose-500/25 bg-rose-500/5 hover:bg-rose-500/15 transition-colors flex items-center gap-1.5"
             @click="leaveRoom"
           >
-            <LogOut class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
-              $t('room.leave')
-            }}</span>
+            <LogOut class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">
+              {{ $t('room.leave') }}
+            </span>
           </button>
         </div>
       </div>
@@ -225,6 +230,7 @@ function clearPassword() {
           }}
         </p>
         <button
+          type="button"
           class="px-6 py-2.5 rounded-xl text-sm font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 inline-flex items-center gap-2"
           @click="router.push('/lobby')"
         >
@@ -249,9 +255,9 @@ function clearPassword() {
               <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
                 <h1 class="text-lg font-bold">{{ roomName || $t('room.title') }}</h1>
                 <Lock class="w-3.5 h-3.5 text-amber-400/70" :title="$t('room.private')" />
-                <span class="text-[10px] text-text-secondary">{{
-                  $t('room.number', { id: roomId ?? roomIdParam })
-                }}</span>
+                <span class="text-[10px] text-text-secondary">
+                  {{ $t('room.number', { id: roomId ?? roomIdParam }) }}
+                </span>
               </div>
               <p class="text-xs text-text-secondary mt-0.5">
                 {{
@@ -298,9 +304,9 @@ function clearPassword() {
                       class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 border-4 flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
                       :class="blackReady ? 'border-emerald-400/60' : 'border-glass-border'"
                     >
-                      <span class="text-2xl sm:text-3xl font-bold text-white">{{
-                        $t('room.blackMark')
-                      }}</span>
+                      <span class="text-2xl sm:text-3xl font-bold text-white">
+                        {{ $t('room.blackMark') }}
+                      </span>
                     </div>
                     <div
                       v-if="blackReady"
@@ -426,6 +432,7 @@ function clearPassword() {
                   :class="isHost ? 'grid-cols-2' : 'grid-cols-1'"
                 >
                   <button
+                    type="button"
                     class="px-5 py-2.5 rounded-xl text-sm font-medium text-text-secondary border border-glass-border hover:border-text-secondary/40 hover:text-text-primary transition-all"
                     @click="toggleReady"
                   >
@@ -433,6 +440,7 @@ function clearPassword() {
                   </button>
                   <button
                     v-if="isHost"
+                    type="button"
                     :disabled="!bothSeated || !bothReady"
                     class="px-5 sm:px-7 py-2.5 rounded-xl text-sm font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                     @click="startGame"
@@ -490,6 +498,7 @@ function clearPassword() {
                   </div>
                   <button
                     v-if="isHost"
+                    type="button"
                     :disabled="settingsLocked || !bothSeated"
                     class="px-3 py-1 rounded-full text-[11px] font-medium bg-gold/10 text-gold border border-gold/20 hover:bg-gold/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
                     @click="swapColors"
@@ -510,6 +519,7 @@ function clearPassword() {
                   </div>
                   <button
                     v-if="isHost"
+                    type="button"
                     :disabled="settingsLocked"
                     class="w-11 h-6 rounded-full p-0.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
                     :class="spectatable ? 'bg-board-green' : 'bg-glass-border'"
@@ -539,8 +549,7 @@ function clearPassword() {
                     </p>
                   </div>
                   <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
-                    <span class="text-xs font-mono text-text-secondary tracking-widest"
-                    >●●●●●●</span>
+                    <span class="text-xs font-mono text-text-secondary tracking-widest">●●●●●●</span>
                     <template v-if="isHost">
                       <input
                         v-if="showPasswordInput"
@@ -553,6 +562,7 @@ function clearPassword() {
                       >
                       <button
                         v-if="showPasswordInput"
+                        type="button"
                         class="text-[11px] text-emerald-400 hover:text-emerald-300 transition-colors"
                         @click="applyPassword"
                       >
@@ -560,12 +570,14 @@ function clearPassword() {
                       </button>
                       <button
                         v-else
+                        type="button"
                         class="text-[11px] text-gold/70 hover:text-gold transition-colors flex items-center gap-1"
                         @click="showPasswordInput = true"
                       >
                         <Copy class="w-3 h-3" />{{ $t('room.editPassword') }}
                       </button>
                       <button
+                        type="button"
                         class="text-[11px] text-rose-400/70 hover:text-rose-400 transition-colors"
                         @click="clearPassword"
                       >
@@ -586,9 +598,9 @@ function clearPassword() {
                     {{ $t('room.spectateSeat') }}
                   </h2>
                 </div>
-                <span class="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">{{
-                  $t('room.spectators', { n: spectatorCount })
-                }}</span>
+                <span class="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">
+                  {{ $t('room.spectators', { n: spectatorCount }) }}
+                </span>
               </div>
               <div v-if="spectatorCount === 0" class="text-xs text-text-secondary text-center py-3">
                 {{ $t('room.noSpectators') }}

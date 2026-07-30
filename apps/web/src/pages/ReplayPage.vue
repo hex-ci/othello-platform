@@ -163,8 +163,9 @@ onUnmounted(() => {
           </div>
           <span
             class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-purple-500/15 text-purple-400 border border-purple-500/25"
-          >{{ $t('replay.modeBadge') }}</span
           >
+            {{ $t('replay.modeBadge') }}
+          </span>
         </div>
 
         <!-- 中：对局信息 -->
@@ -176,9 +177,9 @@ onUnmounted(() => {
             <span class="font-semibold">{{ whiteName ?? $t('common.whiteSide') }}</span>
             <span class="text-text-secondary">（{{ $t('common.white') }}）</span>
             <span class="text-text-secondary mx-2">·</span>
-            <span class="text-text-secondary">{{
-              game.mode === 'human_vs_ai' ? $t('replay.aiMode') : $t('replay.humanMode')
-            }}</span>
+            <span class="text-text-secondary">
+              {{ game.mode === 'human_vs_ai' ? $t('replay.aiMode') : $t('replay.humanMode') }}
+            </span>
             <span class="text-text-secondary mx-2">·</span>
             <span class="text-text-secondary">{{ $t('result.endAtMove', { n: totalSteps }) }}</span>
           </p>
@@ -188,41 +189,49 @@ onUnmounted(() => {
         <div class="flex items-center gap-1.5 sm:gap-3">
           <button
             v-if="game"
+            type="button"
             class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
             :title="$t('replay.share')"
             @click="shareGame"
           >
-            <Share2 class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
-              $t('replay.share')
-            }}</span>
+            <Share2 class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">
+              {{ $t('replay.share') }}
+            </span>
           </button>
           <button
             v-if="game"
+            type="button"
             class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
             :title="$t('notation.export')"
             @click="exportNotation"
           >
-            <Download class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
-              $t('notation.export')
-            }}</span>
+            <Download class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">
+              {{ $t('notation.export') }}
+            </span>
           </button>
           <button
+            type="button"
             class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors flex items-center gap-1.5"
             :title="$t('notation.import')"
             @click="openImport"
           >
-            <Upload class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
-              $t('notation.import')
-            }}</span>
+            <Upload class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">
+              {{ $t('notation.import') }}
+            </span>
           </button>
           <button
+            type="button"
             class="p-2 sm:px-3 sm:py-1.5 rounded-lg text-xs text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
             :title="$t('common.backToLobby')"
             @click="router.push('/lobby')"
           >
-            <ArrowLeft class="w-3 h-3" /><span class="hidden sm:inline">{{
-              $t('common.backToLobby')
-            }}</span>
+            <ArrowLeft class="w-3 h-3" />
+            <span class="hidden sm:inline">
+              {{ $t('common.backToLobby') }}
+            </span>
           </button>
         </div>
       </div>
@@ -244,12 +253,14 @@ onUnmounted(() => {
         <div v-if="importError" class="text-red-400 text-xs mt-2">{{ importError }}</div>
         <div class="flex gap-3 mt-4">
           <button
+            type="button"
             class="flex-1 py-2.5 rounded-lg font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light text-sm"
             @click="doImport"
           >
             {{ $t('notation.importBtn') }}
           </button>
           <button
+            type="button"
             class="px-4 py-2.5 rounded-lg text-sm text-text-secondary border border-glass-border hover:text-text-primary"
             @click="showImport = false"
           >
@@ -273,6 +284,7 @@ onUnmounted(() => {
         <div v-else-if="error" class="text-center">
           <p class="text-rose-400 mb-4">{{ error }}</p>
           <button
+            type="button"
             class="px-4 py-2 rounded-lg bg-glass border border-glass-border hover:border-gold/30 transition-colors text-sm"
             @click="router.push('/lobby')"
           >
@@ -331,6 +343,7 @@ onUnmounted(() => {
             <!-- 控制按钮 -->
             <div class="flex items-center gap-3">
               <button
+                type="button"
                 class="w-10 h-10 rounded-lg bg-glass border border-glass-border hover:border-gold/30 transition-colors flex items-center justify-center"
                 :disabled="currentStep === 0"
                 @click="replay.goToStart()"
@@ -338,6 +351,7 @@ onUnmounted(() => {
                 <SkipBack class="w-4 h-4" />
               </button>
               <button
+                type="button"
                 class="w-10 h-10 rounded-lg bg-glass border border-glass-border hover:border-gold/30 transition-colors flex items-center justify-center"
                 :disabled="currentStep === 0"
                 @click="replay.stepBack()"
@@ -345,6 +359,7 @@ onUnmounted(() => {
                 <StepBack class="w-4 h-4" />
               </button>
               <button
+                type="button"
                 class="w-12 h-12 rounded-lg bg-gold/10 border border-gold/30 hover:bg-gold/20 transition-colors flex items-center justify-center text-gold"
                 @click="replay.togglePlay()"
               >
@@ -352,6 +367,7 @@ onUnmounted(() => {
                 <Play v-else class="w-5 h-5" />
               </button>
               <button
+                type="button"
                 class="w-10 h-10 rounded-lg bg-glass border border-glass-border hover:border-gold/30 transition-colors flex items-center justify-center"
                 :disabled="currentStep === totalSteps"
                 @click="replay.stepForward()"
@@ -359,6 +375,7 @@ onUnmounted(() => {
                 <StepForward class="w-4 h-4" />
               </button>
               <button
+                type="button"
                 class="w-10 h-10 rounded-lg bg-glass border border-glass-border hover:border-gold/30 transition-colors flex items-center justify-center"
                 :disabled="currentStep === totalSteps"
                 @click="replay.goToEnd()"
@@ -369,6 +386,7 @@ onUnmounted(() => {
 
             <!-- 速度控制 -->
             <button
+              type="button"
               class="px-3 py-1.5 rounded-lg text-xs bg-glass border border-glass-border hover:border-gold/30 transition-colors"
               @click="replay.cycleSpeed()"
             >
@@ -399,9 +417,9 @@ onUnmounted(() => {
             "
             @click="replay.goTo(idx)"
           >
-            <span class="w-10 text-text-secondary font-mono">{{
-              idx === 0 ? $t('replay.start') : idx
-            }}</span>
+            <span class="w-10 text-text-secondary font-mono">
+              {{ idx === 0 ? $t('replay.start') : idx }}
+            </span>
             <template v-if="frame.move">
               <div
                 class="w-3 h-3 rounded-full border flex-shrink-0"
@@ -412,9 +430,9 @@ onUnmounted(() => {
                 "
               ></div>
               <span class="font-mono">{{ formatMove(frame.move) }}</span>
-              <span v-if="frame.move.isPass" class="text-text-secondary text-[10px]">{{
-                $t('replay.noLegal')
-              }}</span>
+              <span v-if="frame.move.isPass" class="text-text-secondary text-[10px]">
+                {{ $t('replay.noLegal') }}
+              </span>
             </template>
             <span v-else class="text-text-secondary">{{ $t('replay.initialPosition') }}</span>
           </div>

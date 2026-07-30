@@ -92,7 +92,9 @@ function initial(name: string): string {
           {{ initial(m.username) }}
         </div>
         <div class="min-w-0">
-          <p class="text-[10px] text-text-secondary mb-1">{{ m.username }} · {{ fmtTime(m.ts) }}</p>
+          <p class="text-[10px] text-text-secondary mb-1">
+            {{ m.username }} · {{ fmtTime(m.ts) }}
+          </p>
           <div
             class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg rounded-tl-none px-3 py-2 text-sm text-text-primary break-words"
           >

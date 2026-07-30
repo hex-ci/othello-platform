@@ -258,6 +258,7 @@ onMounted(() => {
       <div v-else-if="error || !user" class="text-center text-text-secondary text-sm py-20">
         {{ error || $t('profile.notFound') }}
         <button
+          type="button"
           class="block mx-auto mt-4 px-4 py-2 rounded-lg bg-gold/10 text-gold border border-gold/20 text-xs"
           @click="router.push('/lobby')"
         >
@@ -281,6 +282,7 @@ onMounted(() => {
                 </div>
                 <button
                   v-if="isMe"
+                  type="button"
                   disabled
                   :title="$t('profile.editAvatarComingSoon')"
                   class="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#1e2028] border border-glass-border flex items-center justify-center opacity-50 cursor-not-allowed"
@@ -325,20 +327,21 @@ onMounted(() => {
                 :class="tierOf(user.elo).cls"
               >
                 <Shield class="w-4 h-4" />
-                <span class="text-sm font-semibold"
-                >{{ tierOf(user.elo).name }}{{ $t('leaderboard.tierSuffix') }}</span
-                >
+                <span class="text-sm font-semibold">
+                  {{ tierOf(user.elo).name }}{{ $t('leaderboard.tierSuffix') }}
+                </span>
               </div>
             </div>
 
             <!-- 个人简介（v1 占位，DB 无 bio 列） -->
             <div class="mb-6">
               <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-                  $t('profile.bio')
-                }}</span>
+                <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+                  {{ $t('profile.bio') }}
+                </span>
                 <button
                   v-if="isMe"
+                  type="button"
                   disabled
                   :title="$t('profile.editBioComingSoon')"
                   class="text-text-secondary opacity-50 cursor-not-allowed"
@@ -358,6 +361,7 @@ onMounted(() => {
               <!-- 无关系 → 加好友 -->
               <button
                 v-if="relation === 'none'"
+                type="button"
                 class="w-full py-3 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300 hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2"
                 @click="addFriend"
               >
@@ -366,6 +370,7 @@ onMounted(() => {
               <!-- 我发出的请求待对方接受 → 禁用 -->
               <button
                 v-else-if="relation === 'pending-out'"
+                type="button"
                 disabled
                 class="w-full py-3 rounded-xl font-semibold text-text-secondary border border-glass-border opacity-60 cursor-not-allowed text-sm flex items-center justify-center gap-2"
               >
@@ -374,6 +379,7 @@ onMounted(() => {
               <!-- 对方发给我待我接受 -->
               <button
                 v-else-if="relation === 'pending-in'"
+                type="button"
                 class="w-full py-3 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-emerald-500 to-emerald-400 shadow-[0_4px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_30px_rgba(16,185,129,0.5)] transition-all duration-300 hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2"
                 @click="acceptFriend"
               >
@@ -382,11 +388,13 @@ onMounted(() => {
               <!-- 已是好友 → 发起挑战（等待应答时禁用） -->
               <button
                 v-else-if="relation === 'accepted'"
+                type="button"
                 :disabled="challengingId === Number(user.id)"
                 class="w-full py-3 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300 hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                 @click="challengeUser"
               >
-                <Swords class="w-4 h-4" />{{
+                <Swords class="w-4 h-4" />
+                {{
                   challengingId === Number(user.id)
                     ? $t('profile.challengeWaiting')
                     : $t('profile.challenge')
@@ -395,6 +403,7 @@ onMounted(() => {
               <!-- 我屏蔽了对方 → 禁用 -->
               <button
                 v-else-if="relation === 'blocked'"
+                type="button"
                 disabled
                 class="w-full py-3 rounded-xl font-semibold text-text-secondary border border-glass-border opacity-60 cursor-not-allowed text-sm flex items-center justify-center gap-2"
               >
@@ -402,6 +411,7 @@ onMounted(() => {
               </button>
               <!-- 次按钮：发消息（未实现，保留设计稿元素，禁用占位） -->
               <button
+                type="button"
                 disabled
                 :title="$t('common.comingSoon')"
                 class="w-full py-2.5 rounded-xl font-medium text-text-secondary border border-glass-border opacity-50 cursor-not-allowed text-sm flex items-center justify-center gap-2"
@@ -433,6 +443,7 @@ onMounted(() => {
           <!-- Tab Header -->
           <div class="flex items-center gap-1 mb-6 border-b border-glass-border pb-3">
             <button
+              type="button"
               class="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
               :class="
                 tab === 'stats'
@@ -444,6 +455,7 @@ onMounted(() => {
               {{ $t('profile.tabStats') }}
             </button>
             <button
+              type="button"
               class="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
               :class="
                 tab === 'history'
@@ -455,6 +467,7 @@ onMounted(() => {
               {{ $t('profile.tabHistory') }}
             </button>
             <button
+              type="button"
               class="px-4 py-2 text-sm font-medium rounded-lg transition-colors"
               :class="
                 tab === 'badges'
@@ -538,18 +551,18 @@ onMounted(() => {
                 ></div>
               </div>
               <div v-if="eloHistory.length > 0" class="flex justify-between mt-2">
-                <span class="text-[9px] text-text-secondary">{{
-                  eloHistory[eloHistory.length - 1]?.elo
-                }}</span>
+                <span class="text-[9px] text-text-secondary">
+                  {{ eloHistory[eloHistory.length - 1]?.elo }}
+                </span>
                 <span class="text-[9px] text-gold">{{ user.elo }}</span>
               </div>
             </div>
 
             <!-- AI 对战统计 -->
             <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-5 mb-6">
-              <span class="text-xs uppercase tracking-wider text-text-secondary mb-3 block">{{
-                $t('profile.aiStats')
-              }}</span>
+              <span class="text-xs uppercase tracking-wider text-text-secondary mb-3 block">
+                {{ $t('profile.aiStats') }}
+              </span>
               <div v-if="aiStats.length === 0" class="text-text-secondary text-xs text-center py-4">
                 {{ $t('profile.noAiStats') }}
               </div>
@@ -561,9 +574,9 @@ onMounted(() => {
                 >
                   <span class="text-sm text-text-primary">AI L{{ s.aiLevel }}</span>
                   <div class="flex items-center gap-4">
-                    <span class="text-xs text-text-secondary font-mono"
-                    >{{ s.games }} {{ $t('profile.gamesUnit') }}</span
-                    >
+                    <span class="text-xs text-text-secondary font-mono">
+                      {{ s.games }} {{ $t('profile.gamesUnit') }}
+                    </span>
                     <span
                       class="text-xs font-medium font-mono"
                       :class="
@@ -573,8 +586,9 @@ onMounted(() => {
                             ? 'text-[#f1c40f]'
                             : 'text-red-400'
                       "
-                    >{{ s.winRate }}%</span
                     >
+                      {{ s.winRate }}%
+                    </span>
                   </div>
                 </div>
               </div>
@@ -582,9 +596,9 @@ onMounted(() => {
 
             <!-- 最近 7 天活跃度 -->
             <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-5">
-              <span class="text-xs uppercase tracking-wider text-text-secondary mb-3 block">{{
-                $t('profile.activity')
-              }}</span>
+              <span class="text-xs uppercase tracking-wider text-text-secondary mb-3 block">
+                {{ $t('profile.activity') }}
+              </span>
               <div class="flex items-center gap-2">
                 <div
                   v-for="d in last7Days()"
@@ -630,20 +644,22 @@ onMounted(() => {
                       vs
                       <span
                         :class="g.mode === 'human_vs_ai' ? 'text-text-secondary' : 'text-gold'"
-                      >{{ g.opponentName }}</span
                       >
+                        {{ g.opponentName }}
+                      </span>
                     </p>
                     <p class="text-[11px] text-text-secondary">{{ formatDate(g.endedAt) }}</p>
                   </div>
                 </div>
                 <div class="flex items-center gap-6">
-                  <span class="text-sm font-bold text-text-primary font-mono">{{
-                    matchScore(g)
-                  }}</span>
-                  <span class="text-[10px] text-text-secondary">{{
-                    g.mode === 'human_vs_ai' ? $t('profile.aiMode') : $t('profile.pvpMode')
-                  }}</span>
+                  <span class="text-sm font-bold text-text-primary font-mono">
+                    {{ matchScore(g) }}
+                  </span>
+                  <span class="text-[10px] text-text-secondary">
+                    {{ g.mode === 'human_vs_ai' ? $t('profile.aiMode') : $t('profile.pvpMode') }}
+                  </span>
                   <button
+                    type="button"
                     class="px-3 py-1.5 rounded-lg text-[11px] font-medium text-text-secondary border border-glass-border hover:border-gold/30 hover:text-gold transition-colors"
                     @click="goReplay(g.gameId)"
                   >

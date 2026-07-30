@@ -57,6 +57,7 @@ function selectAll() {
               <p class="text-xs text-text-secondary mt-1">{{ $t('copy.fallbackDesc') }}</p>
             </div>
             <button
+              type="button"
               class="text-text-secondary hover:text-text-primary transition-colors p-1 -m-1"
               :aria-label="$t('common.close')"
               @click="emit('close')"
@@ -75,6 +76,7 @@ function selectAll() {
 
           <div class="flex gap-2 mt-4">
             <button
+              type="button"
               class="flex-1 py-2.5 rounded-xl font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 text-sm"
               @click="selectAll"
             >
@@ -83,6 +85,7 @@ function selectAll() {
               {{ selected ? $t('copy.selected') : $t('copy.selectAll') }}
             </button>
             <button
+              type="button"
               class="px-4 py-2.5 rounded-xl border border-glass-border text-text-secondary hover:text-text-primary hover:border-gold/40 transition-colors text-sm"
               @click="emit('close')"
             >

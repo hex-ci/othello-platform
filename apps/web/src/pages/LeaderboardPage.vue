@@ -105,9 +105,9 @@ onMounted(() => {
         <!-- 当前段位 -->
         <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-              $t('season.current')
-            }}</span>
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('season.current') }}
+            </span>
             <span class="text-[10px] text-gold">{{ season.currentSeason.name }}</span>
           </div>
           <div class="flex items-center gap-4">
@@ -132,9 +132,9 @@ onMounted(() => {
         <!-- 赛季信息 -->
         <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-              $t('season.title')
-            }}</span>
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('season.title') }}
+            </span>
             <span
               class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
             >
@@ -158,9 +158,9 @@ onMounted(() => {
         <!-- 徽章墙 -->
         <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
           <div class="flex items-center justify-between mb-3">
-            <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-              $t('badge.title')
-            }}</span>
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('badge.title') }}
+            </span>
             <span class="text-[10px] text-text-secondary">{{ season.badges.length }}/7</span>
           </div>
           <div
@@ -181,9 +181,9 @@ onMounted(() => {
                 class="w-5 h-5"
                 :class="badgeCls(b.badgeType)"
               />
-              <span class="text-[8px] text-text-secondary text-center leading-tight">{{
-                t(`badge.${b.badgeType}`)
-              }}</span>
+              <span class="text-[8px] text-text-secondary text-center leading-tight">
+                {{ t(`badge.${b.badgeType}`) }}
+              </span>
             </div>
           </div>
         </div>
@@ -209,9 +209,9 @@ onMounted(() => {
             <div
               class="w-16 h-16 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center mx-auto"
             >
-              <span class="text-xl font-bold text-gray-700">{{
-                initial(podium.second.username)
-              }}</span>
+              <span class="text-xl font-bold text-gray-700">
+                {{ initial(podium.second.username) }}
+              </span>
             </div>
             <div
               class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-gray-300 border-2 border-[#0f1117] flex items-center justify-center"
@@ -242,9 +242,9 @@ onMounted(() => {
               <div
                 class="w-20 h-20 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center mx-auto border-4 border-gold/30"
               >
-                <span class="text-2xl font-bold text-[#0f1117]">{{
-                  initial(podium.first.username)
-                }}</span>
+                <span class="text-2xl font-bold text-[#0f1117]">
+                  {{ initial(podium.first.username) }}
+                </span>
               </div>
               <div
                 class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gold border-2 border-[#0f1117] flex items-center justify-center"
@@ -272,9 +272,9 @@ onMounted(() => {
             <div
               class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-700 to-amber-800 flex items-center justify-center mx-auto"
             >
-              <span class="text-xl font-bold text-amber-200">{{
-                initial(podium.third.username)
-              }}</span>
+              <span class="text-xl font-bold text-amber-200">
+                {{ initial(podium.third.username) }}
+              </span>
             </div>
             <div
               class="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-amber-700 border-2 border-[#0f1117] flex items-center justify-center"
@@ -301,6 +301,7 @@ onMounted(() => {
           class="flex items-center gap-1 bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl p-1"
         >
           <button
+            type="button"
             class="px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5"
             :class="
               tab === 'elo'
@@ -312,6 +313,7 @@ onMounted(() => {
             <Trophy class="w-3.5 h-3.5" />{{ $t('leaderboard.tabElo') }}
           </button>
           <button
+            type="button"
             class="px-4 py-2 rounded-lg text-xs font-medium transition-colors flex items-center gap-1.5"
             :class="
               tab === 'classic'
@@ -330,12 +332,12 @@ onMounted(() => {
         <div
           class="grid grid-cols-[60px_1fr_120px_120px_120px_100px] gap-4 px-6 py-3 border-b border-glass-border text-[10px] uppercase tracking-wider text-text-secondary"
         >
-          <span>{{ $t('leaderboard.colRank') }}</span
-          ><span>{{ $t('leaderboard.colPlayer') }}</span
-          ><span>{{ by === 'elo' ? $t('leaderboard.colElo') : $t('leaderboard.colClassic') }}</span
-          ><span>{{ $t('leaderboard.colWinrate') }}</span
-          ><span>{{ $t('leaderboard.colGames') }}</span
-          ><span>{{ $t('leaderboard.colTier') }}</span>
+          <span>{{ $t('leaderboard.colRank') }}</span>
+          <span>{{ $t('leaderboard.colPlayer') }}</span>
+          <span>{{ by === 'elo' ? $t('leaderboard.colElo') : $t('leaderboard.colClassic') }}</span>
+          <span>{{ $t('leaderboard.colWinrate') }}</span>
+          <span>{{ $t('leaderboard.colGames') }}</span>
+          <span>{{ $t('leaderboard.colTier') }}</span>
         </div>
         <div v-if="loading" class="px-6 py-8 text-center text-text-secondary text-sm">
           {{ $t('common.loading') }}
@@ -363,15 +365,15 @@ onMounted(() => {
                 <span class="text-[10px] font-bold text-blue-300">{{ initial(e.username) }}</span>
               </div>
               <p class="text-sm font-medium">
-                {{ e.username
-                }}<span v-if="e.id === auth.userId" class="ml-1 text-[9px] text-gold">{{
-                  $t('common.youSuffix')
-                }}</span>
+                {{ e.username }}
+                <span v-if="e.id === auth.userId" class="ml-1 text-[9px] text-gold">
+                  {{ $t('common.youSuffix') }}
+                </span>
               </p>
             </div>
-            <span class="text-sm font-bold font-mono" :class="e.rank <= 3 ? rankCls(e.rank) : ''">{{
-              by === 'elo' ? e.elo : e.classicScore
-            }}</span>
+            <span class="text-sm font-bold font-mono" :class="e.rank <= 3 ? rankCls(e.rank) : ''">
+              {{ by === 'elo' ? e.elo : e.classicScore }}
+            </span>
             <span class="text-xs text-emerald-400 font-mono">{{ e.winRate }}%</span>
             <span class="text-xs text-text-secondary font-mono">{{ e.gamesPlayed }}</span>
             <span

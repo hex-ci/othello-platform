@@ -11,12 +11,12 @@ const store = useGameStore()
 <template>
   <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
     <div class="flex items-center justify-between mb-4">
-      <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-        $t('local.score')
-      }}</span>
-      <span class="text-[10px] text-text-secondary font-mono">{{
-        $t('local.moveNumber', { n: store.moveHistory.length })
-      }}</span>
+      <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+        {{ $t('local.score') }}
+      </span>
+      <span class="text-[10px] text-text-secondary font-mono">
+        {{ $t('local.moveNumber', { n: store.moveHistory.length }) }}
+      </span>
     </div>
     <div class="flex items-center justify-between">
       <!-- 黑（你）—— 当前回合金色脉冲环 -->

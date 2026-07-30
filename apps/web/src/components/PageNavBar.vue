@@ -49,6 +49,7 @@ function onLogout() {
     <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
       <!-- 左：Logo -->
       <button
+        type="button"
         class="flex items-center gap-3 cursor-pointer"
         :title="$t('common.backToLobby')"
         @click="goLobby"
@@ -72,23 +73,24 @@ function onLogout() {
           class="flex items-center gap-2 bg-gold/5 border border-gold/20 rounded-full px-3 py-1.5"
         >
           <Trophy class="w-3 h-3 text-gold" />
-          <span class="text-[11px] text-gold font-medium">{{
-            $t('common.eloRating', { n: me?.elo ?? '-' })
-          }}</span>
+          <span class="text-[11px] text-gold font-medium">
+            {{ $t('common.eloRating', { n: me?.elo ?? '-' }) }}
+          </span>
         </div>
         <div
           class="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full px-3 py-1.5"
         >
           <Star class="w-3 h-3 text-emerald-400" />
-          <span class="text-[11px] text-emerald-400 font-medium">{{
-            $t('common.classicScore', { n: me?.classicScore ?? '-' })
-          }}</span>
+          <span class="text-[11px] text-emerald-400 font-medium">
+            {{ $t('common.classicScore', { n: me?.classicScore ?? '-' }) }}
+          </span>
         </div>
       </div>
 
       <!-- 右：首页 / 大厅 / 设置 / 登出 / 用户区 -->
       <div class="flex items-center gap-2 sm:gap-5 flex-shrink-0">
         <button
+          type="button"
           class="p-2 rounded-lg hover:bg-glass transition-colors"
           :title="$t('common.home')"
           @click="goHome"
@@ -96,6 +98,7 @@ function onLogout() {
           <Home class="w-4 h-4 text-text-secondary" />
         </button>
         <button
+          type="button"
           class="p-2 rounded-lg hover:bg-glass transition-colors"
           :title="$t('common.backToLobby')"
           @click="goLobby"
@@ -103,6 +106,7 @@ function onLogout() {
           <LayoutDashboard class="w-4 h-4 text-text-secondary" />
         </button>
         <button
+          type="button"
           class="p-2 rounded-lg hover:bg-glass transition-colors"
           :title="$t('common.settings')"
           @click="goSettings"
@@ -110,6 +114,7 @@ function onLogout() {
           <Settings class="w-4 h-4 text-text-secondary" />
         </button>
         <button
+          type="button"
           class="p-2 rounded-lg hover:bg-glass transition-colors"
           :title="$t('common.logout')"
           @click="onLogout"
@@ -124,9 +129,9 @@ function onLogout() {
           </div>
           <div class="hidden sm:block">
             <span class="text-sm font-medium">{{ auth.username }}</span>
-            <span v-if="me" class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">{{
-              me.elo
-            }}</span>
+            <span v-if="me" class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">
+              {{ me.elo }}
+            </span>
           </div>
         </div>
       </div>

@@ -100,6 +100,7 @@ function ariaLabel(x: number, y: number, cell: number): string {
       >
         <button
           v-for="cell in cells"
+          type="button"
           :key="`${cell.x}-${cell.y}`"
           :ref="setCellRef(cell.y * 8 + cell.x)"
           class="w-[52px] h-[52px] max-sm:w-[40px] max-sm:h-[40px] bg-board-green border border-board-dark flex items-center justify-center transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-gold/50 focus:ring-inset"

@@ -180,12 +180,14 @@ onUnmounted(() => {
           <div class="flex items-center gap-2 sm:gap-3">
             <div class="hidden sm:block"><LanguageSwitcher /></div>
             <button
+              type="button"
               class="px-3 sm:px-4 py-2 rounded-lg text-xs font-medium text-text-secondary border border-glass-border hover:text-text-primary hover:border-gold/30 transition-all"
               @click="router.push('/login')"
             >
               {{ $t('home.login') }}
             </button>
             <button
+              type="button"
               class="px-3 sm:px-4 py-2 rounded-lg text-xs font-bold bg-gold text-primary hover:bg-gold-light transition-colors"
               @click="router.push('/register')"
             >
@@ -241,6 +243,7 @@ onUnmounted(() => {
 
             <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mt-9">
               <button
+                type="button"
                 class="group flex items-center gap-3 px-7 py-4 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light hover:-translate-y-0.5 transition-all shadow-[0_8px_32px_rgba(212,168,67,0.28)]"
                 @click="router.push('/local')"
               >
@@ -249,6 +252,7 @@ onUnmounted(() => {
                 <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
+                type="button"
                 class="px-6 py-4 rounded-xl text-sm font-medium text-text-primary border border-glass-border bg-glass hover:border-gold/40 hover:text-gold transition-all"
                 @click="router.push('/register')"
               >
@@ -261,6 +265,7 @@ onUnmounted(() => {
               <Zap class="w-3 h-3 text-gold/70" />
               {{ $t('home.noSignupHint') }}
               <button
+                type="button"
                 class="text-gold/90 hover:text-gold underline underline-offset-2"
                 @click="router.push('/login')"
               >
@@ -400,9 +405,9 @@ onUnmounted(() => {
             <!-- 快速开局 -->
             <section class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
               <div class="flex items-center justify-between mb-4">
-                <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-                  $t('home.quickStart')
-                }}</span>
+                <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+                  {{ $t('home.quickStart') }}
+                </span>
                 <Swords class="w-3.5 h-3.5 text-gold/60" />
               </div>
 
@@ -439,6 +444,7 @@ onUnmounted(() => {
                     />
                   </div>
                   <button
+                    type="button"
                     class="px-5 py-2.5 rounded-lg text-xs font-bold bg-gold text-primary hover:bg-gold-light transition-colors"
                     @click="quickAi"
                   >
@@ -450,6 +456,7 @@ onUnmounted(() => {
               <!-- 次级入口行 -->
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                 <button
+                  type="button"
                   class="group flex flex-col items-start gap-2.5 p-4 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-emerald-500/35 hover:bg-emerald-500/5 transition-all text-left"
                   @click="showCreate = true"
                 >
@@ -463,6 +470,7 @@ onUnmounted(() => {
                 </button>
                 <button
                   v-if="lobby.matchStatus !== 'queuing'"
+                  type="button"
                   class="group flex flex-col items-start gap-2.5 p-4 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-cyan-500/35 hover:bg-cyan-500/5 transition-all text-left"
                   @click="onMatch"
                 >
@@ -476,6 +484,7 @@ onUnmounted(() => {
                 </button>
                 <button
                   v-else
+                  type="button"
                   class="group flex flex-col items-start gap-2.5 p-4 rounded-xl border border-rose-500/30 bg-rose-500/5 hover:bg-rose-500/10 transition-all text-left"
                   @click="onCancelMatch"
                 >
@@ -488,6 +497,7 @@ onUnmounted(() => {
                   </div>
                 </button>
                 <button
+                  type="button"
                   class="group flex flex-col items-start gap-2.5 p-4 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-gold/35 hover:bg-gold/5 transition-all text-left"
                   @click="router.push('/local')"
                 >
@@ -507,13 +517,14 @@ onUnmounted(() => {
             <!-- 棋力提升 -->
             <section class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
               <div class="flex items-center justify-between mb-4">
-                <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-                  $t('home.improve')
-                }}</span>
+                <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+                  {{ $t('home.improve') }}
+                </span>
                 <TrendingUp class="w-3.5 h-3.5 text-emerald-400/60" />
               </div>
               <div class="grid grid-cols-2 gap-2.5">
                 <button
+                  type="button"
                   class="group flex items-center gap-3.5 p-4 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-emerald-500/35 hover:bg-emerald-500/5 transition-all text-left"
                   @click="router.push('/tactics')"
                 >
@@ -530,6 +541,7 @@ onUnmounted(() => {
                   </div>
                 </button>
                 <button
+                  type="button"
                   class="group p-4 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-gold/35 hover:bg-gold/5 transition-all text-left"
                   @click="router.push('/tactics')"
                 >
@@ -572,6 +584,7 @@ onUnmounted(() => {
                   {{ $t('home.live') }}
                 </span>
                 <button
+                  type="button"
                   class="text-[10px] text-text-secondary hover:text-gold transition-colors"
                   @click="router.push('/lobby')"
                 >
@@ -616,6 +629,7 @@ onUnmounted(() => {
                     </div>
                   </div>
                   <button
+                    type="button"
                     class="px-3 py-1.5 rounded-lg text-[10px] font-medium bg-glass text-text-secondary border border-glass-border group-hover:bg-emerald-500/15 group-hover:text-emerald-300 group-hover:border-emerald-500/30 transition-all shrink-0"
                     @click="router.push(`/spectate/${g.gameId}`)"
                   >
@@ -628,10 +642,11 @@ onUnmounted(() => {
             <!-- 最近对局 -->
             <section class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-5">
               <div class="flex items-center justify-between mb-4">
-                <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-                  $t('home.recentGames')
-                }}</span>
+                <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+                  {{ $t('home.recentGames') }}
+                </span>
                 <button
+                  type="button"
                   class="text-[10px] text-text-secondary hover:text-gold transition-colors"
                   @click="router.push(`/profile/${auth.userId}`)"
                 >
@@ -665,6 +680,7 @@ onUnmounted(() => {
                     </div>
                   </div>
                   <button
+                    type="button"
                     class="px-3 py-1.5 rounded-lg text-[10px] font-medium text-text-secondary border border-glass-border opacity-0 group-hover:opacity-100 hover:border-gold/30 hover:text-gold transition-all"
                     @click="router.push(`/replay/${g.gameId}`)"
                   >

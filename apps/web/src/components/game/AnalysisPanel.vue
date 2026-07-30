@@ -85,6 +85,7 @@ const winnerText = computed(() => {
       </h3>
       <button
         v-if="!analysis && !analyzing"
+        type="button"
         class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:bg-purple-500/20 transition-colors"
         @click="emit('analyze')"
       >
@@ -115,7 +116,9 @@ const winnerText = computed(() => {
           <span
             class="px-2 py-0.5 rounded-md text-[10px] font-semibold border"
             :class="CLASS_BADGE[currentMove.classification]"
-          >{{ clsLabel(currentMove.classification) }}</span>
+          >
+            {{ clsLabel(currentMove.classification) }}
+          </span>
         </div>
         <div class="flex items-center gap-3 mb-3">
           <span class="text-sm text-text-primary font-medium">
@@ -124,7 +127,9 @@ const winnerText = computed(() => {
           <span
             class="text-xl font-bold font-mono tabular-nums"
             :class="currentMove.eval >= 0 ? 'text-emerald-400' : 'text-red-400'"
-          >{{ formatEval(currentMove.eval) }}</span>
+          >
+            {{ formatEval(currentMove.eval) }}
+          </span>
         </div>
         <div v-if="currentMove.bestPos" class="bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg p-3">
           <div class="flex items-center gap-2 mb-1">
@@ -163,7 +168,9 @@ const winnerText = computed(() => {
             <span
               class="text-xs font-mono"
               :class="m.eval >= 0 ? 'text-emerald-400' : 'text-red-400'"
-            >{{ formatEval(m.eval) }}</span>
+            >
+              {{ formatEval(m.eval) }}
+            </span>
           </div>
         </div>
       </div>

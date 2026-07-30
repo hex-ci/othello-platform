@@ -30,7 +30,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
       class="fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border"
     >
       <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
-        <button class="flex items-center gap-3 cursor-pointer group" @click="router.push('/')">
+        <button type="button" class="flex items-center gap-3 cursor-pointer group" @click="router.push('/')">
           <div
             class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
           >
@@ -41,11 +41,10 @@ const isLoggedIn = computed(() => Boolean(auth.token))
               <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
             </div>
           </div>
-          <span class="text-lg font-bold tracking-wide group-hover:text-gold transition-colors"
-          >Othello</span
-          >
+          <span class="text-lg font-bold tracking-wide group-hover:text-gold transition-colors">Othello</span>
         </button>
         <button
+          type="button"
           class="text-xs text-text-secondary hover:text-gold transition-colors flex items-center gap-1.5"
           @click="router.push('/')"
         >
@@ -103,6 +102,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
           <!-- 出口按钮 -->
           <div class="flex flex-wrap items-center gap-3.5 mt-9">
             <button
+              type="button"
               class="group flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light hover:-translate-y-0.5 transition-all shadow-[0_8px_28px_rgba(212,168,67,0.3)]"
               @click="router.push('/')"
             >
@@ -110,12 +110,14 @@ const isLoggedIn = computed(() => Boolean(auth.token))
             </button>
             <button
               v-if="isLoggedIn"
+              type="button"
               class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-medium text-text-primary border border-glass-border bg-glass hover:border-gold/40 hover:text-gold transition-all"
               @click="router.push('/lobby')"
             >
               <Users class="w-4 h-4" />{{ $t('notFound.goLobby') }}
             </button>
             <button
+              type="button"
               class="flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-medium text-emerald-300 border border-board-green/50 bg-board-green/10 hover:bg-board-green/20 transition-all"
               @click="router.push('/local')"
             >

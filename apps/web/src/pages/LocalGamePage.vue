@@ -58,7 +58,7 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
     >
       <div class="max-w-[1440px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <button class="flex items-center gap-3 cursor-pointer group" @click="router.push('/')">
+          <button type="button" class="flex items-center gap-3 cursor-pointer group" @click="router.push('/')">
             <div
               class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
             >
@@ -83,6 +83,7 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
         </div>
         <div class="flex items-center gap-2">
           <button
+            type="button"
             class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-text-secondary hover:text-gold hover:bg-glass transition-all"
             @click="router.push('/')"
           >
@@ -91,12 +92,14 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
             </span>
           </button>
           <button
+            type="button"
             class="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs text-text-secondary hover:text-gold hover:bg-glass transition-all"
             @click="router.push('/lobby')"
           >
-            <ArrowLeft class="w-3.5 h-3.5" /><span class="hidden sm:inline">{{
-              $t('common.backToLobby')
-            }}</span>
+            <ArrowLeft class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">
+              {{ $t('common.backToLobby') }}
+            </span>
           </button>
         </div>
       </div>
@@ -175,8 +178,9 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
             <label
               for="ai-level"
               class="text-[10px] uppercase tracking-wider text-text-secondary block mb-2.5"
-            >{{ $t('local.difficulty') }}</label
             >
+              {{ $t('local.difficulty') }}
+            </label>
             <div class="relative">
               <select
                 id="ai-level"
@@ -197,16 +201,19 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
           <!-- 操作按钮 -->
           <div class="grid grid-cols-3 gap-2">
             <button
+              type="button"
               class="group flex flex-col items-center gap-1.5 p-3 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-amber-500/35 hover:bg-amber-500/5 transition-all"
               @click="store.showHint()"
             >
               <Lightbulb class="w-4 h-4 text-amber-400" />
               <span
                 class="text-[10px] font-medium text-text-secondary group-hover:text-amber-300 transition-colors"
-              >{{ $t('local.hint') }}</span
               >
+                {{ $t('local.hint') }}
+              </span>
             </button>
             <button
+              type="button"
               class="group flex flex-col items-center gap-1.5 p-3 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-cyan-500/35 hover:bg-cyan-500/5 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               :disabled="store.moveHistory.length < 2 || store.isThinking"
               @click="store.undoMove()"
@@ -214,18 +221,21 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
               <Undo2 class="w-4 h-4 text-cyan-400" />
               <span
                 class="text-[10px] font-medium text-text-secondary group-hover:text-cyan-300 transition-colors"
-              >{{ $t('local.undo') }}</span
               >
+                {{ $t('local.undo') }}
+              </span>
             </button>
             <button
+              type="button"
               class="group flex flex-col items-center gap-1.5 p-3 rounded-xl border border-glass-border bg-[rgba(255,255,255,0.02)] hover:border-gold/35 hover:bg-gold/5 transition-all"
               @click="store.newGame()"
             >
               <RotateCw class="w-4 h-4 text-gold" />
               <span
                 class="text-[10px] font-medium text-text-secondary group-hover:text-gold transition-colors"
-              >{{ $t('local.newGame') }}</span
               >
+                {{ $t('local.newGame') }}
+              </span>
             </button>
           </div>
 
@@ -233,9 +243,9 @@ const isMyTurn = computed(() => store.turn === 'BLACK' && store.gameStatus === '
           <div class="backdrop-blur-xl bg-glass border border-glass-border rounded-2xl p-4 mt-auto">
             <div class="flex items-center gap-2 mb-2">
               <GraduationCap class="w-3.5 h-3.5 text-emerald-400" />
-              <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-                $t('local.practiceTipTitle')
-              }}</span>
+              <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+                {{ $t('local.practiceTipTitle') }}
+              </span>
             </div>
             <p class="text-[11px] text-text-secondary leading-relaxed">
               {{ $t('local.practiceTip') }}

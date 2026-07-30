@@ -144,6 +144,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
           <span class="text-[10px] text-text-secondary">{{ $t('spectate.readonlyHint') }}</span>
         </div>
         <button
+          type="button"
           class="text-xs text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1"
           @click="leaveSpectate"
         >
@@ -178,6 +179,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
         <h2 class="text-xl font-bold mb-2">{{ $t('spectate.notFoundTitle') }}</h2>
         <p class="text-sm text-text-secondary mb-6">{{ $t('spectate.notFoundDesc') }}</p>
         <button
+          type="button"
           class="px-6 py-2.5 rounded-xl text-sm font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 inline-flex items-center gap-2"
           @click="leaveSpectate"
         >
@@ -376,12 +378,12 @@ const whiteFallback = computed(() => t('common.whiteSide'))
           class="mt-4 backdrop-blur-xl bg-glass border border-glass-border rounded-xl px-4 py-3 w-full max-w-[448px]"
         >
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
-              $t('spectate.recentMovesLive')
-            }}</span>
-            <span class="text-[10px] text-purple-400">{{
-              $t('game.moveNumber', { n: moveNumber })
-            }}</span>
+            <span class="text-[10px] uppercase tracking-wider text-text-secondary">
+              {{ $t('spectate.recentMovesLive') }}
+            </span>
+            <span class="text-[10px] text-purple-400">
+              {{ $t('game.moveNumber', { n: moveNumber }) }}
+            </span>
           </div>
           <div v-if="recentMoves.length === 0" class="text-xs text-text-secondary text-center py-1">
             {{ $t('spectate.waitingMove') }}
@@ -418,9 +420,9 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               <Eye class="w-4 h-4 text-purple-400" />
               <span class="text-[11px] font-medium text-purple-400">{{ $t('spectate.seat') }}</span>
             </div>
-            <span class="text-xs text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full">{{
-              $t('spectate.seatCount', { n: spectatorCount })
-            }}</span>
+            <span class="text-xs text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full">
+              {{ $t('spectate.seatCount', { n: spectatorCount }) }}
+            </span>
           </div>
         </div>
 
@@ -434,6 +436,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
           </h3>
           <div class="space-y-2">
             <button
+              type="button"
               class="w-full py-2.5 rounded-lg text-[11px] font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20 hover:bg-rose-500/20 transition-all flex items-center justify-center gap-2"
               @click="leaveSpectate"
             >
@@ -465,6 +468,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               {{ $t('spectate.scoreLine', { b: blackCount, w: whiteCount }) }}
             </p>
             <button
+              type="button"
               class="w-full py-3 rounded-xl font-bold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all hover:-translate-y-0.5 text-sm"
               @click="leaveSpectate"
             >

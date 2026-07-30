@@ -24,6 +24,7 @@ function pick(value: Locale) {
     <button
       v-for="opt in OPTIONS"
       :key="opt.value"
+      type="button"
       class="px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors"
       :class="locale === opt.value ? 'bg-gold/20 text-gold' : 'text-text-secondary hover:text-text-primary'"
       @click="pick(opt.value)"

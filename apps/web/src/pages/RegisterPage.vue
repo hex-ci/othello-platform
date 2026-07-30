@@ -129,8 +129,9 @@ function goPlayOffline() {
             <label
               for="reg-username"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-            >{{ $t('register.username') }}</label
             >
+              {{ $t('register.username') }}
+            </label>
             <div class="relative">
               <User
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
@@ -152,8 +153,9 @@ function goPlayOffline() {
             <label
               for="reg-email"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-            >{{ $t('register.email') }}</label
             >
+              {{ $t('register.email') }}
+            </label>
             <div class="relative">
               <Mail
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
@@ -172,8 +174,9 @@ function goPlayOffline() {
             <label
               for="reg-password"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-            >{{ $t('register.setPassword') }}</label
             >
+              {{ $t('register.setPassword') }}
+            </label>
             <div class="relative">
               <Lock
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
@@ -204,8 +207,9 @@ function goPlayOffline() {
             <label
               for="reg-confirm"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-            >{{ $t('register.confirmPassword') }}</label
             >
+              {{ $t('register.confirmPassword') }}
+            </label>
             <div class="relative">
               <Lock
                 class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-secondary pointer-events-none"
@@ -245,6 +249,7 @@ function goPlayOffline() {
         </div>
 
         <button
+          type="button"
           class="w-full py-3 rounded-xl font-medium text-text-secondary border border-glass-border hover:border-text-secondary/30 hover:text-text-primary transition-all duration-300 flex items-center justify-center gap-2"
           @click="goPlayOffline"
         >
@@ -253,9 +258,9 @@ function goPlayOffline() {
 
         <p class="text-center mt-5 text-text-secondary text-sm">
           {{ $t('register.hasAccount') }}
-          <RouterLink to="/login" class="text-gold hover:text-gold-light transition-colors">{{
-            $t('register.loginNow')
-          }}</RouterLink>
+          <RouterLink to="/login" class="text-gold hover:text-gold-light transition-colors">
+            {{ $t('register.loginNow') }}
+          </RouterLink>
         </p>
       </div>
 

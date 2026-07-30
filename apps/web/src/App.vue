@@ -26,7 +26,9 @@ onMounted(() => {
 
 <template>
   <RouterView />
+
   <BossKeyOverlay :active="active" @restore="toggle" />
+
   <!-- 全局 Toast（vue-sonner）：暗色玻璃风（样式在 global.css 自定义对齐游戏配色），顶部居中 -->
   <Toaster
     position="top-center"

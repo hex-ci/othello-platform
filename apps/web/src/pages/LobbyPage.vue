@@ -214,17 +214,17 @@ function onLogout() {
             class="flex items-center gap-2 bg-gold/5 border border-gold/20 rounded-full px-3 py-1.5"
           >
             <Trophy class="w-3 h-3 text-gold" />
-            <span class="text-[11px] text-gold font-medium">{{
-              $t('lobby.eloRating', { n: me?.elo ?? '—' })
-            }}</span>
+            <span class="text-[11px] text-gold font-medium">
+              {{ $t('lobby.eloRating', { n: me?.elo ?? '—' }) }}
+            </span>
           </div>
           <div
             class="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 rounded-full px-3 py-1.5"
           >
             <Star class="w-3 h-3 text-emerald-400" />
-            <span class="text-[11px] text-emerald-400 font-medium">{{
-              $t('lobby.classicScore', { n: me?.classicScore ?? '—' })
-            }}</span>
+            <span class="text-[11px] text-emerald-400 font-medium">
+              {{ $t('lobby.classicScore', { n: me?.classicScore ?? '—' }) }}
+            </span>
           </div>
         </div>
 
@@ -232,6 +232,7 @@ function onLogout() {
         <div class="flex items-center justify-end gap-1.5 sm:gap-4 flex-shrink-0">
           <div class="hidden sm:block"><LanguageSwitcher /></div>
           <button
+            type="button"
             class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('common.home')"
             @click="router.push('/')"
@@ -239,6 +240,7 @@ function onLogout() {
             <Home class="w-4 h-4" />
           </button>
           <button
+            type="button"
             class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('lobby.titleFriends')"
             @click="router.push('/friends')"
@@ -246,6 +248,7 @@ function onLogout() {
             <Users class="w-4 h-4" />
           </button>
           <button
+            type="button"
             class="hidden sm:block p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('lobby.titleLeaderboard')"
             @click="router.push('/leaderboard')"
@@ -253,6 +256,7 @@ function onLogout() {
             <Trophy class="w-4 h-4" />
           </button>
           <button
+            type="button"
             class="hidden sm:block p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('tactics.title')"
             @click="router.push('/tactics')"
@@ -260,6 +264,7 @@ function onLogout() {
             <Brain class="w-4 h-4" />
           </button>
           <button
+            type="button"
             class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-gold"
             :title="$t('settings.title')"
             @click="router.push('/settings')"
@@ -279,12 +284,13 @@ function onLogout() {
             </div>
             <div class="hidden sm:flex items-center">
               <span class="text-sm font-medium">{{ auth.username }}</span>
-              <span v-if="me" class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">{{
-                me.elo
-              }}</span>
+              <span v-if="me" class="ml-2 text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">
+                {{ me.elo }}
+              </span>
             </div>
           </div>
           <button
+            type="button"
             class="p-2 rounded-lg hover:bg-glass transition-colors text-text-secondary hover:text-text-primary"
             :title="$t('lobby.titleLogout')"
             @click="onLogout"
@@ -306,9 +312,9 @@ function onLogout() {
             <h2 class="text-sm font-semibold uppercase tracking-wider text-text-secondary">
               {{ $t('lobby.onlinePlayers') }}
             </h2>
-            <span class="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">{{
-              $t('lobby.peopleCount', { count: lobby.onlineUsers.length })
-            }}</span>
+            <span class="text-xs text-gold bg-gold/10 px-2 py-0.5 rounded-full">
+              {{ $t('lobby.peopleCount', { count: lobby.onlineUsers.length }) }}
+            </span>
           </div>
           <div class="flex-1 overflow-y-auto space-y-2 pr-1">
             <div
@@ -352,12 +358,14 @@ function onLogout() {
           <!-- 操作按钮组 -->
           <div class="flex gap-3 mb-3">
             <button
+              type="button"
               class="flex-1 py-3 rounded-xl font-semibold text-[#0f1117] bg-gradient-to-r from-gold to-gold-light shadow-[0_4px_20px_rgba(212,168,67,0.3)] hover:shadow-[0_6px_30px_rgba(212,168,67,0.5)] transition-all duration-300 flex items-center justify-center gap-2"
               @click="showCreate = true"
             >
               <Plus class="w-4 h-4" />{{ $t('lobby.createRoom') }}
             </button>
             <button
+              type="button"
               class="flex-1 py-3 rounded-xl font-medium text-text-primary border border-board-green/50 bg-board-green/10 hover:bg-board-green/20 transition-all duration-300 flex items-center justify-center gap-2"
               @click="quickJoin"
             >
@@ -366,6 +374,7 @@ function onLogout() {
             <!-- 自动匹配（T11，F-E-06）：按 ELO 邻近区间排队 -->
             <button
               v-if="lobby.matchStatus !== 'queuing'"
+              type="button"
               class="flex-1 py-3 rounded-xl font-medium text-text-primary border border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 transition-all duration-300 flex items-center justify-center gap-2"
               @click="onMatch"
             >
@@ -373,6 +382,7 @@ function onLogout() {
             </button>
             <button
               v-else
+              type="button"
               class="flex-1 py-3 rounded-xl font-medium text-text-primary border border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20 transition-all duration-300 flex items-center justify-center gap-2"
               @click="onCancelMatch"
             >
@@ -382,6 +392,7 @@ function onLogout() {
           <!-- 人机对战 + 难度 -->
           <div class="flex gap-3 mb-5">
             <button
+              type="button"
               class="flex-1 py-2.5 rounded-xl font-medium text-[#0f1117] bg-gradient-to-r from-blue-400 to-cyan-400 shadow-[0_4px_16px_rgba(59,130,246,0.25)] hover:shadow-[0_6px_24px_rgba(59,130,246,0.4)] transition-all duration-300 flex items-center justify-center gap-2"
               @click="quickAi"
             >
@@ -413,9 +424,9 @@ function onLogout() {
               <p class="font-medium text-purple-300">{{ $t('lobby.matching') }}</p>
               <p class="text-[11px] text-text-secondary">{{ $t('lobby.matchingHint') }}</p>
             </div>
-            <span class="text-[11px] text-text-secondary">{{
-              $t('lobby.queueCount', { count: lobby.matchQueueSize })
-            }}</span>
+            <span class="text-[11px] text-text-secondary">
+              {{ $t('lobby.queueCount', { count: lobby.matchQueueSize }) }}
+            </span>
           </div>
 
           <div v-if="joinError" class="text-red-400 text-sm mb-3">{{ joinError }}</div>
@@ -432,6 +443,7 @@ function onLogout() {
                 </span>
               </div>
               <button
+                type="button"
                 class="text-[10px] text-gold/70 hover:text-gold transition-colors"
                 @click="router.push('/leaderboard')"
               >
@@ -471,6 +483,7 @@ function onLogout() {
             class="flex items-center gap-1 mb-4 bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-xl p-1"
           >
             <button
+              type="button"
               class="flex-1 py-2 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1"
               :class="
                 activeTab === 'waiting'
@@ -483,6 +496,7 @@ function onLogout() {
               <span class="text-[10px] opacity-70">({{ lobby.rooms.length }})</span>
             </button>
             <button
+              type="button"
               class="flex-1 py-2 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1"
               :class="
                 activeTab === 'spectate'
@@ -522,15 +536,15 @@ function onLogout() {
               >
                 <div class="flex-1 min-w-0">
                   <div class="flex items-center gap-2 text-sm">
-                    <span class="font-medium truncate">{{
-                      g.blackName ?? $t('common.blackSide')
-                    }}</span>
+                    <span class="font-medium truncate">
+                      {{ g.blackName ?? $t('common.blackSide') }}
+                    </span>
                     <span class="text-text-secondary text-xs">{{ g.blackCount }}</span>
                     <span class="text-text-secondary text-xs">vs</span>
                     <span class="text-text-secondary text-xs">{{ g.whiteCount }}</span>
-                    <span class="font-medium truncate">{{
-                      g.whiteName ?? $t('common.whiteSide')
-                    }}</span>
+                    <span class="font-medium truncate">
+                      {{ g.whiteName ?? $t('common.whiteSide') }}
+                    </span>
                   </div>
                   <div class="flex items-center gap-3 text-[10px] text-text-secondary mt-1">
                     <span>{{ $t('lobby.moveNumber', { n: g.moveCount }) }}</span>
@@ -540,6 +554,7 @@ function onLogout() {
                   </div>
                 </div>
                 <button
+                  type="button"
                   class="px-3 py-1.5 rounded-lg text-[11px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20 hover:bg-purple-500/20 transition-all flex items-center gap-1"
                   @click="router.push(`/spectate/${g.gameId}`)"
                 >

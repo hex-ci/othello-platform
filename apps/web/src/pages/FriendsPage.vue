@@ -3,21 +3,19 @@
  * 好友/社交页（T16，F-E-07）：好友列表 + 请求 + 屏蔽，对照设计稿 13-friends。
  * 邀战（challenge）按钮为 T17 预留占位。
  */
-import { onMounted, onUnmounted, ref, computed } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { Users, UserPlus, Ban, Check, X, Swords, Search } from '@lucide/vue'
 import { useFriendStore } from '@/stores/friend-store'
-import { useAuthStore } from '@/stores/auth-store'
 import { getWsClient } from '@/api/ws-client'
 import { useChallenge } from '@/composables/useChallenge'
 import PageNavBar from '@/components/PageNavBar.vue'
 
 const store = useFriendStore()
-const auth = useAuthStore()
 const { t } = useI18n()
 
-const { friends, requests, sent, blocked, loading, onlineFriends, offlineFriends } =
+const { friends, requests, sent, blocked, loading, onlineFriends } =
   storeToRefs(store)
 
 type Tab = 'friends' | 'requests' | 'blocked'
@@ -115,7 +113,7 @@ onMounted(() => {
               type="text"
               :placeholder="$t('friends.searchPlaceholder')"
               class="bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-2 pl-9 pr-4 text-xs text-text-primary placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/30 w-full sm:w-48"
-            />
+            >
           </div>
         </div>
       </div>
@@ -151,7 +149,7 @@ onMounted(() => {
           <div class="flex items-center gap-2 mb-2">
             <Users class="w-4 h-4 text-gold" /><span
               class="text-[10px] uppercase tracking-wider text-text-secondary"
-              >{{ $t('friends.statTotal') }}</span
+            >{{ $t('friends.statTotal') }}</span
             >
           </div>
           <p class="text-2xl font-bold font-mono">{{ friends.length }}</p>
@@ -160,7 +158,7 @@ onMounted(() => {
           <div class="flex items-center gap-2 mb-2">
             <span
               class="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40"
-            /><span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
+            ></span><span class="text-[10px] uppercase tracking-wider text-text-secondary">{{
               $t('friends.statOnline')
             }}</span>
           </div>
@@ -170,7 +168,7 @@ onMounted(() => {
           <div class="flex items-center gap-2 mb-2">
             <UserPlus class="w-4 h-4 text-amber-400" /><span
               class="text-[10px] uppercase tracking-wider text-text-secondary"
-              >{{ $t('friends.statPending') }}</span
+            >{{ $t('friends.statPending') }}</span
             >
           </div>
           <p class="text-2xl font-bold text-amber-400 font-mono">{{ requests.length }}</p>
@@ -179,7 +177,7 @@ onMounted(() => {
           <div class="flex items-center gap-2 mb-2">
             <Ban class="w-4 h-4 text-rose-400" /><span
               class="text-[10px] uppercase tracking-wider text-text-secondary"
-              >{{ $t('friends.statBlocked') }}</span
+            >{{ $t('friends.statBlocked') }}</span
             >
           </div>
           <p class="text-2xl font-bold text-rose-400 font-mono">{{ blocked.length }}</p>
@@ -196,7 +194,7 @@ onMounted(() => {
           :placeholder="$t('friends.addPlaceholder')"
           class="flex-1 bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-2 px-4 text-xs text-text-primary placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/30"
           @keydown.enter="onAdd"
-        />
+        >
         <button
           class="px-4 py-2 rounded-xl text-xs font-medium text-[#0f1117] bg-gradient-to-r from-gold to-gold-light transition-all flex items-center gap-1.5 disabled:opacity-50"
           :disabled="adding"
@@ -208,7 +206,7 @@ onMounted(() => {
         </button>
         <span v-if="addError" class="text-[11px] text-rose-400">{{ addError }}</span>
         <span v-else-if="addOk" class="text-[11px] text-emerald-400 flex items-center gap-1"
-          ><Check class="w-3 h-3" />{{ addOk }}</span
+        ><Check class="w-3 h-3" />{{ addOk }}</span
         >
       </div>
 
@@ -274,7 +272,7 @@ onMounted(() => {
           <!-- 在线分组 -->
           <div v-if="filteredOnline.length > 0" class="mb-6">
             <div class="flex items-center gap-2 mb-4">
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <h2 class="text-sm font-semibold uppercase tracking-wider text-emerald-400">
                 {{ $t('common.online') }} · {{ filteredOnline.length }}
               </h2>
@@ -295,7 +293,7 @@ onMounted(() => {
                     </div>
                     <div
                       class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#0f1117]"
-                    />
+                    ></div>
                   </div>
                   <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2">
@@ -335,7 +333,7 @@ onMounted(() => {
           <!-- 离线分组 -->
           <div v-if="filteredOffline.length > 0">
             <div class="flex items-center gap-2 mb-4">
-              <span class="w-2 h-2 rounded-full bg-text-secondary" />
+              <span class="w-2 h-2 rounded-full bg-text-secondary"></span>
               <h2 class="text-sm font-semibold uppercase tracking-wider text-text-secondary">
                 {{ $t('common.offline') }} · {{ filteredOffline.length }}
               </h2>
@@ -356,7 +354,7 @@ onMounted(() => {
                     </div>
                     <div
                       class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-text-secondary border-2 border-[#0f1117]"
-                    />
+                    ></div>
                   </div>
                   <div class="flex-1 min-w-0">
                     <p class="text-sm font-medium truncate">{{ f.username }}</p>

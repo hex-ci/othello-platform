@@ -1,0 +1,689 @@
+aiLevel:
+  l0: L0 Warm-up
+  l1: L1 Beginner
+  l2: L2 Easy
+  l3: L3 Medium
+  l4: L4 Hard
+  l5: L5 Expert
+analyze:
+  analyzeBtn: Analyze
+  analyzeFailed: AI analysis failed
+  analyzing: Analyzing…
+  bestMove: AI Suggested Move
+  bestMoveHint: (best move)
+  blackAdv: +1 Black
+  blackAvg: Black avg
+  blackSide: Black
+  blackWin: Black { n } discs
+  blunder: Blunder
+  brilliant: Brilliant
+  brilliantCount: Brilliant / Blunder
+  currentMove: Current move
+  currentScore: Current Move Score
+  draw: Draw
+  endReason: End reason
+  evalCurve: Evaluation Curve
+  even: '0'
+  flipped: flips { n }
+  good: Good
+  inaccuracy: Inaccuracy
+  inaccuracyCount: Inaccuracy
+  keyMoments: Key Moments
+  matchSummary: Match Summary
+  moveN: Move { n }
+  moveRange: Move { from } → { to }
+  normal: Normal
+  pass: pass
+  suggestedMove: Suggested
+  title: AI Review
+  whiteAdv: '-1 White'
+  whiteAvg: White avg
+  whiteSide: White
+  whiteWin: White { n } discs
+  winner: Winner
+badge:
+  empty: No badges yet, keep going!
+  first_win: First Win
+  first_win_desc: Win your first game
+  perfect_review: Review Master
+  perfect_review_desc: Complete a perfect review
+  puzzle_master: Puzzle Master
+  puzzle_master_desc: Solve 50 puzzles
+  season_king: Season King
+  season_king_desc: Top of the season
+  streak_10: 10 Win Streak
+  streak_10_desc: Win 10 games in a row
+  streak_5: 5 Win Streak
+  streak_5_desc: Win 5 games in a row
+  title: Badges
+  weekly_champion: Weekly Champion
+  weekly_champion_desc: Weekly leaderboard champion
+board:
+  blackPiece: ' black'
+  gridLabel: Othello board
+  whitePiece: ' white'
+bossKey:
+  body1: >-
+    Overall business held steady growth this quarter; core metrics met
+    expectations.
+  body2: See the attachment for detailed figures and the next-phase plan.
+  hint: Press ` to return
+  subtitle: Quarterly report · draft
+  title: Work Document
+chat:
+  inputAria: Chat input
+  inputPlaceholder: Type a message…
+  noMessages: No messages
+  publicRoom: Public chat
+  roomChat: Room chat
+  sendAria: Send
+common:
+  accept: Accept
+  backToLobby: Back to lobby
+  black: Black
+  blackSide: Black
+  cancel: Cancel
+  classicScore: 'Classic: {n}'
+  close: Close
+  comingSoon: coming soon
+  eloRating: 'ELO: {n}'
+  home: Home
+  loading: Loading…
+  logout: Log out
+  offline: Offline
+  online: Online
+  reject: Decline
+  settings: Settings
+  vs: VS
+  white: White
+  whiteSide: White
+  you: You
+  youSuffix: ' (you)'
+copy:
+  copied: Copied to clipboard
+  fallbackDesc: >-
+    Your browser does not support automatic copy. Please select the text below
+    and copy manually (Ctrl+C / ⌘C).
+  fallbackTitle: Cannot copy automatically
+  selectAll: Select all
+  selected: Selected, now copy
+createRoom:
+  aiLevel: AI difficulty
+  create: Create
+  errName: Please enter a room name
+  humanVsAi: Human vs AI
+  humanVsHuman: Human vs Human
+  mode: Mode
+  password: Private password (optional)
+  passwordPlaceholder: Leave blank for a public room
+  roomName: Room name
+  roomNamePlaceholder: e.g. Friendly room
+  title: Create room
+endReason:
+  disconnect: Opponent disconnected
+  drawAgree: Draw agreed
+  normal: Normal finish
+  resignLose: You resigned
+  resignWin: Opponent resigned
+  timeoutLose: You timed out
+  timeoutWin: Opponent timed out
+friends:
+  addFail: Failed to send request
+  addFriend: Add friend
+  addOk: Friend request sent to {name}
+  addPlaceholder: Enter a username to add…
+  addSending: Sending…
+  addUserNotFound: User not found
+  blockTitle: Block
+  blockedNote: Blocked · no messages
+  challengeIncoming: '{name} challenged you!'
+  challengeNotFriend: You can only challenge friends
+  challengeOffline: Opponent is offline
+  challengeRejected: '{name} declined your challenge'
+  challengeRejectedGeneric: Your challenge was declined
+  invite: Challenge
+  inviteOfflineTitle: Opponent is offline
+  inviteTitle: Challenge
+  inviteWaiting: Waiting…
+  noBlocked: No blocked users
+  noFriends: No friends yet — add one to start battling
+  noReceived: No received friend requests
+  noSent: No sent friend requests
+  onlineCanInvite: Online · can invite
+  receivedRequests: Received requests
+  requestAddYou: Wants to add you as a friend
+  searchPlaceholder: Search friends...
+  sentRequests: Sent requests
+  statBlocked: Blocked
+  statOnline: Online
+  statPending: Pending requests
+  statTotal: Total friends
+  subtitle: Manage your chess friends · invite instantly
+  tabBlocked: Blocked
+  tabFriends: Friends
+  tabRequests: Requests
+  title: Friends
+  unblock: Unblock
+  waitingAccept: Waiting for them to accept…
+  withdraw: Withdraw
+game:
+  acceptDraw: Accept draw
+  actions: Actions
+  analysis: Analysis
+  backLobby: Back to lobby
+  badgeFinished: Finished
+  badgeLive: LIVE
+  badgeWaiting: Waiting
+  balanced: Even
+  blackLead: Black leads by {n}
+  blackShort: B
+  currentTurn: Current turn
+  emptyCells: Empty {n}
+  finishedDesc: This game has ended, you cannot re-enter.
+  finishedTitle: Game has ended
+  fullDesc: This room already has two players. Try spectating or return to the lobby.
+  fullTitle: Room is full
+  headerFinished: Game over
+  headerPlaying: Game in progress
+  headerWaiting: Waiting for opponent
+  hint: Hint
+  hintDisabledTitle: Hints are only available vs AI
+  hintTitle: Highlight the best move for 3s
+  moveLog: Move log
+  moveNumber: Move {n}
+  movesUnit: '{n} moves'
+  noPenalty: Short disconnects cost nothing
+  noPenaltyDetail: >-
+    The game resumes as-is and is not counted as a forfeit. Only a long
+    disconnect on your turn counts as fleeing.
+  notFoundDesc: This game may have been closed, or the link is invalid.
+  notFoundTitle: Game not found
+  playBlack: Black
+  playWhite: White
+  recentN: Last {n}
+  reconnectHint: Connection lost — restoring your game from move history
+  reconnecting: Reconnecting
+  rematch: Rematch
+  rematchFailed: Rematch failed — opponent may have left
+  rematchRejected: Opponent declined the rematch
+  rematchRequest: '{name} wants a rematch'
+  rematchTimeout: No response from opponent — rematch cancelled
+  rematchWaiting: Waiting for opponent…
+  replayAnalysis: Replay & analysis
+  replayProgress: Replay progress
+  requestDraw: Offer draw
+  resign: Resign
+  stepRemaining: Time left
+  undo: Undo
+  undoDisabledTitle: Undo is only available vs AI
+  undoTitle: Take back two moves (yours and the AI’s)
+  waitingMove: Waiting for a move…
+  waitingTurn: Waiting
+  whiteLead: White leads by {n}
+  whiteShort: W
+  yourTurn: Your move
+home:
+  allRecords: All records →
+  autoMatch: Auto match
+  autoMatchHint: Find rivals by ELO
+  blackScore: Black · {n}
+  blackToMove: Black to move
+  cancelMatch: Cancel match
+  createAccount: Create account
+  createRoom: Create room
+  createRoomHint: Invite friends or go public
+  dailyChallenge: Daily challenge
+  dailyHint: '{n} puzzles left today'
+  daysAgo: '{n} d ago'
+  featAi: AI levels L0–L5
+  featElo: ELO rating · Season tiers
+  featReplay: Replays · AI move analysis
+  featSpectate: Live spectating
+  featTactics: Tactics · Daily challenges
+  goLogin: Sign in
+  greetAfternoon: Good afternoon
+  greetEvening: Good evening
+  greetMorning: Good morning
+  greetNight: Up late
+  headline1: Between black and white,
+  headline2: one stone decides all
+  hoursAgo: '{n} h ago'
+  improve: Improve
+  justNow: Just now
+  lastMove: Last move · E5
+  live: Live · Top games
+  lobbyLink: Spectate lobby →
+  login: Sign in
+  matchingHint: Queuing, cancel anytime
+  minutesAgo: '{n} min ago'
+  moveNumber: Move {n}
+  movesUnit: moves
+  noRecentGames: No games yet — start one
+  noSignupHint: No signup needed, play in 3 seconds · Have an account?
+  offlinePractice: Offline practice
+  offlinePracticeHint: Local AI · unrated
+  onlineAi: Online AI
+  onlineAiHint: Server-hosted AI, results count for score
+  onlineStatus: '{users} online · {games} games live'
+  playNow: Play now · vs AI
+  quickStart: Quick start
+  recentGames: Recent games
+  register: Sign up
+  replay: Replay
+  result_draw: Draw
+  result_lose: Loss
+  result_win: Win
+  start: Start
+  subhead: >-
+    A zero-install Othello platform. Train against AI, battle online, dissect
+    every game — from the very first move.
+  tactics: Tactics training
+  tacticsHint: Find the best move
+  tagline: OTHELLO · 8×8 · TWO PLAYERS
+  watching: watching
+  whiteScore: White · {n}
+leaderboard:
+  colClassic: Classic
+  colElo: ELO
+  colGames: Games
+  colPlayer: Player
+  colRank: Rank
+  colTier: Tier
+  colWinrate: Win rate
+  noData: No data yet (finish at least one game)
+  subtitle: Tier promotion based on ELO · live ranking
+  tabClassic: Classic score
+  tabElo: ELO rating
+  tierSuffix: ''
+  title: Leaderboard
+lobby:
+  aiBattle: Play vs AI
+  aiLevelLabel: AI difficulty
+  aiRoomName: AI battle · {level}
+  autoMatch: Auto match
+  cancelMatch: Cancel match
+  classicScore: 'Classic: {n}'
+  createFail: Failed to create
+  createRoom: Create room
+  eloRating: 'ELO: {n}'
+  enterPassword: Enter Room Password
+  gamesInProgress: '{count} live'
+  joinFail: Failed to join
+  matching: Finding an opponent…
+  matchingHint: Matching by nearby ELO; the longer you wait, the wider the range
+  miniLeaderboard: ELO Leaderboard
+  moveNumber: Move {n}
+  noActiveGame: No games in progress
+  noOnline: No players online
+  noRoomToJoin: No rooms to join — create one
+  onlineCount: 'Online: {count}'
+  onlinePlayers: Online players
+  onlineTag: Online
+  passwordRequired: This room requires a password to join
+  peopleCount: '{count}'
+  queueCount: 'Queue: {count}'
+  quickJoin: Quick join
+  roomCount: '{count}'
+  roomList: Rooms
+  serverOk: Server OK
+  spectate: Watch
+  spectateLobby: Spectate lobby
+  tabSpectate: Live games (spectate)
+  tabWaiting: Waiting rooms
+  titleFriends: Friends
+  titleLeaderboard: Leaderboard
+  titleLogout: Log out
+  viewAll: View all
+  wrongPassword: Wrong password
+local:
+  aiName: AI
+  aiThinking: AI thinking…
+  aiTurn: AI turn
+  aiWhite: AI (White)
+  difficulty: Difficulty
+  gameOver: Game over
+  hint: Hint
+  moveNumber: Move {n}
+  newGame: New game
+  noMoves: No moves yet
+  overHint: Game over — hit "New game" for another round
+  pageTitle: Offline practice
+  playAgain: Play again
+  practiceTip: >-
+    Don't rush to capture early — corners (A1/H1/A8/H8) win games. A stone on a
+    corner can never be flipped.
+  practiceTipTitle: Practice tip
+  score: Score
+  subtitle: Local AI match · no login · unrated
+  title: Othello
+  turnHint: Click a highlighted square to play
+  undo: Undo
+  unrated: Unrated
+  waitHint: AI is computing its best reply…
+  youBlack: You (Black)
+  youName: You
+  yourTurn: Your turn
+login:
+  forgot: Forgot password?
+  guestQuick: Quick guest entry
+  loggingIn: Signing in…
+  login: Sign in
+  loginFail: Login failed
+  noAccount: Don't have an account?
+  or: OR
+  password: Password
+  passwordPlaceholder: Enter password
+  playOffline: Play now (offline vs AI)
+  registerAccount: Register
+  remember: Remember me
+  tagAi: Multi-level AI
+  tagNoInstall: No install
+  tagRealtime: Real-time battles
+  title: Othello
+  username: Username
+  usernamePlaceholder: Enter username
+  version: Othello Online Platform
+moveTimer:
+  step: Step
+notFound:
+  a1Tag: A1 · NOT FOUND
+  backHome: Back home
+  desc: >-
+    Your last "move" was ruled illegal — the page doesn't exist, or it's been
+    removed. Instead of staring at an empty square, how about another round?
+  errorCode: ERROR 404 · ILLEGAL MOVE
+  goLobby: Go to lobby
+  initialBoard: Initial position
+  initialScore: Black 2 · White 2
+  moveZero: Move 0
+  playNow: Play a round
+  tip: '> Tip: corners (A1) are worth fighting for — this page is not.'
+  title: This square is off the board.
+notation:
+  export: Export
+  exportCopied: 'Notation copied: { s }'
+  exportFailed: 'Copy failed, notation: { s }'
+  import: Import
+  importBtn: Import
+  importPlaceholder: Paste notation, e.g. f5d6c3...
+  importTitle: Import Notation
+  invalid: Invalid notation, please check format
+profile:
+  acceptRequest: Accept Request
+  activity: Last 7 days activity
+  addFriend: Add Friend
+  addFriendFail: Failed to send friend request
+  addFriendOk: Friend request sent to {name}
+  aiMode: vs AI
+  aiStats: AI Match Stats
+  bio: Bio
+  bioEmpty: This user has not added a bio
+  bioPlaceholder: Add your bio to let others know you (editing coming soon)
+  blockedByMe: Blocked
+  challenge: Challenge
+  challengeWaiting: Waiting for response…
+  classicScore: Classic Score
+  draws: Draws
+  editAvatarComingSoon: Avatar editing coming soon
+  editBioComingSoon: Bio editing coming soon
+  eloRating: ELO Rating
+  eloTrend: ELO Trend (last 20)
+  games: Games
+  gamesUnit: games
+  less: Less
+  losses: Losses
+  message: Message
+  more: More
+  noAiStats: No AI matches yet
+  noEloHistory: No ELO history yet
+  noHistory: No game history
+  notFound: User not found
+  onlineTag: Online
+  pendingOut: Waiting for acceptance
+  pvpMode: PvP
+  replay: Replay
+  statsOverview: Stats Overview
+  tabBadges: Badges
+  tabHistory: History
+  tabStats: Stats
+  viewProfile: View profile
+  winrate: Win Rate
+  wins: Wins
+register:
+  agreePrefix: I agree to the
+  and: and
+  confirmPassword: Confirm password
+  confirmPlaceholder: Re-enter password
+  email: Email
+  emailPlaceholder: For password recovery
+  errAgree: Please accept the Terms and Privacy Policy first
+  errMismatch: Passwords do not match
+  errShort: Password must be at least 8 characters
+  guestTry: Try as guest
+  hasAccount: Already have an account?
+  loginNow: Sign in
+  or: or
+  passwordPlaceholder: At least 8 characters
+  privacy: Privacy Policy
+  register: Register now
+  registerFail: Registration failed
+  registering: Registering…
+  setPassword: Password
+  strengthFair: Fair
+  strengthGood: Good
+  strengthStrong: Strong
+  strengthWeak: Weak
+  subtitle: Join the Othello battle community
+  terms: Terms of Service
+  title: Create account
+  username: Username
+  usernamePlaceholder: 2-32 letters, digits, underscore
+  verifyHint: Verify your email after registering to unlock all features
+replay:
+  aiMode: vs AI
+  blackShort: B
+  end: End
+  humanMode: vs Human
+  initialPosition: Initial position
+  loading: Loading replay…
+  modeBadge: Replay Mode
+  moveLog: Move log
+  moveNumber: Move {n}
+  noLegal: (no legal move)
+  progress: Move {cur} / {total}
+  share: Copy share link
+  shareCopied: Share link copied to clipboard
+  shareFail: Failed to generate share link
+  speed: Speed ×{n}
+  start: Start
+  title: Replay
+  whiteShort: W
+result:
+  blackPiece: B
+  draw: DRAW
+  drawSubtitle: Tied {b} ∶ {w}
+  endAtMove: Ended on move {n}
+  lose: DEFEAT
+  playBlackFirst: Black · first
+  playWhiteSecond: White · second
+  score: Score
+  whitePiece: W
+  win: VICTORY
+  winSubtitle: '{winner} wins {wc} ∶ {lc}'
+room:
+  assignLabel: Color
+  backLobby: Back to lobby
+  blackFirst: Black first
+  blackFirstWhiteSecond: Black first
+  blackMark: B
+  cancelReady: Cancel
+  chatHint: Room only
+  clearPassword: Clear
+  editPassword: Edit
+  finishedDesc: The game in this room has ended, you cannot re-enter.
+  finishedTitle: Game has ended
+  fixed: Fixed
+  fullDesc: This room already has two players. Try spectating or return to the lobby.
+  fullTitle: Room is full
+  host: Host
+  hostLine: 'Host: {host} · {mode} · {timer}'
+  hostOnly: Host only
+  invite: Invite friend
+  leave: Leave room
+  modeLabel: Mode
+  noSpectators: No spectators
+  notFoundDesc: This room may have been closed, or the link is invalid.
+  notFoundTitle: Room not found
+  number: 'Room #{id}'
+  passwordHint: Private room needs password
+  passwordLabel: Password
+  passwordPlaceholder: New password
+  private: Private
+  pvp: PvP
+  ready: Ready
+  readyBtn: Ready
+  readyHint: Both ready, host can start. Ready {ready} / 2
+  roomLobby: Room lobby
+  save: Save
+  settings: Room settings
+  spectateHint: Others can watch
+  spectateLabel: Spectate
+  spectateSeat: Spectators
+  spectators: '{n} watching'
+  startGame: Start
+  swapColors: Swap
+  threeMin: 30 sec
+  timeoutLose: Timeout loses
+  timerLabel: Per move
+  title: Match Arena
+  waited: Waited {time}
+  waiting: Waiting
+  waitingOpponent: Waiting opponent
+  waitingReady: Waiting
+  whiteMark: W
+  whiteSecond: White second
+roomList:
+  humanVsAi: vs AI
+  humanVsHuman: vs Human
+  join: Join
+  noRooms: No rooms — create one to start battling
+  statusFinished: Finished
+  statusPlaying: In game
+  statusWaiting: Waiting
+season:
+  active: Active
+  current: Current Season
+  finalElo: Final ELO
+  peakElo: Peak ELO
+  settled: Settled
+  title: Season
+settings:
+  accessibility: Accessibility
+  bossKey: Boss Key
+  bossKeyHint: One key switches to a neutral page to prevent prying eyes
+  bossKeyHotkey: 'Hotkey: press ` (backtick) anytime to toggle disguise/restore'
+  colorblind: Colorblind-friendly
+  colorblindHint: Distinguish pieces by outline/texture, not color alone
+  highContrast: High contrast
+  highContrastHint: Increase interface contrast
+  keyboardHint: >-
+    Arrow keys move focus, Enter places a piece, Tab switches areas, Esc closes
+    the current panel.
+  keyboardTitle: Keyboard mode
+  privacy: Privacy & Security
+  reduceMotion: Reduce motion
+  reduceMotionHint: Respect prefers-reduced-motion, disable animations
+  reset: Reset defaults
+  resetDone: Restored default settings
+  save: Save settings
+  saved: Settings saved
+  subtitle: Customize your experience
+  title: Settings
+spectate:
+  actions: Actions
+  backLobby: Back to lobby
+  blackWin: Black wins
+  drawResult: Draw
+  gameOver: Game over
+  leave: Leave
+  live: LIVE
+  loading: Loading spectate…
+  notFoundDesc: This game may have ended, or the link is invalid.
+  notFoundTitle: Game not found
+  readonlyHint: Read-only · you don’t affect the game
+  readonlyNote: Spectating is read-only and does not disturb the game
+  recentMovesLive: Recent moves (live)
+  scoreLine: 'Black {b} : {w} White'
+  seat: Spectator seat
+  seatCount: '{n}'
+  seatHint: Receives moves live, cannot play
+  situation: Situation
+  spectating: Spectating
+  waitingMove: Waiting for a move…
+  whiteWin: White wins
+tactics:
+  accuracy: Accuracy
+  avgRating: Avg rating
+  back: Back
+  blackFirst: Black to move
+  clear: Clear
+  clickToPlace: Click board to place
+  completed: completed
+  diffAll: All
+  diffBeginner: Beginner
+  diffEasy: Easy
+  diffExpert: Expert
+  diffHard: Hard
+  diffMedium: Medium
+  difficultyFilter: Difficulty
+  explanation: Explanation
+  findBest: Find the best move
+  hint: Hint
+  hintClue: 'Hint: best move is near column { h }'
+  lastPuzzle: Already the last puzzle
+  loginRequired: Please log in before submitting
+  myStats: My Stats
+  nextPuzzle: Next
+  noDaily: No daily challenge today
+  noPuzzles: No puzzles
+  puzzleN: Puzzle { n }
+  puzzlePrompt: Hint
+  recentAttempts: Recent attempts
+  retry: Retry
+  retryTitle: Click to retry this puzzle
+  reward3: 3 days
+  reward30: 30 days
+  reward30Desc: Exclusive title
+  reward3Desc: +10 points
+  reward7: 7 days
+  reward7Desc: +50 points · Badge
+  skip: Skip
+  solved: Solved
+  streak: '{ n } day streak'
+  streakDays: Streak
+  streakReward: Streak Reward
+  submit: Submit
+  subtitle: Daily Challenge
+  timeUsed: Time { t } · Rating { r } · +{ score } pts
+  title: Tactics
+  today: Today
+  topicCorner: Corner
+  topicEdge: Edge
+  topicEndgame: Endgame
+  topicFewerDiscs: Fewer Discs
+  topicFilter: Topic
+  topicMaximizeFlip: Max Flip
+  topicXSquare: X-Square
+  verdictCorrect: Correct!
+  verdictSkipped: Skipped
+  verdictWrong: Wrong
+  viewExplanation: View explanation
+  whiteFirst: White to move
+  yourChoice: Your choice
+tier:
+  diamond: Diamond
+  gold: Gold
+  king: King
+  master: Master
+  platinum: Platinum
+  silver: Silver

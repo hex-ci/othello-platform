@@ -1,0 +1,675 @@
+aiLevel:
+  l0: L0 热身
+  l1: L1 入门
+  l2: L2 简单
+  l3: L3 中等
+  l4: L4 困难
+  l5: L5 专家
+analyze:
+  analyzeBtn: AI 分析
+  analyzeFailed: AI 分析失败
+  analyzing: 分析中…
+  bestMove: AI 推荐落点
+  bestMoveHint: （最佳手）
+  blackAdv: +1 黑优
+  blackAvg: 黑方平均
+  blackSide: 黑
+  blackWin: 黑棋 { n } 子
+  blunder: 失误
+  brilliant: 妙手
+  brilliantCount: 妙手 / 失误
+  currentMove: 当前手
+  currentScore: 当前手评分
+  draw: 平局
+  endReason: 终局原因
+  evalCurve: 评估曲线
+  even: '0'
+  flipped: 翻转 { n } 子
+  good: 好手
+  inaccuracy: 不准确
+  inaccuracyCount: 不准确
+  keyMoments: 关键节点
+  matchSummary: 对局总结
+  moveN: 第 { n } 手
+  moveRange: 手数 { from } → { to }
+  normal: 正常
+  pass: pass
+  suggestedMove: 建议手
+  title: AI 复盘分析
+  whiteAdv: '-1 白优'
+  whiteAvg: 白方平均
+  whiteSide: 白
+  whiteWin: 白棋 { n } 子
+  winner: 胜方
+badge:
+  empty: 暂无徽章，继续努力！
+  first_win: 首胜
+  first_win_desc: 赢得第一场对局
+  perfect_review: 复盘大师
+  perfect_review_desc: 完成一次完美复盘
+  puzzle_master: 题库达人
+  puzzle_master_desc: 题库挑战达 50 题
+  season_king: 赛季王者
+  season_king_desc: 赛季排名第一
+  streak_10: 连胜 10
+  streak_10_desc: 连续获胜十场
+  streak_5: 连胜 5
+  streak_5_desc: 连续获胜五场
+  title: 徽章墙
+  weekly_champion: 周冠军
+  weekly_champion_desc: 周榜单冠军
+board:
+  blackPiece: ' 黑'
+  gridLabel: 黑白棋棋盘
+  whitePiece: ' 白'
+bossKey:
+  body1: 本季度整体业务保持稳健增长，核心指标符合预期。
+  body2: 请查阅附件中的详细数据与下阶段计划。
+  hint: 按 ` 键返回
+  subtitle: 季度报告 · 草稿
+  title: 工作文档
+chat:
+  inputAria: 聊天输入框
+  inputPlaceholder: 输入消息…
+  noMessages: 暂无消息
+  publicRoom: 公共聊天室
+  roomChat: 房间聊天
+  sendAria: 发送
+common:
+  accept: 接受
+  backToLobby: 返回大厅
+  black: 黑
+  blackSide: 黑方
+  cancel: 取消
+  classicScore: '经典积分: {n}'
+  close: 关闭
+  comingSoon: 敬请期待
+  eloRating: 'ELO: {n}'
+  home: 首页
+  loading: 加载中…
+  logout: 退出登录
+  offline: 离线
+  online: 在线
+  reject: 拒绝
+  settings: 设置
+  vs: VS
+  white: 白
+  whiteSide: 白方
+  you: 你
+  youSuffix: （你）
+copy:
+  copied: 已复制到剪贴板
+  fallbackDesc: 当前环境不支持自动复制，请手动选择下方文本并复制（Ctrl+C / ⌘C）。
+  fallbackTitle: 无法自动复制
+  selectAll: 全选文本
+  selected: 已全选，请复制
+createRoom:
+  aiLevel: AI 难度
+  create: 创建
+  errName: 请输入房间名
+  humanVsAi: 人机对战
+  humanVsHuman: 人人对战
+  mode: 模式
+  password: 私房口令（可选）
+  passwordPlaceholder: 留空为公开房间
+  roomName: 房间名
+  roomNamePlaceholder: 例如：友好房
+  title: 创建房间
+endReason:
+  disconnect: 对方断线
+  drawAgree: 双方和棋
+  normal: 正常结束
+  resignLose: 你已认输
+  resignWin: 对方认输
+  timeoutLose: 你已超时
+  timeoutWin: 对方超时
+friends:
+  addFail: 发送请求失败
+  addFriend: 添加好友
+  addOk: 已向 {name} 发送好友请求
+  addPlaceholder: 输入用户名添加好友...
+  addSending: 发送中…
+  addUserNotFound: 未找到该用户
+  blockTitle: 屏蔽
+  blockedNote: 已屏蔽 · 不接收消息
+  challengeIncoming: '{name} 向你发起挑战！'
+  challengeNotFriend: 只能向好友发起挑战
+  challengeOffline: 对方不在线
+  challengeRejected: '{name} 拒绝了你的挑战'
+  challengeRejectedGeneric: 对方拒绝了你的挑战
+  invite: 邀战
+  inviteOfflineTitle: 对方离线
+  inviteTitle: 发起挑战
+  inviteWaiting: 等待应答…
+  noBlocked: 暂无屏蔽用户
+  noFriends: 暂无好友，添加棋友开始邀战吧
+  noReceived: 暂无收到的好友请求
+  noSent: 暂无发出的好友请求
+  onlineCanInvite: 在线 · 可邀战
+  receivedRequests: 收到的请求
+  requestAddYou: 请求添加你为好友
+  searchPlaceholder: 搜索好友...
+  sentRequests: 我发出的请求
+  statBlocked: 已屏蔽
+  statOnline: 在线
+  statPending: 待处理请求
+  statTotal: 好友总数
+  subtitle: 管理你的棋友 · 在线即时邀战
+  tabBlocked: 屏蔽列表
+  tabFriends: 好友
+  tabRequests: 请求
+  title: 好友列表
+  unblock: 解除
+  waitingAccept: 等待对方接受…
+  withdraw: 撤回
+game:
+  acceptDraw: 同意和棋
+  actions: 操作
+  analysis: 局势分析
+  backLobby: 返回大厅
+  badgeFinished: 已结束
+  badgeLive: LIVE
+  badgeWaiting: 等待中
+  balanced: 局势均衡
+  blackLead: 黑方领先 {n} 子
+  blackShort: 黑
+  currentTurn: 当前回合
+  emptyCells: 空位 {n}
+  finishedDesc: 该对局已经结束，无法再进入。
+  finishedTitle: 对局已结束
+  fullDesc: 该房间已有两位玩家，无法加入。可尝试观战或返回大厅。
+  fullTitle: 房间已满
+  headerFinished: 对局结束
+  headerPlaying: 对局进行中
+  headerWaiting: 等待对手
+  hint: 提示
+  hintDisabledTitle: 仅人机对局可提示
+  hintTitle: 高亮最优手 3 秒
+  moveLog: 走棋记录
+  moveNumber: 第 {n} 手
+  movesUnit: '{n} 手'
+  noPenalty: 短时断线不扣分
+  noPenaltyDetail: 对局将原样恢复，不计为逃跑。仅「轮到己方且长时间断线」才判定逃跑。
+  notFoundDesc: 此对局可能已被关闭，或链接有误。
+  notFoundTitle: 对局不存在
+  playBlack: 执黑
+  playWhite: 执白
+  recentN: 最近 {n} 步
+  reconnectHint: 检测到网络中断，正在基于走子历史恢复你的对局
+  reconnecting: 正在重新连接
+  rematch: 再战一局
+  rematchFailed: 再战请求失败，对方可能已离开
+  rematchRejected: 对方拒绝了再战
+  rematchRequest: '{name} 请求再战'
+  rematchTimeout: 对方未响应，再战已取消
+  rematchWaiting: 等待对方接受…
+  replayAnalysis: 复盘分析
+  replayProgress: 回放进度
+  requestDraw: 求和
+  resign: 认输
+  stepRemaining: 本步剩余
+  undo: 悔棋
+  undoDisabledTitle: 仅人机对局可悔棋
+  undoTitle: 回退两手（你和 AI 各一手）
+  waitingMove: 等待落子…
+  waitingTurn: 等待中
+  whiteLead: 白方领先 {n} 子
+  whiteShort: 白
+  yourTurn: 轮到你落子
+home:
+  allRecords: 全部记录 →
+  autoMatch: 自动匹配
+  autoMatchHint: 按 ELO 寻找对手
+  blackScore: 黑 · {n}
+  blackToMove: 轮到黑方
+  cancelMatch: 取消匹配
+  createAccount: 创建账号
+  createRoom: 创建房间
+  createRoomHint: 邀请好友或公开
+  dailyChallenge: 每日挑战
+  dailyHint: 今日还差 {n} 题
+  daysAgo: '{n} 天前'
+  featAi: L0–L5 六档 AI
+  featElo: ELO 评级 · 赛季段位
+  featReplay: 复盘 · AI 逐手分析
+  featSpectate: 实时观战
+  featTactics: 战术题库 · 每日挑战
+  goLogin: 直接登录
+  greetAfternoon: 下午好
+  greetEvening: 晚上好
+  greetMorning: 早上好
+  greetNight: 夜深了
+  headline1: 黑白之间，
+  headline2: 一子定乾坤
+  hoursAgo: '{n} 小时前'
+  improve: 棋力提升
+  justNow: 刚刚
+  lastMove: 最后一手 · E5
+  live: 直播 · 高手对局
+  lobbyLink: 观战大厅 →
+  login: 登录
+  matchingHint: 排队中，可随时取消
+  minutesAgo: '{n} 分钟前'
+  moveNumber: 第 {n} 手
+  movesUnit: 手
+  noRecentGames: 还没有对局记录，开一局试试
+  noSignupHint: 无需注册，3 秒开局 · 已有账号？
+  offlinePractice: 离线练习
+  offlinePracticeHint: 本地 AI · 不计分
+  onlineAi: 在线人机
+  onlineAiHint: 服务端托管 AI，战绩计入积分
+  onlineStatus: '{users} 在线 · {games} 局进行中'
+  playNow: 马上玩 · 人机对战
+  quickStart: 快速开局
+  recentGames: 最近对局
+  register: 注册
+  replay: 复盘
+  result_draw: 平
+  result_lose: 负
+  result_win: 胜
+  start: 开局
+  subhead: 零安装的黑白棋对战平台。人机练兵、在线过招、复盘精算——从第一手开始。
+  tactics: 战术训练
+  tacticsHint: 找最佳一手
+  tagline: OTHELLO · 8×8 · 双人对弈
+  watching: 观战
+  whiteScore: 白 · {n}
+leaderboard:
+  colClassic: 经典积分
+  colElo: ELO
+  colGames: 对局
+  colPlayer: 玩家
+  colRank: 排名
+  colTier: 段位
+  colWinrate: 胜率
+  noData: 暂无榜单数据（需至少完成一局）
+  subtitle: 段位晋降基于 ELO · 实时排名
+  tabClassic: 经典积分
+  tabElo: ELO 评级
+  tierSuffix: 段
+  title: 竞技榜单
+lobby:
+  aiBattle: 人机对战
+  aiLevelLabel: 人机难度
+  aiRoomName: 人机对战 · {level}
+  autoMatch: 自动匹配
+  cancelMatch: 取消匹配
+  classicScore: '经典积分: {n}'
+  createFail: 创建失败
+  createRoom: 创建房间
+  eloRating: 'ELO: {n}'
+  enterPassword: 输入房间口令
+  gamesInProgress: '{count} 局进行中'
+  joinFail: 加入失败
+  matching: 正在匹配对手…
+  matchingHint: 按 ELO 邻近区间匹配，等待越久范围越宽
+  miniLeaderboard: ELO 排行榜
+  moveNumber: 第 {n} 手
+  noActiveGame: 暂无进行中的对局
+  noOnline: 暂无在线玩家
+  noRoomToJoin: 暂无可加入的房间，创建一个吧
+  onlineCount: '在线: {count} 人'
+  onlinePlayers: 在线玩家
+  onlineTag: 在线
+  passwordRequired: 该房间需要口令才能加入
+  peopleCount: '{count}人'
+  queueCount: 队列 {count} 人
+  quickJoin: 快速加入
+  roomCount: '{count} 个'
+  roomList: 房间列表
+  serverOk: 服务器正常
+  spectate: 观战
+  spectateLobby: 观战大厅
+  tabSpectate: 进行中对局（可观战）
+  tabWaiting: 等待中房间
+  titleFriends: 好友
+  titleLeaderboard: 排行榜
+  titleLogout: 退出登录
+  viewAll: 查看全部
+  wrongPassword: 口令错误
+local:
+  aiName: AI
+  aiThinking: AI 思考中…
+  aiTurn: AI 回合
+  aiWhite: AI（白）
+  difficulty: 难度
+  gameOver: 对局结束
+  hint: 提示
+  moveNumber: 第 {n} 手
+  newGame: 新对局
+  noMoves: 暂无走子
+  overHint: 对局已结束，可点"新对局"再来一盘
+  pageTitle: 离线练习
+  playAgain: 再来一局
+  practiceTip: 开局别急着吃子——占角（A1/H1/A8/H8）才是胜负手。角上的子永远不会被翻。
+  practiceTipTitle: 练习小贴士
+  score: 比分
+  subtitle: 本地人机对弈 · 无需登录 · 不计分
+  title: Othello · 黑白棋
+  turnHint: 点击高亮的格子落子
+  undo: 悔棋
+  unrated: 不计分
+  waitHint: AI 正在计算最佳应手…
+  youBlack: 你（黑）
+  youName: 你
+  yourTurn: 你的回合
+login:
+  forgot: 忘记密码？
+  guestQuick: 游客模式快速进入
+  loggingIn: 登录中…
+  login: 登 录
+  loginFail: 登录失败
+  noAccount: 还没有账号？
+  or: OR
+  password: 密码
+  passwordPlaceholder: 输入密码
+  playOffline: 马上玩（人机离线）
+  registerAccount: 注册账号
+  remember: 记住密码
+  tagAi: 多难度 AI
+  tagNoInstall: 零安装
+  tagRealtime: 实时对战
+  title: Othello · 黑白棋
+  username: 用户名
+  usernamePlaceholder: 输入用户名
+  version: Othello Online Platform
+moveTimer:
+  step: 本步
+notFound:
+  a1Tag: A1 · NOT FOUND
+  backHome: 回首页
+  desc: 你刚才那步"着法"被判为非法——页面不存在，或者已经被移除。与其盯着空格发呆，不如回棋盘再来一局？
+  errorCode: ERROR 404 · ILLEGAL MOVE
+  goLobby: 去大厅
+  initialBoard: 初始局面
+  initialScore: 黑 2 · 白 2
+  moveZero: 第 0 手
+  playNow: 马上玩一局
+  tip: '> 提示：角部（A1）是必争之地，但这个页面不是。'
+  title: 这一格，不在棋盘上。
+notation:
+  export: 导出记谱
+  exportCopied: 记谱已复制：{ s }
+  exportFailed: 复制失败，记谱：{ s }
+  import: 导入记谱
+  importBtn: 导入
+  importPlaceholder: 粘贴记谱，如 f5d6c3...
+  importTitle: 导入标准记谱
+  invalid: 非法记谱，请检查格式
+profile:
+  acceptRequest: 接受好友请求
+  activity: 最近 7 天活跃度
+  addFriend: 加好友
+  addFriendFail: 发送好友请求失败
+  addFriendOk: 已向 {name} 发送好友请求
+  aiMode: 人机
+  aiStats: AI 对战统计
+  bio: 个人简介
+  bioEmpty: 该用户尚未填写简介
+  bioPlaceholder: 完善个人简介，让大家更了解你（即将开放编辑）
+  blockedByMe: 已屏蔽
+  challenge: 发起挑战
+  challengeWaiting: 等待应答…
+  classicScore: 经典积分
+  draws: 平
+  editAvatarComingSoon: 头像编辑即将开放
+  editBioComingSoon: 简介编辑即将开放
+  eloRating: ELO 主评级
+  eloTrend: ELO 走势（近 20 局）
+  games: 对局数
+  gamesUnit: 局
+  less: 少
+  losses: 负
+  message: 发消息
+  more: 多
+  noAiStats: 暂无 AI 对战记录
+  noEloHistory: 暂无 ELO 走势数据
+  noHistory: 暂无对局记录
+  notFound: 用户不存在
+  onlineTag: 在线
+  pendingOut: 等待对方接受
+  pvpMode: 人人
+  replay: 复盘
+  statsOverview: 战绩概览
+  tabBadges: 成就徽章
+  tabHistory: 对局历史
+  tabStats: 战绩统计
+  viewProfile: 查看资料
+  winrate: 胜率
+  wins: 胜
+register:
+  agreePrefix: 我同意
+  and: 和
+  confirmPassword: 确认密码
+  confirmPlaceholder: 再次输入密码
+  email: 邮箱地址
+  emailPlaceholder: 用于找回密码
+  errAgree: 请先同意用户协议和隐私政策
+  errMismatch: 两次输入的密码不一致
+  errShort: 密码至少 8 位
+  guestTry: 游客模式体验
+  hasAccount: 已有账号？
+  loginNow: 立即登录
+  or: 或
+  passwordPlaceholder: 至少 8 位
+  privacy: 隐私政策
+  register: 立即注册
+  registerFail: 注册失败
+  registering: 注册中…
+  setPassword: 设置密码
+  strengthFair: 一般
+  strengthGood: 较强
+  strengthStrong: 强
+  strengthWeak: 弱
+  subtitle: 加入黑白棋对战社区
+  terms: 用户协议
+  title: 创建账号
+  username: 用户名
+  usernamePlaceholder: 2-32 位字母数字下划线
+  verifyHint: 注册后请验证邮箱以启用完整功能
+replay:
+  aiMode: 人机对战
+  blackShort: 黑
+  end: 结束
+  humanMode: 人人对战
+  initialPosition: 初始局面
+  loading: 加载复盘数据…
+  modeBadge: 复盘模式
+  moveLog: 走子记录
+  moveNumber: 第 {n} 手
+  noLegal: （无合法手）
+  progress: 第 {cur} / {total} 手
+  share: 生成分享链接
+  shareCopied: 分享链接已复制到剪贴板
+  shareFail: 生成分享链接失败
+  speed: 速度 ×{n}
+  start: 开始
+  title: 复盘
+  whiteShort: 白
+result:
+  blackPiece: 黑
+  draw: 平 局
+  drawSubtitle: 双方 {b} ∶ {w} 平分秋色
+  endAtMove: 第 {n} 手终局
+  lose: 惜 败
+  playBlackFirst: 执黑 · 先手
+  playWhiteSecond: 执白 · 后手
+  score: 比分
+  whitePiece: 白
+  win: 胜 利
+  winSubtitle: '{winner} 以 {wc} ∶ {lc} 获胜'
+room:
+  assignLabel: 执子分配
+  backLobby: 返回大厅
+  blackFirst: 执黑先行
+  blackFirstWhiteSecond: 黑先白后
+  blackMark: 黑
+  cancelReady: 取消准备
+  chatHint: 仅本房间可见
+  clearPassword: 清除
+  editPassword: 修改
+  finishedDesc: 该房间的对局已经结束，无法再进入。
+  finishedTitle: 对局已结束
+  fixed: 固定
+  fullDesc: 该房间已有两位玩家，无法加入。可尝试观战或返回大厅。
+  fullTitle: 房间已满
+  host: 房主
+  hostLine: 房主：{host} · {mode} · {timer}
+  hostOnly: 仅房主可修改
+  invite: 邀请好友
+  leave: 退出房间
+  modeLabel: 对战模式
+  noSpectators: 暂无旁观者
+  notFoundDesc: 此房间可能已被关闭，或链接有误。
+  notFoundTitle: 房间不存在
+  number: '房间号 #{id}'
+  passwordHint: 私房需口令加入
+  passwordLabel: 房间口令
+  passwordPlaceholder: 输入新口令
+  private: 私房
+  pvp: 人人对战
+  ready: 已准备
+  readyBtn: 准备
+  readyHint: 双方准备后，房主可开局。已准备 {ready} / 2
+  roomLobby: 房间大厅
+  save: 保存
+  settings: 房间设置
+  spectateHint: 旁人可订阅
+  spectateLabel: 允许观战
+  spectateSeat: 观战席
+  spectators: '{n} 人旁观'
+  startGame: 开始对局
+  swapColors: 交换黑白
+  threeMin: 30 秒
+  timeoutLose: 超时判负
+  timerLabel: 每步倒计时
+  title: 高手过招
+  waited: 已等待 {time}
+  waiting: 等待中
+  waitingOpponent: 等待对手
+  waitingReady: 等待准备
+  whiteMark: 白
+  whiteSecond: 执白后手
+roomList:
+  humanVsAi: 人机对战
+  humanVsHuman: 人人对战
+  join: 加入
+  noRooms: 暂无房间，创建一个开始对战吧
+  statusFinished: 已结束
+  statusPlaying: 游戏中
+  statusWaiting: 等待中
+season:
+  active: 进行中
+  current: 当前赛季
+  finalElo: 最终 ELO
+  peakElo: 赛季峰值
+  settled: 已结算
+  title: 赛季
+settings:
+  accessibility: 无障碍
+  bossKey: Boss Key（老板键）
+  bossKeyHint: 一键切换为中性页面，防他人窥屏
+  bossKeyHotkey: 快捷键：按 ` 键（反引号）随时切换伪装/恢复
+  colorblind: 色盲友好模式
+  colorblindHint: 启用后棋子用描边/纹理区分，而非仅颜色
+  highContrast: 高对比模式
+  highContrastHint: 增强界面对比度
+  keyboardHint: 方向键移动焦点，回车键落子，Tab 键切换操作区域，Esc 键退出当前面板。
+  keyboardTitle: 键盘操作模式
+  privacy: 隐私与安全
+  reduceMotion: 减少动效
+  reduceMotionHint: 尊重 prefers-reduced-motion，关闭动画
+  reset: 重置默认
+  resetDone: 已恢复默认设置
+  save: 保存设置
+  saved: 设置已保存
+  subtitle: 自定义你的游戏体验
+  title: 游戏设置
+spectate:
+  actions: 操作
+  backLobby: 返回大厅
+  blackWin: 黑方胜
+  drawResult: 和棋
+  gameOver: 对局结束
+  leave: 离开观战
+  live: LIVE
+  loading: 正在加载观战…
+  notFoundDesc: 此对局可能已结束，或链接有误。
+  notFoundTitle: 对局不存在
+  readonlyHint: 只读模式 · 你不影响对局
+  readonlyNote: 观战为只读模式，不干扰对局
+  recentMovesLive: 最近走子（实时）
+  scoreLine: '黑 {b} : {w} 白'
+  seat: 观战席
+  seatCount: '{n} 人'
+  seatHint: 实时接收走子，不可落子
+  situation: 局势
+  spectating: 观战中
+  waitingMove: 等待落子…
+  whiteWin: 白方胜
+tactics:
+  accuracy: 正确率
+  avgRating: 平均评级
+  back: 返回
+  blackFirst: 黑先
+  clear: 清除
+  clickToPlace: 点击棋盘落子
+  completed: 已完成
+  diffAll: 全部难度
+  diffBeginner: 入门
+  diffEasy: 简单
+  diffExpert: 专家
+  diffHard: 困难
+  diffMedium: 中等
+  difficultyFilter: 难度筛选
+  explanation: 解析
+  findBest: 找出最佳一手
+  hint: 提示
+  hintClue: 提示：最佳手在 { h } 列附近
+  lastPuzzle: 已是最后一题
+  loginRequired: 请先登录后再提交答案
+  myStats: 我的战绩
+  nextPuzzle: 下一题
+  noDaily: 今日暂无每日挑战
+  noPuzzles: 暂无题目
+  puzzleN: 第 { n } 题
+  puzzlePrompt: 题目提示
+  recentAttempts: 最近答题
+  retry: 重试
+  retryTitle: 点击重做此题
+  reward3: 3 天
+  reward30: 30 天
+  reward30Desc: 专属称号
+  reward3Desc: +10 积分
+  reward7: 7 天
+  reward7Desc: +50 积分 · 徽章
+  skip: 跳过
+  solved: 已解决
+  streak: 连做 { n } 天
+  streakDays: 连做天数
+  streakReward: 连做奖励
+  submit: 提交答案
+  subtitle: 每日挑战
+  timeUsed: 用时 { t } · 评级 { r } · 获得 +{ score } 积分
+  title: 战术题库
+  today: 今日
+  topicCorner: 角点争夺
+  topicEdge: 边线控制
+  topicEndgame: 残局精确
+  topicFewerDiscs: 少子策略
+  topicFilter: 专题
+  topicMaximizeFlip: 翻子最大化
+  topicXSquare: X 位陷阱
+  verdictCorrect: 回答正确！
+  verdictSkipped: 已跳过
+  verdictWrong: 回答错误
+  viewExplanation: 查看解析
+  whiteFirst: 白先
+  yourChoice: 你的选择
+tier:
+  diamond: 钻石
+  gold: 黄金
+  king: 王者
+  master: 大师
+  platinum: 铂金
+  silver: 白银

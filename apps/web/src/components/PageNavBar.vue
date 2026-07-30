@@ -57,10 +57,10 @@ function onLogout() {
           class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
         >
           <div class="grid grid-cols-2 gap-0.5">
-            <div class="w-2.5 h-2.5 rounded-full bg-black" />
-            <div class="w-2.5 h-2.5 rounded-full bg-white" />
-            <div class="w-2.5 h-2.5 rounded-full bg-white" />
-            <div class="w-2.5 h-2.5 rounded-full bg-black" />
+            <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
           </div>
         </div>
         <span class="text-lg font-bold tracking-wide">Othello</span>

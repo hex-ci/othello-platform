@@ -35,14 +35,14 @@ const isLoggedIn = computed(() => Boolean(auth.token))
             class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
           >
             <div class="grid grid-cols-2 gap-0.5">
-              <div class="w-2.5 h-2.5 rounded-full bg-black" />
-              <div class="w-2.5 h-2.5 rounded-full bg-white" />
-              <div class="w-2.5 h-2.5 rounded-full bg-white" />
-              <div class="w-2.5 h-2.5 rounded-full bg-black" />
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
             </div>
           </div>
           <span class="text-lg font-bold tracking-wide group-hover:text-gold transition-colors"
-            >Othello</span
+          >Othello</span
           >
         </button>
         <button
@@ -58,10 +58,10 @@ const isLoggedIn = computed(() => Boolean(auth.token))
       <!-- 氛围层 -->
       <div
         class="absolute -top-40 left-[-12%] w-[680px] h-[680px] rounded-full bg-board-green/15 blur-[140px] pointer-events-none"
-      />
+      ></div>
       <div
         class="absolute bottom-[-25%] right-[-8%] w-[560px] h-[560px] rounded-full bg-gold/10 blur-[130px] pointer-events-none"
-      />
+      ></div>
       <div
         class="absolute inset-0 opacity-[0.03] pointer-events-none"
         :style="{
@@ -69,7 +69,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
             'linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)',
           backgroundSize: '56px 56px',
         }"
-      />
+      ></div>
 
       <div
         class="max-w-[1440px] mx-auto px-4 sm:px-8 min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center py-14 relative"
@@ -89,7 +89,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
             <span
               class="stone-hero rounded-full inline-block shrink-0 animate-[nfFloat_5s_ease-in-out_infinite,nfSpin_9s_ease-in-out_infinite]"
               :style="{ width: '0.72em', height: '0.72em' }"
-            />
+            ></span>
             <span class="font-black text-gold tracking-tighter">4</span>
           </div>
 
@@ -130,10 +130,10 @@ const isLoggedIn = computed(() => Boolean(auth.token))
         <div class="lg:col-span-5 relative">
           <div
             class="absolute -top-9 -right-5 w-9 h-9 rounded-full stone-w opacity-60 animate-[nfFloatAlt_7s_ease-in-out_infinite]"
-          />
+          ></div>
           <div
             class="absolute -bottom-7 -left-5 w-11 h-11 rounded-full stone-b opacity-70 animate-[nfFloat_6s_ease-in-out_infinite]"
-          />
+          ></div>
           <div
             class="relative rounded-2xl p-3 bg-gradient-to-br from-[#0d4a28] to-[#0a3a20] border border-board-green/40 shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
           >
@@ -143,8 +143,8 @@ const isLoggedIn = computed(() => Boolean(auth.token))
                 :key="i"
                 class="board-cell flex items-center justify-center"
               >
-                <div v-if="cell.stone === 'B'" class="w-[76%] h-[76%] rounded-full stone-b" />
-                <div v-else-if="cell.stone === 'W'" class="w-[76%] h-[76%] rounded-full stone-w" />
+                <div v-if="cell.stone === 'B'" class="w-[76%] h-[76%] rounded-full stone-b"></div>
+                <div v-else-if="cell.stone === 'W'" class="w-[76%] h-[76%] rounded-full stone-w"></div>
                 <div
                   v-else-if="cell.lost"
                   class="w-[80%] h-[80%] rounded-md flex items-center justify-center text-gold font-black font-mono text-xl animate-[lostGlow_2s_ease-in-out_infinite]"
@@ -157,7 +157,7 @@ const isLoggedIn = computed(() => Boolean(auth.token))
             <div
               class="absolute bottom-6 right-6 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[rgba(15,17,23,0.82)] border border-gold/40 backdrop-blur-sm"
             >
-              <span class="w-2 h-2 rounded-full bg-gold" />
+              <span class="w-2 h-2 rounded-full bg-gold"></span>
               <span class="text-[10px] text-gold font-mono">{{ $t('notFound.a1Tag') }}</span>
             </div>
           </div>

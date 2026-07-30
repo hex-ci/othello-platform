@@ -80,7 +80,6 @@ function initial(name: string): string {
 }
 
 const top3 = computed(() => entries.value.slice(0, 3))
-const rest = computed(() => entries.value.slice(3))
 
 /** 领奖台（确定类型，避免模板索引访问的 undefined） */
 const podium = computed(() => {
@@ -138,8 +137,9 @@ onMounted(() => {
             }}</span>
             <span
               class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-              >{{ $t('season.active') }}</span
             >
+              {{ $t('season.active') }}
+            </span>
           </div>
           <p class="text-sm font-bold mb-1">{{ season.currentSeason.name }}</p>
           <p class="text-xs text-text-secondary">
@@ -226,8 +226,9 @@ onMounted(() => {
           <span
             class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded-full border"
             :class="tierOf(podium.second.elo).cls"
-            >{{ tierOf(podium.second.elo).name }}{{ $t('leaderboard.tierSuffix') }}</span
           >
+            {{ tierOf(podium.second.elo).name }}{{ $t('leaderboard.tierSuffix') }}
+          </span>
         </div>
         <!-- 第 1 名 -->
         <div
@@ -258,8 +259,9 @@ onMounted(() => {
             <span
               class="inline-block mt-2 text-[10px] px-2.5 py-1 rounded-full border"
               :class="tierOf(podium.first.elo).cls"
-              >{{ tierOf(podium.first.elo).name }}{{ $t('leaderboard.tierSuffix') }}</span
             >
+              {{ tierOf(podium.first.elo).name }}{{ $t('leaderboard.tierSuffix') }}
+            </span>
           </div>
         </div>
         <!-- 第 3 名 -->
@@ -287,8 +289,9 @@ onMounted(() => {
           <span
             class="inline-block mt-2 text-[9px] px-2 py-0.5 rounded-full border"
             :class="tierOf(podium.third.elo).cls"
-            >{{ tierOf(podium.third.elo).name }}{{ $t('leaderboard.tierSuffix') }}</span
           >
+            {{ tierOf(podium.third.elo).name }}{{ $t('leaderboard.tierSuffix') }}
+          </span>
         </div>
       </div>
 
@@ -374,8 +377,9 @@ onMounted(() => {
             <span
               class="text-[9px] px-2 py-0.5 rounded-full border inline-block w-fit"
               :class="tierOf(e.elo).cls"
-              >{{ tierOf(e.elo).name }}</span
             >
+              {{ tierOf(e.elo).name }}
+            </span>
           </div>
         </div>
       </div>

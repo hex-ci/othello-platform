@@ -29,9 +29,9 @@ const emit = defineEmits<{ restore: [] }>()
           <div class="space-y-4 text-sm leading-relaxed text-gray-600">
             <p>{{ $t('bossKey.body1') }}</p>
             <p>{{ $t('bossKey.body2') }}</p>
-            <div class="h-px bg-gray-200 my-6" />
+            <div class="h-px bg-gray-200 my-6"></div>
             <div class="grid grid-cols-3 gap-4">
-              <div v-for="n in 6" :key="n" class="h-20 rounded-lg bg-gray-100 border border-gray-200" />
+              <div v-for="n in 6" :key="n" class="h-20 rounded-lg bg-gray-100 border border-gray-200"></div>
             </div>
           </div>
         </div>

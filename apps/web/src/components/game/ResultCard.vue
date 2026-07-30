@@ -102,8 +102,8 @@ function nameTag(name: string, isYou: boolean): string {
         <div class="flex flex-col items-center px-4">
           <span class="text-[10px] text-text-secondary uppercase tracking-widest mb-1">{{ $t('result.score') }}</span>
           <div class="h-2 w-32 rounded-full overflow-hidden flex bg-[rgba(255,255,255,0.08)]">
-            <div class="bg-gradient-to-r from-gray-700 to-gray-500 transition-all duration-500" :style="{ width: `${blackPct}%` }" />
-            <div class="bg-gradient-to-r from-gray-200 to-white transition-all duration-500" :style="{ width: `${whitePct}%` }" />
+            <div class="bg-gradient-to-r from-gray-700 to-gray-500 transition-all duration-500" :style="{ width: `${blackPct}%` }"></div>
+            <div class="bg-gradient-to-r from-gray-200 to-white transition-all duration-500" :style="{ width: `${whitePct}%` }"></div>
           </div>
           <span v-if="moveCount !== undefined" class="text-[10px] text-text-secondary mt-2">{{ $t('result.endAtMove', { n: moveCount }) }}</span>
         </div>
@@ -130,7 +130,7 @@ function nameTag(name: string, isYou: boolean): string {
 
     <!-- 操作插槽 -->
     <div class="mt-5">
-      <slot />
+      <slot></slot>
     </div>
   </div>
 </template>

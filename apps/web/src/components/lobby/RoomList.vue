@@ -52,7 +52,7 @@ const AI_LEVEL_TAG: Record<number, string> = {
       :class="room.status === 'finished' ? 'opacity-50' : 'cursor-pointer'"
       @click="
         room.status !== 'finished' &&
-        (room.hasPassword ? emit('join-with-password', room) : emit('join', room))
+          (room.hasPassword ? emit('join-with-password', room) : emit('join', room))
       "
     >
       <div class="flex items-center justify-between mb-3">

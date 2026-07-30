@@ -11,7 +11,6 @@
     "source.fixAll.eslint": "explicit"
   },
   "eslint.enable": true,
-  "eslint.useFlatConfig": true,
   "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
   "js/ts.tsdk.path": "node_modules/typescript/lib",
   "i18n-ally.localesPaths": [
@@ -26,7 +25,7 @@
     "vue"
   ],
   "i18n-ally.enabledParsers": [
-    "ts"
+    "yaml"
   ],
   "i18n-ally.keystyle": "nested",
   "i18n-ally.parsers.typescript.compilerOptions": {

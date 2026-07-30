@@ -112,7 +112,7 @@ function ariaLabel(x: number, y: number, cell: number): string {
             :class="cell.isHint
               ? 'bg-gold/60 border-gold scale-125'
               : 'bg-board-green/60 border-[rgba(255,255,255,0.15)]'"
-          />
+          ></div>
         </button>
       </div>
     </div>

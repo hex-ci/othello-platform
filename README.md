@@ -84,7 +84,7 @@ pnpm dev:web
 打开 http://localhost:5173 即可开始。
 
 > 若本机 3000 端口被占用，可在 `apps/server/.env` 中改 `PORT`，并同步调整 Vite proxy。
-> 前端开发端口（默认 5173）与 proxy 后端端口可通过 `apps/web/.env.local` 配置，见 [`apps/web/.env.example`](./apps/web/.env.example)。
+> 前端开发端口（默认 5173）与 proxy 后端端口可通过 `apps/web/.env` 配置，见 [`apps/web/.env.example`](./apps/web/.env.example)。
 
 ### 环境变量
 

@@ -28,7 +28,7 @@ const store = useGameStore()
               ? 'animate-[turnPulse_1.8s_ease-in-out_infinite]'
               : ''
           "
-        />
+        ></div>
         <div>
           <p class="text-[11px] text-text-secondary">{{ $t('local.youBlack') }}</p>
           <p class="text-2xl font-black font-mono leading-none mt-1">{{ store.counts.black }}</p>
@@ -50,7 +50,7 @@ const store = useGameStore()
               ? 'animate-[turnPulse_1.8s_ease-in-out_infinite]'
               : ''
           "
-        />
+        ></div>
       </div>
     </div>
   </div>

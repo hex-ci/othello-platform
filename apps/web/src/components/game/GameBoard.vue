@@ -123,7 +123,7 @@ function ariaLabel(x: number, y: number, cell: number): string {
           <div
             v-else-if="cell.isLegal"
             class="w-3 h-3 rounded-full bg-board-green/60 border border-[rgba(255,255,255,0.15)] transition-all duration-200"
-          />
+          ></div>
         </button>
       </div>
     </div>

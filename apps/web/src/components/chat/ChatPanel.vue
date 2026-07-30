@@ -110,7 +110,7 @@ function initial(name: string): string {
         :placeholder="$t('chat.inputPlaceholder')"
         class="flex-1 min-w-0 bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-2.5 px-4 text-sm text-text-primary placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/30 transition-colors"
         :aria-label="$t('chat.inputAria')"
-      />
+      >
       <button
         type="submit"
         class="px-4 rounded-xl bg-gold/10 text-gold border border-gold/20 hover:bg-gold hover:text-primary transition-all flex items-center justify-center"

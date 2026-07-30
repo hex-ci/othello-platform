@@ -120,10 +120,10 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             class="w-8 h-8 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
           >
             <div class="grid grid-cols-2 gap-0.5">
-              <div class="w-2 h-2 rounded-full bg-black" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-black" />
+              <div class="w-2 h-2 rounded-full bg-black"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-black"></div>
             </div>
           </div>
           <span class="text-sm font-bold">{{ $t('spectate.spectating') }}</span>
@@ -133,7 +133,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
           >
             <span
               class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-[live-blink_1.5s_ease-in-out_infinite]"
-            />{{ $t('spectate.live') }}
+            ></span>{{ $t('spectate.live') }}
           </span>
           <span
             v-else
@@ -157,7 +157,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
       <div class="flex flex-col items-center gap-4">
         <div
           class="w-12 h-12 rounded-full border-4 border-glass border-t-gold animate-spin [animation-duration:1.2s]"
-        />
+        ></div>
         <p class="text-sm text-text-secondary">{{ $t('spectate.loading') }}</p>
       </div>
     </div>
@@ -229,7 +229,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               </div>
               <div
                 class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-black border-2 border-[#0f1117] shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
-              />
+              ></div>
             </div>
             <div class="min-w-0">
               <p class="text-sm font-semibold truncate">
@@ -294,7 +294,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               </div>
               <div
                 class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-[#0f1117] shadow-[0_2px_6px_rgba(0,0,0,0.3)]"
-              />
+              ></div>
             </div>
             <div class="min-w-0">
               <p class="text-sm font-semibold truncate">
@@ -340,11 +340,11 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             <div
               class="bg-gray-800 h-full transition-all duration-500"
               :style="{ width: `${blackPct}%` }"
-            />
+            ></div>
             <div
               class="bg-gray-200 h-full transition-all duration-500"
               :style="{ width: `${whitePct}%` }"
-            />
+            ></div>
           </div>
           <div class="flex justify-between text-[10px] text-text-secondary">
             <span>{{ $t('game.blackShort') }} {{ blackCount }} ({{ blackPct }}%)</span>
@@ -400,7 +400,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
                 :class="
                   m.color === 'BLACK' ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
                 "
-              />
+              ></span>
               {{ posLabel(m) }}
             </span>
           </div>

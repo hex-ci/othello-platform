@@ -71,7 +71,7 @@ function selectAll() {
             readonly
             class="w-full px-3 py-2.5 rounded-xl bg-black/30 border border-glass-border text-sm text-text-primary font-mono focus:outline-none focus:border-gold/50"
             @click="($event.target as HTMLInputElement).select()"
-          />
+          >
 
           <div class="flex gap-2 mt-4">
             <button

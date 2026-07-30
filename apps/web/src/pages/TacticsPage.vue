@@ -7,14 +7,11 @@
  * 右：战绩 + 最近答题 + 连做奖励
  */
 import { onMounted, onUnmounted, computed, watch } from 'vue'
-import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import {
   CalendarCheck,
   Flame,
-  Clock,
-  CheckCircle,
   X,
   Lightbulb,
   Eraser,
@@ -22,8 +19,6 @@ import {
   Check,
   CheckCircle2,
   Eye,
-  Star,
-  Trophy,
 } from '@lucide/vue'
 import { T_BLACK, T_WHITE, legalMoves, type Board, type Pos } from '@othello-platform/engine'
 import { useTacticsStore } from '@/stores/tactics-store'
@@ -32,7 +27,6 @@ import Piece from '@/components/game/Piece.vue'
 import PageNavBar from '@/components/PageNavBar.vue'
 import { toast } from 'vue-sonner'
 
-const router = useRouter()
 const tactics = useTacticsStore()
 const auth = useAuthStore()
 const { t, locale } = useI18n()
@@ -262,7 +256,7 @@ onUnmounted(() => {
                 :key="i"
                 class="flex-1 h-1.5 rounded-full"
                 :class="i <= dailyProgress.done ? 'bg-purple-400' : 'bg-[rgba(255,255,255,0.08)]'"
-              />
+              ></div>
             </div>
             <div class="flex items-center gap-1.5 text-[10px] text-text-secondary">
               <Flame class="w-3 h-3 text-orange-400" />
@@ -289,7 +283,7 @@ onUnmounted(() => {
                 @click="tactics.setFilter({ difficulty: d.value })"
               >
                 <span class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full" :class="d.color" />
+                  <span class="w-2 h-2 rounded-full" :class="d.color"></span>
                   {{ d.label }}
                 </span>
                 <span class="text-[9px] text-text-secondary">{{
@@ -425,19 +419,19 @@ onUnmounted(() => {
                         <div
                           v-else-if="
                             answerPos &&
-                            answerPos.x === (i - 1) % 8 &&
-                            answerPos.y === Math.floor((i - 1) / 8)
+                              answerPos.x === (i - 1) % 8 &&
+                              answerPos.y === Math.floor((i - 1) / 8)
                           "
                           class="w-3 h-3 rounded-full bg-gold/60 border border-gold animate-pulse"
-                        />
+                        ></div>
                         <div
                           v-else-if="
                             attemptResult &&
-                            currentPuzzle.bestPos.x === (i - 1) % 8 &&
-                            currentPuzzle.bestPos.y === Math.floor((i - 1) / 8)
+                              currentPuzzle.bestPos.x === (i - 1) % 8 &&
+                              currentPuzzle.bestPos.y === Math.floor((i - 1) / 8)
                           "
                           class="w-3 h-3 rounded-full bg-emerald-400/80 border border-emerald-400"
-                        />
+                        ></div>
                       </button>
                     </div>
                   </div>
@@ -459,7 +453,7 @@ onUnmounted(() => {
                         ? 'bg-gradient-to-br from-gray-700 to-gray-900'
                         : 'bg-gradient-to-br from-white to-gray-200'
                     "
-                  />
+                  ></div>
                   <span v-if="answerPos" class="text-sm font-bold text-gold font-mono">{{
                     posLabel(answerPos)
                   }}</span>
@@ -648,7 +642,7 @@ onUnmounted(() => {
                   v-if="a.rating"
                   class="text-[9px]"
                   :class="a.correct ? 'text-emerald-400' : 'text-rose-400'"
-                  >{{ a.rating }}</span
+                >{{ a.rating }}</span
                 >
                 <span v-else class="text-[9px] text-gold">{{ $t('tactics.retry') }}</span>
               </button>

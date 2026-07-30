@@ -10,12 +10,12 @@ disable-model-invocation: true
 
 ## 前置确认
 
-开始前确认（任一缺失则停止并提示用户先启动）。后端端口从 `apps/server/.env` 的 `PORT` 读取（默认 3000），前端端口从 `apps/web/.env.local` 的 `VITE_PORT` 读取（默认 5173）：
+开始前确认（任一缺失则停止并提示用户先启动）。后端端口从 `apps/server/.env` 的 `PORT` 读取（默认 3000），前端端口从 `apps/web/.env` 的 `VITE_PORT` 读取（默认 5173）：
 
 ```bash
 # 动态解析本机端口（无 .env 时用默认值）
 PORT=$(grep -E '^PORT=' apps/server/.env 2>/dev/null | cut -d= -f2 || echo 3000)
-WEB_PORT=$(grep -E '^VITE_PORT=' apps/web/.env.local 2>/dev/null | cut -d= -f2 || echo 5173)
+WEB_PORT=$(grep -E '^VITE_PORT=' apps/web/.env 2>/dev/null | cut -d= -f2 || echo 5173)
 ```
 
 1. **后端在跑**: `ss -ltnp | grep "$PORT"` 应有 othello 进程；没有则提示 `pnpm dev:server`
@@ -37,7 +37,7 @@ WEB_PORT=$(grep -E '^VITE_PORT=' apps/web/.env.local 2>/dev/null | cut -d= -f2 |
 **优先用 UI 表单登录**，不注入 token，避免 WS 鉴权时序问题（下例端口用前置确认解析出的 `$WEB_PORT`，默认 5173）：
 
 ```bash
-playwright-cli -s=alice open http://localhost:5173/login
+playwright-cli -s=alice open http://localhost:$WEB_PORT/login
 playwright-cli -s=alice snapshot                    # 拿 input/button 的 ref
 playwright-cli -s=alice fill <username-input-ref> "alice"
 playwright-cli -s=alice fill <password-input-ref> "<password>"

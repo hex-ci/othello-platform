@@ -26,7 +26,7 @@ function posLabel(pos: Pos | null, isPass: boolean): string {
         <span
           class="inline-block w-3 h-3 rounded-full border"
           :class="m.color === 'BLACK' ? 'bg-black border-white/30' : 'bg-white border-black/30'"
-        />
+        ></span>
         <span :class="m.isPass ? 'text-text-secondary italic' : 'text-text-primary'">
           {{ posLabel(m.pos, m.isPass) }}
         </span>

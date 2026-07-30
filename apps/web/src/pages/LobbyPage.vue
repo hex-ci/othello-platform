@@ -31,7 +31,6 @@ import { useNotificationStore } from '@/stores/notification-store'
 import { useChallenge } from '@/composables/useChallenge'
 import { useQuickAi } from '@/composables/useQuickAi'
 import { getWsClient } from '@/api/ws-client'
-import * as api from '@/api/rooms'
 import * as usersApi from '@/api/users'
 import RoomList from '@/components/lobby/RoomList.vue'
 import CreateRoomDialog from '@/components/lobby/CreateRoomDialog.vue'
@@ -200,10 +199,10 @@ function onLogout() {
             class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center shadow-md"
           >
             <div class="grid grid-cols-2 gap-0.5">
-              <div class="w-2.5 h-2.5 rounded-full bg-black" />
-              <div class="w-2.5 h-2.5 rounded-full bg-white" />
-              <div class="w-2.5 h-2.5 rounded-full bg-white" />
-              <div class="w-2.5 h-2.5 rounded-full bg-black" />
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
             </div>
           </div>
           <span class="text-lg font-bold tracking-wide">Othello</span>
@@ -328,15 +327,16 @@ function onLogout() {
                 </div>
                 <div
                   class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-surface"
-                />
+                ></div>
               </div>
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium truncate">{{ u.username }}</p>
               </div>
               <span
                 class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                >{{ $t('lobby.onlineTag') }}</span
               >
+                {{ $t('lobby.onlineTag') }}
+              </span>
             </div>
             <div
               v-if="lobby.onlineUsers.length === 0"
@@ -452,12 +452,13 @@ function onLogout() {
                 <span
                   class="text-[10px] font-bold"
                   :class="i === 0 ? 'text-gold' : 'text-text-secondary'"
-                  >{{ i + 1 }}</span
                 >
+                  {{ i + 1 }}
+                </span>
                 <span class="text-[11px] font-medium max-w-20 truncate">{{ e.username }}</span>
-                <span class="text-[10px]" :class="i === 0 ? 'text-gold' : 'text-text-secondary'">{{
-                  e.elo
-                }}</span>
+                <span class="text-[10px]" :class="i === 0 ? 'text-gold' : 'text-text-secondary'">
+                  {{ e.elo }}
+                </span>
               </div>
               <div v-if="lobby.topElo.length === 0" class="text-text-secondary text-[11px] py-1">
                 {{ $t('leaderboard.noData') }}
@@ -533,9 +534,9 @@ function onLogout() {
                   </div>
                   <div class="flex items-center gap-3 text-[10px] text-text-secondary mt-1">
                     <span>{{ $t('lobby.moveNumber', { n: g.moveCount }) }}</span>
-                    <span class="flex items-center gap-1"
-                      ><Eye class="w-3 h-3" />{{ g.spectatorCount }}</span
-                    >
+                    <span class="flex items-center gap-1">
+                      <Eye class="w-3 h-3" />{{ g.spectatorCount }}
+                    </span>
                   </div>
                 </div>
                 <button
@@ -561,9 +562,9 @@ function onLogout() {
       class="fixed bottom-0 left-0 right-0 h-8 bg-[rgba(15,17,23,0.9)] border-t border-glass-border flex items-center px-4 sm:px-8 text-[10px] text-text-secondary"
     >
       <div class="flex items-center gap-4 max-w-[1440px] mx-auto w-full">
-        <span class="flex items-center gap-1"
-          ><span class="w-1.5 h-1.5 rounded-full bg-emerald-400" /> {{ $t('lobby.serverOk') }}</span
-        >
+        <span class="flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> {{ $t('lobby.serverOk') }}
+        </span>
         <span>{{ $t('lobby.onlineCount', { count: lobby.onlineUsers.length }) }}</span>
         <span class="ml-auto">{{ now }}</span>
       </div>

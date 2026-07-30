@@ -144,13 +144,6 @@ function matchDot(result: string | null, myColor: string): string {
   return won ? 'bg-emerald-400' : 'bg-red-400'
 }
 
-function matchDelta(result: string | null, myColor: string): string {
-  if (result === 'DRAW' || result === null) return 'text-gray-400'
-  const won =
-    (myColor === 'BLACK' && result === 'BLACK') || (myColor === 'WHITE' && result === 'WHITE')
-  return won ? 'text-emerald-400' : 'text-red-400'
-}
-
 /** 对局比分（人机局无走子比分，显示 moveCount 手） */
 function matchScore(g: { moveCount: number }): string {
   return `${g.moveCount} 手`
@@ -300,7 +293,7 @@ onMounted(() => {
                 v-if="isMe"
                 class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mt-2"
               >
-                <span class="w-2 h-2 rounded-full bg-emerald-400" />
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
                 <span class="text-[10px] text-emerald-400">{{ $t('profile.onlineTag') }}</span>
               </span>
             </div>
@@ -333,7 +326,7 @@ onMounted(() => {
               >
                 <Shield class="w-4 h-4" />
                 <span class="text-sm font-semibold"
-                  >{{ tierOf(user.elo).name }}{{ $t('leaderboard.tierSuffix') }}</span
+                >{{ tierOf(user.elo).name }}{{ $t('leaderboard.tierSuffix') }}</span
                 >
               </div>
             </div>
@@ -542,7 +535,7 @@ onMounted(() => {
                   class="flex-1 rounded-t-sm"
                   :class="eloBarColor(pt.delta)"
                   :style="{ height: eloBarHeight(pt) }"
-                />
+                ></div>
               </div>
               <div v-if="eloHistory.length > 0" class="flex justify-between mt-2">
                 <span class="text-[9px] text-text-secondary">{{
@@ -569,7 +562,7 @@ onMounted(() => {
                   <span class="text-sm text-text-primary">AI L{{ s.aiLevel }}</span>
                   <div class="flex items-center gap-4">
                     <span class="text-xs text-text-secondary font-mono"
-                      >{{ s.games }} {{ $t('profile.gamesUnit') }}</span
+                    >{{ s.games }} {{ $t('profile.gamesUnit') }}</span
                     >
                     <span
                       class="text-xs font-medium font-mono"
@@ -580,7 +573,7 @@ onMounted(() => {
                             ? 'text-[#f1c40f]'
                             : 'text-red-400'
                       "
-                      >{{ s.winRate }}%</span
+                    >{{ s.winRate }}%</span
                     >
                   </div>
                 </div>
@@ -601,16 +594,16 @@ onMounted(() => {
                   <div
                     class="w-full h-8 rounded-md"
                     :class="activityLevel(activityMap[d.date] || 0)"
-                  />
+                  ></div>
                   <span class="text-[9px] text-text-secondary">{{ d.label }}</span>
                 </div>
               </div>
               <div class="flex items-center justify-end gap-2 mt-2">
                 <span class="text-[9px] text-text-secondary">{{ $t('profile.less') }}</span>
-                <div class="w-3 h-3 rounded-sm bg-[rgba(255,255,255,0.03)]" />
-                <div class="w-3 h-3 rounded-sm bg-board-green/40" />
-                <div class="w-3 h-3 rounded-sm bg-board-green/70" />
-                <div class="w-3 h-3 rounded-sm bg-board-green" />
+                <div class="w-3 h-3 rounded-sm bg-[rgba(255,255,255,0.03)]"></div>
+                <div class="w-3 h-3 rounded-sm bg-board-green/40"></div>
+                <div class="w-3 h-3 rounded-sm bg-board-green/70"></div>
+                <div class="w-3 h-3 rounded-sm bg-board-green"></div>
                 <span class="text-[9px] text-text-secondary">{{ $t('profile.more') }}</span>
               </div>
             </div>
@@ -631,13 +624,13 @@ onMounted(() => {
                 class="backdrop-blur-xl bg-glass border border-glass-border rounded-xl p-4 flex items-center justify-between hover:border-glass-border/80 transition-colors"
               >
                 <div class="flex items-center gap-4">
-                  <span class="w-2.5 h-2.5 rounded-full" :class="matchDot(g.result, g.myColor)" />
+                  <span class="w-2.5 h-2.5 rounded-full" :class="matchDot(g.result, g.myColor)"></span>
                   <div>
                     <p class="text-sm font-medium text-text-primary">
                       vs
                       <span
                         :class="g.mode === 'human_vs_ai' ? 'text-text-secondary' : 'text-gold'"
-                        >{{ g.opponentName }}</span
+                      >{{ g.opponentName }}</span
                       >
                     </p>
                     <p class="text-[11px] text-text-secondary">{{ formatDate(g.endedAt) }}</p>

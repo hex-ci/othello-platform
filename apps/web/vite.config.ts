@@ -2,6 +2,8 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
+import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
+import { join } from 'node:path'
 
 export default defineConfig(({ mode }) => {
   // 从 apps/web/.env(.local) 读取开发配置；端口私有化，避免与他人冲突
@@ -11,7 +13,14 @@ export default defineConfig(({ mode }) => {
   const backend = `http://localhost:${serverPort}`
 
   return {
-    plugins: [vue(), tailwindcss()],
+    plugins: [
+      vue(),
+      tailwindcss(),
+      VueI18nPlugin({
+        include: join(__dirname, './src/i18n/locales/**'),
+        dropMessageCompiler: true,
+      }),
+    ],
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),

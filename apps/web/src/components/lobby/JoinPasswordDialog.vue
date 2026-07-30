@@ -80,7 +80,7 @@ function cancel() {
                 autofocus
                 class="w-full bg-primary/40 border border-glass-border rounded-md px-3 py-2 text-text-primary focus:outline-none focus:ring-2 focus:ring-gold/40"
                 :placeholder="$t('createRoom.passwordPlaceholder')"
-              />
+              >
             </div>
 
             <div v-if="error" class="text-red-400 text-sm">{{ error }}</div>

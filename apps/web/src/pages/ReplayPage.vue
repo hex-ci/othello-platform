@@ -155,15 +155,15 @@ onUnmounted(() => {
             class="w-8 h-8 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
           >
             <div class="grid grid-cols-2 gap-0.5">
-              <div class="w-2 h-2 rounded-full bg-black" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-black" />
+              <div class="w-2 h-2 rounded-full bg-black"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-black"></div>
             </div>
           </div>
           <span
             class="px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-purple-500/15 text-purple-400 border border-purple-500/25"
-            >{{ $t('replay.modeBadge') }}</span
+          >{{ $t('replay.modeBadge') }}</span
           >
         </div>
 
@@ -240,7 +240,7 @@ onUnmounted(() => {
           v-model="importText"
           class="w-full h-24 bg-[rgba(255,255,255,0.02)] border border-glass-border rounded-lg p-3 text-sm font-mono focus:outline-none focus:border-gold/30"
           :placeholder="$t('notation.importPlaceholder')"
-        />
+        ></textarea>
         <div v-if="importError" class="text-red-400 text-xs mt-2">{{ importError }}</div>
         <div class="flex gap-3 mt-4">
           <button
@@ -299,13 +299,13 @@ onUnmounted(() => {
           <!-- 比分 -->
           <div class="mt-4 flex items-center gap-6 text-sm">
             <div class="flex items-center gap-2">
-              <div class="w-4 h-4 rounded-full bg-gray-800 border border-gray-600" />
+              <div class="w-4 h-4 rounded-full bg-gray-800 border border-gray-600"></div>
               <span class="font-mono tabular-nums">{{ blackCount }}</span>
             </div>
             <span class="text-text-secondary">:</span>
             <div class="flex items-center gap-2">
               <span class="font-mono tabular-nums">{{ whiteCount }}</span>
-              <div class="w-4 h-4 rounded-full bg-white border border-gray-300" />
+              <div class="w-4 h-4 rounded-full bg-white border border-gray-300"></div>
             </div>
           </div>
 
@@ -320,7 +320,7 @@ onUnmounted(() => {
                 :value="currentStep"
                 class="w-full h-2 rounded-full appearance-none cursor-pointer bg-glass accent-gold"
                 @input="replay.goTo(Number(($event.target as HTMLInputElement).value))"
-              />
+              >
               <div class="flex justify-between text-xs text-text-secondary mt-1">
                 <span>{{ $t('replay.start') }}</span>
                 <span>{{ $t('replay.progress', { cur: currentStep, total: totalSteps }) }}</span>
@@ -410,7 +410,7 @@ onUnmounted(() => {
                     ? 'bg-gray-800 border-gray-600'
                     : 'bg-white border-gray-300'
                 "
-              />
+              ></div>
               <span class="font-mono">{{ formatMove(frame.move) }}</span>
               <span v-if="frame.move.isPass" class="text-text-secondary text-[10px]">{{
                 $t('replay.noLegal')

@@ -175,7 +175,7 @@ const winnerText = computed(() => {
           <div class="flex items-center justify-between">
             <span class="text-xs text-text-secondary">{{ t('analyze.winner') }}</span>
             <div class="flex items-center gap-2">
-              <div class="w-3 h-3 rounded-full bg-gradient-to-br from-gray-900 to-black" />
+              <div class="w-3 h-3 rounded-full bg-gradient-to-br from-gray-900 to-black"></div>
               <span class="text-xs text-text-primary font-medium">{{ winnerText }}</span>
             </div>
           </div>

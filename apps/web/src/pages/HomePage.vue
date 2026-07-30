@@ -169,10 +169,10 @@ onUnmounted(() => {
               class="w-9 h-9 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
             >
               <div class="grid grid-cols-2 gap-0.5">
-                <div class="w-2.5 h-2.5 rounded-full bg-black" />
-                <div class="w-2.5 h-2.5 rounded-full bg-white" />
-                <div class="w-2.5 h-2.5 rounded-full bg-white" />
-                <div class="w-2.5 h-2.5 rounded-full bg-black" />
+                <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+                <div class="w-2.5 h-2.5 rounded-full bg-black"></div>
               </div>
             </div>
             <span class="text-lg font-bold tracking-wide">Othello</span>
@@ -199,10 +199,10 @@ onUnmounted(() => {
         <!-- 氛围层：棋盘绿光晕 + 网格纹理 -->
         <div
           class="absolute -top-32 right-[-10%] w-[720px] h-[720px] rounded-full bg-board-green/15 blur-[140px] pointer-events-none"
-        />
+        ></div>
         <div
           class="absolute bottom-[-20%] left-[-8%] w-[520px] h-[520px] rounded-full bg-gold/8 blur-[120px] pointer-events-none"
-        />
+        ></div>
         <div
           class="absolute inset-0 opacity-[0.03] pointer-events-none"
           :style="{
@@ -210,28 +210,36 @@ onUnmounted(() => {
               'linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)',
             backgroundSize: '56px 56px',
           }"
-        />
+        ></div>
 
         <div
           class="max-w-[1440px] mx-auto px-4 sm:px-8 min-h-[calc(100vh-4rem)] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center py-12 relative"
         >
           <!-- 左：品牌 + 试玩漏斗 -->
-          <div class="lg:col-span-7">
-            <p class="text-[11px] uppercase tracking-[0.3em] text-gold/80 mb-5 font-mono">
-              {{ $t('home.tagline') }}
-            </p>
+          <div class="lg:col-span-7 text-center lg:text-left">
+            <!-- eyebrow：堆叠态居中+两侧渐变线，宽屏左对齐无线 -->
+            <div class="flex items-center justify-center lg:justify-start gap-3 mb-5">
+              <span class="hidden lg:block w-0 h-0"></span>
+              <span class="w-8 h-px bg-gradient-to-r from-transparent to-gold/50 lg:hidden"></span>
+              <p class="text-[11px] uppercase tracking-[0.3em] text-gold/80 font-mono">
+                {{ $t('home.tagline') }}
+              </p>
+              <span class="w-8 h-px bg-gradient-to-l from-transparent to-gold/50 lg:hidden"></span>
+            </div>
             <h1
-              class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black leading-[1.08] tracking-tight"
+              class="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-black leading-[1.08] tracking-tight"
             >
-              {{ $t('home.headline1') }}<br />
-              <span class="text-gold">{{ $t('home.headline2') }}</span>
-              <span class="inline-block w-3.5 h-3.5 rounded-full stone-b ml-2.5" />
+              <span class="block">{{ $t('home.headline1') }}</span>
+              <span class="block mt-2 sm:mt-2.5 lg:mt-3 text-gold">
+                {{ $t('home.headline2') }}
+                <span class="inline-block w-3.5 h-3.5 rounded-full stone-b ml-2.5"></span>
+              </span>
             </h1>
-            <p class="text-text-secondary text-base mt-6 max-w-md leading-relaxed">
+            <p class="text-text-secondary text-base mt-6 max-w-md mx-auto lg:mx-0 leading-relaxed">
               {{ $t('home.subhead') }}
             </p>
 
-            <div class="flex flex-wrap items-center gap-4 mt-9">
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 mt-9">
               <button
                 class="group flex items-center gap-3 px-7 py-4 rounded-xl bg-gold text-primary font-bold text-sm hover:bg-gold-light hover:-translate-y-0.5 transition-all shadow-[0_8px_32px_rgba(212,168,67,0.28)]"
                 @click="router.push('/local')"
@@ -247,7 +255,9 @@ onUnmounted(() => {
                 {{ $t('home.createAccount') }}
               </button>
             </div>
-            <p class="text-[11px] text-text-secondary mt-3 flex items-center gap-1.5">
+            <p
+              class="text-[11px] text-text-secondary mt-3 flex items-center justify-center lg:justify-start gap-1.5"
+            >
               <Zap class="w-3 h-3 text-gold/70" />
               {{ $t('home.noSignupHint') }}
               <button
@@ -259,7 +269,7 @@ onUnmounted(() => {
             </p>
 
             <!-- 特性 chips -->
-            <div class="flex flex-wrap gap-2.5 mt-10">
+            <div class="flex flex-wrap justify-center lg:justify-start gap-2.5 mt-10">
               <span
                 class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-glass border border-glass-border text-[11px] text-text-secondary"
               >
@@ -289,13 +299,15 @@ onUnmounted(() => {
           </div>
 
           <!-- 右：棋盘视觉 -->
-          <div class="lg:col-span-5 relative">
+          <div
+            class="lg:col-span-5 relative max-w-sm sm:max-w-md mx-auto lg:mx-0 lg:max-w-none w-full"
+          >
             <div
               class="absolute -top-8 -left-6 w-10 h-10 rounded-full stone-b opacity-70 animate-[float_6s_ease-in-out_infinite]"
-            />
+            ></div>
             <div
               class="absolute -bottom-6 -right-4 w-7 h-7 rounded-full stone-w opacity-60 animate-[floatAlt_7s_ease-in-out_infinite]"
-            />
+            ></div>
             <div
               class="relative rounded-2xl p-3 bg-gradient-to-br from-[#0d4a28] to-[#0a3a20] border border-board-green/40 shadow-[0_24px_80px_rgba(0,0,0,0.5)]"
             >
@@ -309,18 +321,18 @@ onUnmounted(() => {
                     v-if="cell.stone === 'B'"
                     class="w-[76%] h-[76%] rounded-full stone-b"
                     :class="cell.last ? 'animate-[lastGlow_2.2s_ease-in-out_infinite]' : ''"
-                  />
+                  ></div>
                   <div
                     v-else-if="cell.stone === 'W'"
                     class="w-[76%] h-[76%] rounded-full stone-w"
-                  />
+                  ></div>
                 </div>
               </div>
               <!-- 覆盖层：最后一手 / 回合指示 -->
               <div
                 class="absolute top-6 right-6 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[rgba(15,17,23,0.82)] border border-gold/40 backdrop-blur-sm"
               >
-                <span class="w-2 h-2 rounded-full bg-gold" />
+                <span class="w-2 h-2 rounded-full bg-gold"></span>
                 <span class="text-[10px] text-gold font-mono">{{ $t('home.lastMove') }}</span>
               </div>
               <div
@@ -328,23 +340,22 @@ onUnmounted(() => {
               >
                 <span
                   class="w-3 h-3 rounded-full stone-b animate-[livePulse_1.6s_ease-in-out_infinite]"
-                />
+                ></span>
                 <span class="text-[11px] text-text-primary">{{ $t('home.blackToMove') }}</span>
               </div>
             </div>
             <div
               class="flex items-center justify-between mt-4 px-1 text-[11px] text-text-secondary font-mono"
             >
-              <span class="flex items-center gap-1.5"
-                ><span class="w-2.5 h-2.5 rounded-full stone-b inline-block" />{{
-                  $t('home.blackScore', { n: 34 })
-                }}</span
-              >
+              <span class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full stone-b inline-block"></span>
+                {{ $t('home.blackScore', { n: 34 }) }}
+              </span>
               <span class="text-gold/70">{{ $t('home.moveNumber', { n: 41 }) }}</span>
-              <span class="flex items-center gap-1.5"
-                >{{ $t('home.whiteScore', { n: 30 })
-                }}<span class="w-2.5 h-2.5 rounded-full stone-w inline-block"
-              /></span>
+              <span class="flex items-center gap-1.5">
+                {{ $t('home.whiteScore', { n: 30 }) }}
+                <span class="w-2.5 h-2.5 rounded-full stone-w inline-block"></span>
+              </span>
             </div>
           </div>
         </div>
@@ -371,7 +382,7 @@ onUnmounted(() => {
           >
             <span
               class="w-2 h-2 rounded-full bg-emerald-400 animate-[livePulse_1.6s_ease-in-out_infinite]"
-            />
+            ></span>
             <span class="text-[11px] text-emerald-400 font-medium font-mono">
               {{
                 $t('home.onlineStatus', {
@@ -527,9 +538,9 @@ onUnmounted(() => {
                       <Target class="w-4 h-4 text-gold" />
                       <p class="text-xs font-bold">{{ $t('home.dailyChallenge') }}</p>
                     </div>
-                    <span class="text-[10px] text-gold font-mono"
-                      >{{ dailyDone }}/{{ dailyTotal }}</span
-                    >
+                    <span class="text-[10px] text-gold font-mono">
+                      {{ dailyDone }}/{{ dailyTotal }}
+                    </span>
                   </div>
                   <div class="h-1.5 rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
                     <div
@@ -537,7 +548,7 @@ onUnmounted(() => {
                       :style="{
                         width: dailyTotal ? `${(dailyDone / dailyTotal) * 100}%` : '0%',
                       }"
-                    />
+                    ></div>
                   </div>
                   <p class="text-[10px] text-text-secondary mt-2">
                     {{ $t('home.dailyHint', { n: dailyTotal - dailyDone }) }}
@@ -557,7 +568,7 @@ onUnmounted(() => {
                 >
                   <span
                     class="w-1.5 h-1.5 rounded-full bg-rose-400 animate-[livePulse_1.4s_ease-in-out_infinite]"
-                  />
+                  ></span>
                   {{ $t('home.live') }}
                 </span>
                 <button
@@ -643,8 +654,9 @@ onUnmounted(() => {
                     <span
                       class="text-[10px] font-black px-2 py-1 rounded-md border"
                       :class="RESULT_CLS[resultOf(g)]"
-                      >{{ $t(`home.result_${resultOf(g)}`) }}</span
                     >
+                      {{ $t(`home.result_${resultOf(g)}`) }}
+                    </span>
                     <div>
                       <p class="text-[11px] font-medium">vs {{ g.opponentName }}</p>
                       <p class="text-[10px] text-text-secondary font-mono">

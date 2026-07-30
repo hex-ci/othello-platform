@@ -3,7 +3,7 @@
  * 在线对局页（T08/T09/T10）：三栏布局（玩家信息/棋盘/聊天操作），对齐设计稿 05-game。
  * 棋盘真相以服务端广播为准（§6.2）。ELO/观战/悔棋/提示/音乐等未实现，忽略。
  */
-import { onMounted, onUnmounted, computed, ref } from 'vue'
+import { onMounted, onUnmounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
@@ -206,10 +206,10 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             class="w-8 h-8 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] flex items-center justify-center"
           >
             <div class="grid grid-cols-2 gap-0.5">
-              <div class="w-2 h-2 rounded-full bg-black" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-black" />
+              <div class="w-2 h-2 rounded-full bg-black"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-black"></div>
             </div>
           </div>
           <span class="text-sm font-bold">{{ headerTitle }}</span>
@@ -231,7 +231,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
       <div class="flex flex-col items-center gap-4">
         <div
           class="w-12 h-12 rounded-full border-4 border-glass border-t-gold animate-spin [animation-duration:1.2s]"
-        />
+        ></div>
         <p class="text-sm text-text-secondary">{{ $t('game.headerWaiting') }}</p>
       </div>
     </div>
@@ -298,7 +298,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               </div>
               <div
                 class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-black border-2 border-[#0f1117] shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
-              />
+              ></div>
             </div>
             <div class="min-w-0">
               <p class="text-sm font-semibold truncate">
@@ -366,7 +366,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               </div>
               <div
                 class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-white border-2 border-[#0f1117] shadow-[0_2px_6px_rgba(0,0,0,0.3)]"
-              />
+              ></div>
             </div>
             <div class="min-w-0">
               <p class="text-sm font-semibold truncate">
@@ -415,11 +415,11 @@ const whiteFallback = computed(() => t('common.whiteSide'))
             <div
               class="bg-gray-800 h-full transition-all duration-500"
               :style="{ width: `${blackPct}%` }"
-            />
+            ></div>
             <div
               class="bg-gray-200 h-full transition-all duration-500"
               :style="{ width: `${whitePct}%` }"
-            />
+            ></div>
           </div>
           <div class="flex justify-between text-[10px] text-text-secondary">
             <span>{{ $t('game.blackShort') }} {{ blackCount }} ({{ blackPct }}%)</span>
@@ -482,7 +482,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
                 :class="
                   m.color === 'BLACK' ? 'bg-gray-800 border-gray-600' : 'bg-white border-gray-300'
                 "
-              />
+              ></span>
               {{ posLabel(m) }}
             </span>
           </div>
@@ -653,13 +653,13 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               <div class="relative w-20 h-20">
                 <div
                   class="absolute inset-0 rounded-full border-2 border-board-green/40 animate-[reconnect-ring_2s_ease-out_infinite]"
-                />
+                ></div>
                 <div
                   class="absolute inset-0 rounded-full border-2 border-board-green/40 animate-[reconnect-ring_2s_ease-out_infinite_1s]"
-                />
+                ></div>
                 <div
                   class="absolute inset-2 rounded-full border-4 border-glass border-t-gold animate-spin [animation-duration:1.2s]"
-                />
+                ></div>
                 <div class="absolute inset-0 flex items-center justify-center">
                   <RefreshCw
                     class="w-6 h-6 text-gold animate-spin [animation-duration:2s] [animation-direction:reverse]"
@@ -684,7 +684,7 @@ const whiteFallback = computed(() => t('common.whiteSide'))
               <div class="relative h-2 rounded-full bg-[rgba(255,255,255,0.08)] overflow-hidden">
                 <div
                   class="absolute inset-0 bg-gradient-to-r from-board-green to-emerald-400 animate-pulse"
-                />
+                ></div>
               </div>
             </div>
 

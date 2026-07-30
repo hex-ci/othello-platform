@@ -4,8 +4,8 @@
  * 缺失 key 回退默认语 zh-CN（missingWarn 关闭，避免开发期刷屏）。
  */
 import { createI18n } from 'vue-i18n'
-import zhCN from './locales/zh-CN'
-import en from './locales/en'
+import zhCN from './locales/zh-CN.yaml'
+import en from './locales/en.yaml'
 
 export const LOCALE_STORAGE_KEY = 'othello.locale'
 export const DEFAULT_LOCALE = 'zh-CN'

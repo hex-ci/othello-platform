@@ -14,7 +14,6 @@ const username = ref('')
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
-const agreed = ref(true)
 const error = ref('')
 const loading = ref(false)
 
@@ -79,23 +78,23 @@ function goPlayOffline() {
           'linear-gradient(rgba(26,107,60,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(26,107,60,0.8) 1px, transparent 1px)',
         backgroundSize: '80px 80px',
       }"
-    />
+    ></div>
     <!-- 漂浮棋子装饰 -->
     <div
       class="absolute top-[12%] right-[10%] w-16 h-16 rounded-full bg-gradient-to-br from-gray-900 to-black shadow-[0_4px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.1)] opacity-20 animate-[float_7s_ease-in-out_infinite_0.5s] pointer-events-none"
-    />
+    ></div>
     <div
       class="absolute top-[25%] left-[10%] w-12 h-12 rounded-full bg-gradient-to-br from-white to-gray-200 shadow-[0_4px_15px_rgba(0,0,0,0.5),inset_0_2px_4px_rgba(255,255,255,0.8)] opacity-15 animate-[float_6s_ease-in-out_infinite_1.5s] pointer-events-none"
-    />
+    ></div>
     <div
       class="absolute bottom-[20%] right-[14%] w-10 h-10 rounded-full bg-gradient-to-br from-white to-gray-300 shadow-[0_4px_12px_rgba(0,0,0,0.4),inset_0_2px_3px_rgba(255,255,255,0.9)] opacity-10 animate-[float_8s_ease-in-out_infinite_2.5s] pointer-events-none"
-    />
+    ></div>
     <div
       class="absolute bottom-[12%] left-[8%] w-14 h-14 rounded-full bg-gradient-to-br from-gray-800 to-black shadow-[0_4px_15px_rgba(0,0,0,0.8),inset_0_2px_4px_rgba(255,255,255,0.05)] opacity-15 animate-[float_9s_ease-in-out_infinite_3s] pointer-events-none"
-    />
+    ></div>
     <div
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(26,107,60,0.15)_0%,transparent_70%)] pointer-events-none"
-    />
+    ></div>
 
     <div class="relative z-10 w-full max-w-md px-6 py-8">
       <!-- 语言切换 -->
@@ -110,12 +109,12 @@ function goPlayOffline() {
           <div class="grid grid-cols-2 gap-1">
             <div
               class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
-            />
-            <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]" />
-            <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]" />
+            ></div>
+            <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"></div>
+            <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"></div>
             <div
               class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
-            />
+            ></div>
           </div>
         </div>
         <h1 class="text-2xl font-bold tracking-wide">{{ $t('register.title') }}</h1>
@@ -130,7 +129,7 @@ function goPlayOffline() {
             <label
               for="reg-username"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-              >{{ $t('register.username') }}</label
+            >{{ $t('register.username') }}</label
             >
             <div class="relative">
               <User
@@ -145,7 +144,7 @@ function goPlayOffline() {
                 required
                 minlength="2"
                 maxlength="32"
-              />
+              >
             </div>
           </div>
 
@@ -153,7 +152,7 @@ function goPlayOffline() {
             <label
               for="reg-email"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-              >{{ $t('register.email') }}</label
+            >{{ $t('register.email') }}</label
             >
             <div class="relative">
               <Mail
@@ -165,7 +164,7 @@ function goPlayOffline() {
                 type="email"
                 :placeholder="$t('register.emailPlaceholder')"
                 class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors"
-              />
+              >
             </div>
           </div>
 
@@ -173,7 +172,7 @@ function goPlayOffline() {
             <label
               for="reg-password"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-              >{{ $t('register.setPassword') }}</label
+            >{{ $t('register.setPassword') }}</label
             >
             <div class="relative">
               <Lock
@@ -187,7 +186,7 @@ function goPlayOffline() {
                 class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors"
                 required
                 minlength="8"
-              />
+              >
             </div>
             <div v-if="password" class="mt-2 flex items-center gap-2">
               <div class="flex-1 h-1 rounded-full bg-glass-border overflow-hidden">
@@ -195,7 +194,7 @@ function goPlayOffline() {
                   class="h-full rounded-full transition-all duration-300"
                   :class="strengthColor"
                   :style="{ width: `${passwordStrength * 25}%` }"
-                />
+                ></div>
               </div>
               <span class="text-[10px] text-text-secondary">{{ strengthLabel }}</span>
             </div>
@@ -205,7 +204,7 @@ function goPlayOffline() {
             <label
               for="reg-confirm"
               class="block text-text-secondary text-xs uppercase tracking-wider mb-2"
-              >{{ $t('register.confirmPassword') }}</label
+            >{{ $t('register.confirmPassword') }}</label
             >
             <div class="relative">
               <Lock
@@ -218,7 +217,7 @@ function goPlayOffline() {
                 :placeholder="$t('register.confirmPlaceholder')"
                 class="w-full bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-xl py-3 pl-11 pr-4 text-text-primary text-sm placeholder:text-[#4a4f58] focus:outline-none focus:border-gold/50 transition-colors"
                 required
-              />
+              >
             </div>
           </div>
 
@@ -240,9 +239,9 @@ function goPlayOffline() {
         </form>
 
         <div class="flex items-center my-5">
-          <div class="flex-1 h-px bg-glass-border" />
+          <div class="flex-1 h-px bg-glass-border"></div>
           <span class="px-4 text-text-secondary text-xs">{{ $t('register.or') }}</span>
-          <div class="flex-1 h-px bg-glass-border" />
+          <div class="flex-1 h-px bg-glass-border"></div>
         </div>
 
         <button

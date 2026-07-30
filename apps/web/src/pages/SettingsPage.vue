@@ -98,7 +98,7 @@ function close() {
                 <div
                   class="w-5 h-5 rounded-full shadow-md transition-transform"
                   :class="highContrast ? 'bg-white translate-x-5' : 'bg-white/60'"
-                />
+                ></div>
               </button>
             </div>
             <div class="flex items-center justify-between">
@@ -118,7 +118,7 @@ function close() {
                 <div
                   class="w-5 h-5 rounded-full shadow-md transition-transform"
                   :class="colorblind ? 'bg-white translate-x-5' : 'bg-white/60'"
-                />
+                ></div>
               </button>
             </div>
             <div class="flex items-center justify-between">
@@ -138,7 +138,7 @@ function close() {
                 <div
                   class="w-5 h-5 rounded-full shadow-md transition-transform"
                   :class="reduceMotion ? 'bg-white translate-x-5' : 'bg-white/60'"
-                />
+                ></div>
               </button>
             </div>
             <div
@@ -181,7 +181,7 @@ function close() {
                 <div
                   class="w-5 h-5 rounded-full shadow-md transition-transform"
                   :class="bossKeyEnabled ? 'bg-white translate-x-5' : 'bg-white/60'"
-                />
+                ></div>
               </button>
             </div>
             <p

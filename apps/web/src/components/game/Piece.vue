@@ -2,7 +2,10 @@
 import { computed } from 'vue'
 import { useSettingsStore } from '@/stores/settings-store'
 
-const props = defineProps<{
+const {
+  color,
+  isLast,
+} = defineProps<{
   color: 'BLACK' | 'WHITE'
   isLast?: boolean
 }>()
@@ -29,12 +32,12 @@ const colorblind = computed(() => settings.colorblind)
         v-if="colorblind"
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
         :class="color === 'BLACK' ? 'w-3 h-3 border-2 border-white/70' : 'w-2.5 h-2.5 bg-black/60'"
-      />
+      ></div>
     </div>
     <!-- 最后落子标记 -->
     <div
       v-if="isLast"
       class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-gold/80 animate-pulse"
-    />
+    ></div>
   </div>
 </template>

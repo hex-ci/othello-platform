@@ -42,20 +42,17 @@ const { pendingCopy, copy, clearPending } = useCopy()
 
 const {
   roomId,
-  blackId,
   whiteId,
   blackName,
   whiteName,
   blackReady,
   whiteReady,
-  ownerId,
   roomName,
   spectatable,
   spectators,
   errorState,
   status,
   isHost,
-  myColor,
   myReady,
   bothReady,
   bothSeated,
@@ -155,16 +152,16 @@ function clearPassword() {
             class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-board-green to-[#0d4a28] shrink-0"
           >
             <div class="grid grid-cols-2 gap-0.5">
-              <div class="w-2 h-2 rounded-full bg-black" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-white" />
-              <div class="w-2 h-2 rounded-full bg-black" />
+              <div class="w-2 h-2 rounded-full bg-black"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+              <div class="w-2 h-2 rounded-full bg-black"></div>
             </div>
           </div>
           <span class="text-sm font-semibold hidden sm:inline">{{ $t('room.roomLobby') }}</span>
           <span
             class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/15 text-amber-400 border border-amber-500/25"
-            >{{ $t('room.waiting') }}</span
+          >{{ $t('room.waiting') }}</span
           >
         </div>
         <div class="flex items-center gap-2 shrink-0">
@@ -194,7 +191,7 @@ function clearPassword() {
         <div class="flex flex-col items-center gap-4">
           <div
             class="w-12 h-12 rounded-full border-4 border-glass border-t-gold animate-spin [animation-duration:1.2s]"
-          />
+          ></div>
           <p class="text-sm text-text-secondary">{{ $t('room.roomLobby') }}</p>
         </div>
       </div>
@@ -268,12 +265,12 @@ function clearPassword() {
             </div>
           </div>
           <div class="flex items-center justify-center sm:justify-start gap-4 text-xs sm:shrink-0">
-            <span class="flex items-center gap-1.5 text-text-secondary"
-              ><Clock class="w-3.5 h-3.5" />{{ $t('room.waited', { time: elapsedMmss }) }}</span
-            >
-            <span class="flex items-center gap-1.5 text-text-secondary"
-              ><Eye class="w-3.5 h-3.5" />{{ $t('room.spectators', { n: spectatorCount }) }}</span
-            >
+            <span class="flex items-center gap-1.5 text-text-secondary">
+              <Clock class="w-3.5 h-3.5" />{{ $t('room.waited', { time: elapsedMmss }) }}
+            </span>
+            <span class="flex items-center gap-1.5 text-text-secondary">
+              <Eye class="w-3.5 h-3.5" />{{ $t('room.spectators', { n: spectatorCount }) }}
+            </span>
           </div>
         </div>
 
@@ -331,13 +328,13 @@ function clearPassword() {
                     <span v-else class="flex gap-0.5">
                       <span
                         class="w-1 h-1 rounded-full bg-amber-400 animate-[waiting-dots_1.4s_infinite]"
-                      />
+                      ></span>
                       <span
                         class="w-1 h-1 rounded-full bg-amber-400 animate-[waiting-dots_1.4s_infinite_0.2s]"
-                      />
+                      ></span>
                       <span
                         class="w-1 h-1 rounded-full bg-amber-400 animate-[waiting-dots_1.4s_infinite_0.4s]"
-                      />
+                      ></span>
                     </span>
                     {{ blackReady ? $t('room.ready') : $t('room.waitingReady') }}
                   </span>
@@ -399,13 +396,13 @@ function clearPassword() {
                     <span v-else class="flex gap-0.5">
                       <span
                         class="w-1 h-1 rounded-full bg-amber-400 animate-[waiting-dots_1.4s_infinite]"
-                      />
+                      ></span>
                       <span
                         class="w-1 h-1 rounded-full bg-amber-400 animate-[waiting-dots_1.4s_infinite_0.2s]"
-                      />
+                      ></span>
                       <span
                         class="w-1 h-1 rounded-full bg-amber-400 animate-[waiting-dots_1.4s_infinite_0.4s]"
-                      />
+                      ></span>
                     </span>
                     {{ whiteReady ? $t('room.ready') : $t('room.waitingReady') }}
                   </span>
@@ -470,8 +467,7 @@ function clearPassword() {
                   >
                     <span
                       class="px-3 py-1 rounded-full text-[11px] font-medium bg-gold text-primary"
-                      >{{ $t('room.pvp') }}</span
-                    >
+                    >{{ $t('room.pvp') }}</span>
                   </div>
                 </div>
                 <div class="flex items-center justify-between gap-3">
@@ -483,8 +479,7 @@ function clearPassword() {
                   </div>
                   <span
                     class="text-xs text-gold font-medium px-2.5 py-1 bg-gold/10 rounded-full shrink-0"
-                    >{{ $t('room.threeMin') }}</span
-                  >
+                  >{{ $t('room.threeMin') }}</span>
                 </div>
                 <div class="flex items-center justify-between gap-3">
                   <div class="min-w-0">
@@ -504,8 +499,7 @@ function clearPassword() {
                   <span
                     v-else
                     class="text-xs text-gold font-medium px-2.5 py-1 bg-gold/10 rounded-full shrink-0"
-                    >{{ $t('room.fixed') }}</span
-                  >
+                  >{{ $t('room.fixed') }}</span>
                 </div>
                 <div class="flex items-center justify-between gap-3">
                   <div class="min-w-0">
@@ -524,7 +518,7 @@ function clearPassword() {
                     <div
                       class="w-5 h-5 rounded-full bg-white shadow-md transition-transform"
                       :class="spectatable ? 'translate-x-5' : 'translate-x-0'"
-                    />
+                    ></div>
                   </button>
                   <div
                     v-else
@@ -534,7 +528,7 @@ function clearPassword() {
                     <div
                       class="w-5 h-5 rounded-full bg-white shadow-md"
                       :class="spectatable ? 'translate-x-5' : 'translate-x-0'"
-                    />
+                    ></div>
                   </div>
                 </div>
                 <div class="flex items-center justify-between gap-3 sm:col-span-2">
@@ -546,8 +540,7 @@ function clearPassword() {
                   </div>
                   <div class="flex items-center gap-2 shrink-0 flex-wrap justify-end">
                     <span class="text-xs font-mono text-text-secondary tracking-widest"
-                      >●●●●●●</span
-                    >
+                    >●●●●●●</span>
                     <template v-if="isHost">
                       <input
                         v-if="showPasswordInput"
@@ -557,7 +550,7 @@ function clearPassword() {
                         :placeholder="$t('room.passwordPlaceholder')"
                         class="w-28 sm:w-32 bg-[rgba(255,255,255,0.03)] border border-glass-border rounded-lg py-1 px-2 text-xs text-text-primary focus:outline-none focus:border-gold/30"
                         @keyup.enter="applyPassword"
-                      />
+                      >
                       <button
                         v-if="showPasswordInput"
                         class="text-[11px] text-emerald-400 hover:text-emerald-300 transition-colors"
@@ -609,9 +602,9 @@ function clearPassword() {
                   <div
                     class="w-7 h-7 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center"
                   >
-                    <span class="text-[10px] text-purple-400">{{
-                      s.username.charAt(0).toUpperCase()
-                    }}</span>
+                    <span class="text-[10px] text-purple-400">
+                      {{ s.username.charAt(0).toUpperCase() }}
+                    </span>
                   </div>
                   <div>
                     <p class="text-xs font-medium">{{ s.username }}</p>

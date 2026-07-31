@@ -31,5 +31,8 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "vue-skills-bundle@vue-skills": true
   }
 }

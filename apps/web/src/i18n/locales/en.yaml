@@ -235,7 +235,7 @@ home:
   dailyChallenge: Daily challenge
   dailyHint: '{n} puzzles left today'
   daysAgo: '{n} d ago'
-  featAi: AI levels L0–L5
+  featAi: AI levels L0-L5
   featElo: ELO rating · Season tiers
   featReplay: Replays · AI move analysis
   featSpectate: Live spectating

@@ -271,7 +271,7 @@ function negascout(
  * @param board 当前棋盘
  * @param color 当前执子方
  * @param config 搜索配置
- * @returns 最佳落子索引（0–63）和评分，无合法手返回 null
+ * @returns 最佳落子索引（0-63）和评分，无合法手返回 null
  */
 export function search(
   board: Board,

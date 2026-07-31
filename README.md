@@ -7,7 +7,7 @@
 ## 特性
 
 - **服务端权威对战**：规则内核在服务端执行，防作弊；WebSocket 实时同步落子
-- **AI 人机**：纯 TypeScript NegaScout + bitboard，L0–L5 六档难度；前端 Web Worker / 服务端 worker 线程池，不阻塞主线程
+- **AI 人机**：纯 TypeScript NegaScout + bitboard，L0-L5 六档难度；前端 Web Worker / 服务端 worker 线程池，不阻塞主线程
 - **对战模式**：人人对战（建房/加入/口令房/自动匹配）、好友挑战、离线人机练习
 - **复盘与分析**：棋谱回放、AI 复盘分析、记谱导入导出
 - **观战**：实时观看他人对局
@@ -43,7 +43,7 @@
 
 | 层     | 技术                                                                                                              |
 | ------ | ----------------------------------------------------------------------------------------------------------------- |
-| 前端   | Vue 3.5 · TypeScript · Tailwind CSS 4 · Vite · Pinia · vue-router · vue-i18n · reka-ui · vue-sonner · @lucide/vue |
+| 前端   | Vue 3 · TypeScript · Tailwind CSS 4 · Vite · Pinia · vue-router · vue-i18n · reka-ui · vue-sonner · @lucide/vue |
 | 后端   | Node 22 · Fastify 5 · ws · `pg`（原生 SQL，无 ORM）· argon2 · pino                                                |
 | 数据库 | PostgreSQL 18（Docker Compose）                                                                                   |
 | AI     | 纯 TypeScript NegaScout + bitboard                                                                                |

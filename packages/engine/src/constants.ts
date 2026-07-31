@@ -8,7 +8,7 @@ export type Cell = typeof T_NONE | typeof T_BLACK | typeof T_WHITE
 /** 执子色（对外协议用大写字符串） */
 export type Color = 'BLACK' | 'WHITE'
 
-/** 坐标（x 为列, y 为行, 均 0–7） */
+/** 坐标（x 为列, y 为行, 均 0-7） */
 export interface Pos {
   readonly x: number
   readonly y: number

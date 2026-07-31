@@ -14,7 +14,7 @@
 | 棋子/空位状态 | `T_NONE=0` `T_BLACK=1` `T_WHITE=2` | 全局常量，禁止用魔法数字 |
 | 执子色 | `Color`（字符串 'BLACK' 或 'WHITE'） | 对外协议用大写；引擎内部可用 1/2 |
 | 棋盘 | `Board`（`Uint8Array(64)`） / `Bitboard`（black+white 两个 `bigint`） | UI/存储用 `Board`；引擎搜索用 `Bitboard` |
-| 坐标 | `Pos`（`{ x, y }`，取值 0–7） | `x` 为列、`y` 为行 |
+| 坐标 | `Pos`（`{ x, y }`，取值 0-7） | `x` 为列、`y` 为行 |
 | 合法手 | `legalMoves(board, color): Pos[]` | 枚举合法落子 |
 | 落子 | `applyMove(board, color, pos)` | 返回新棋盘与被翻子 `{ board, flipped }` |
 | 翻子 | `flipped: Pos[]` | 一手翻转的对方子 |
@@ -22,7 +22,7 @@
 | 终局 | `isGameOver` / `result`（BLACK / WHITE / DRAW） | 双方均无手 |
 | 手序 | `seq`（从 1 递增，含 pass） | `moves.seq` 单调唯一 |
 | 结束原因 | `end_reason`：normal / resign / draw_agree / disconnect / timeout | 与库字段一致 |
-| 难度档 | `AiLevel`（整数 0–5，L0 热身不计分） | 默认 3 |
+| 难度档 | `AiLevel`（整数 0-5，L0 热身不计分） | 默认 3 |
 | 思考 | `think(bitboard, level, color): Promise<Pos>` / `stop()` | 引擎对外接口 |
 | 主评级 | `elo`（K=32，仅人人对局） | 定级期前 10 局 |
 | 展示积分 | `classicScore`（注册=50，下限 0） | 仅展示/称号 |

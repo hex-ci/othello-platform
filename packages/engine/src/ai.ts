@@ -8,7 +8,7 @@ import { type Color, type Pos } from './constants.js'
 import { legalMoves } from './rules.js'
 import { search, abortSearch, type SearchConfig } from './negascout.js'
 
-/** AI 难度档（0–5） */
+/** AI 难度档（0-5） */
 export type AiLevel = 0 | 1 | 2 | 3 | 4 | 5
 
 /** 各档搜索配置 */

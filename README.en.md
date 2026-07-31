@@ -7,7 +7,7 @@ A full-stack online Othello (Reversi) game platform. Server-authoritative play, 
 ## Features
 
 - **Server-authoritative matches**: the rules kernel runs on the server to prevent cheating; moves sync in real time over WebSocket
-- **AI opponents**: pure-TypeScript NegaScout + bitboard, six levels (L0–L5); runs in a front-end Web Worker / server worker-thread pool so the main thread never blocks
+- **AI opponents**: pure-TypeScript NegaScout + bitboard, six levels (L0-L5); runs in a front-end Web Worker / server worker-thread pool so the main thread never blocks
 - **Game modes**: PvP (create/join rooms, password rooms, auto-matching), friend challenges, offline practice vs AI
 - **Replay & analysis**: move-by-move replay, AI game analysis, notation import/export
 - **Spectating**: watch live games in real time
@@ -43,7 +43,7 @@ A full-stack online Othello (Reversi) game platform. Server-authoritative play, 
 
 | Layer     | Technology                                                                                                        |
 | --------- | ----------------------------------------------------------------------------------------------------------------- |
-| Frontend  | Vue 3.5 · TypeScript · Tailwind CSS 4 · Vite · Pinia · vue-router · vue-i18n · reka-ui · vue-sonner · @lucide/vue |
+| Frontend  | Vue 3 · TypeScript · Tailwind CSS 4 · Vite · Pinia · vue-router · vue-i18n · reka-ui · vue-sonner · @lucide/vue |
 | Backend   | Node 22 · Fastify 5 · ws · `pg` (raw SQL, no ORM) · argon2 · pino                                                 |
 | Database  | PostgreSQL 18 (Docker Compose)                                                                                    |
 | AI        | Pure-TypeScript NegaScout + bitboard                                                                              |

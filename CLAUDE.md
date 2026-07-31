@@ -75,6 +75,23 @@ docs/             — prd.md + appendix-a~d + ops-runbook.md + pages/*.html 设�
   - **内容滚动页**（Lobby/Room/Leaderboard/Tactics/Friends/Profile，页面自然滚动）：`pt-20 pb-12 max-w-[1440px] mx-auto px-8`（pt-20 = 顶栏 4rem + 1rem 透气，pb-12 底部留白）
   - 顶栏 nav 外层统一 `fixed top-0 left-0 right-0 z-50 h-16 backdrop-blur-xl bg-[rgba(15,17,23,0.85)] border-b border-glass-border`，内层 `max-w-[1440px] mx-auto h-full px-8 flex items-center justify-between`。Profile/Friends/Leaderboard/Tactics 用共享组件 `PageNavBar`（含首页 Home 图标入口），其余页内联 nav（内容页页不同，不可共享但容器规格一致）
   - 特殊布局页不适用上述两档：HomePage（`/` 双态——未登录 hero 试玩漏斗 / 已登录行动中枢，对照 00-home）、NotFoundPage（404 趣味兜底页，对照 15-not-found）、SettingsPage（`max-w-2xl` 窄表单）、Login/RegisterPage（`max-w-md` 卡片）
+- **前端通用模式**：全局 WS 实时提醒走 `notificationStore`（前端内存态，`useChallenge` 全局绑定一次）；反馈用 vue-sonner Toast（App.vue 必须显式 `import 'vue-sonner/style.css'`）+ 页内错误卡片（无效房间/对局/观战不跳转、不闪棋盘，store `errorState` 三态分支）；口令房经 `JoinPasswordDialog` 传 password，满员房 `ROOM_FULL` 显示错误卡片；复制用 `use-copy` 降级（非 HTTPS 弹手动复制弹窗）
+
+### Vue Skills（开发/维护 Vue 代码必用）
+
+项目 `.claude/skills/` 内置 8 个 Vue skill。开发/维护任何 Vue 代码前按任务加载对应 skill：
+
+| 任务                                           | 加载 skill                                                                                                             |
+| ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 任何 Vue 组件/页面/composable 开发（默认入口） | `vue-best-practices`（必读，核心工作流：确认架构 → 规划组件边界 → 响应式最小化 → 数据流显式 → 功能完成后才做性能优化） |
+| 写/改 composable                               | `create-adaptable-composable`（MaybeRef/MaybeRefOrGetter 输入归一化，用 toValue/toRef 解）                             |
+| Pinia store                                    | `vue-pinia-best-practices`（storeToRefs 解构保响应式、setup store 返回全 state 等）                                    |
+| vue-router / 导航守卫                          | `vue-router-best-practices`                                                                                            |
+| Vitest 单测                                    | `vue-testing-best-practices`（E2E 部分按本项目约定走 playwright-cli，不维护 @playwright/test 套件）                    |
+| 调试 Vue 运行时/响应式问题                     | `vue-debug-guides`                                                                                                     |
+| 不适用                                         | `vue-options-api-best-practices` / `vue-jsx-best-practices`（本项目一律 Composition API + `<script setup lang="ts">`） |
+
+skills 采用渐进式披露：SKILL.md 是总纲，具体坑按链接进 `references/`（vue-best-practices）或 `reference/`（其余）查对应方案。
 
 ## Git 工作流
 
@@ -87,6 +104,7 @@ docs/             — prd.md + appendix-a~d + ops-runbook.md + pages/*.html 设�
 - **单测**: Vitest（`pnpm -r test`）
 - **功能回归**: **playwright-cli** 交互式真实浏览器验证（**不维护 `@playwright/test` 自动化套件**）。playwright-cli 是本地 CLI skill，命令跨调用保持浏览器状态，比 Playwright MCP 的 `browser_run_code_unsafe`（跨调用丢状态、默认 tab 被路由守卫踢回 login）稳定得多。优先用 playwright-cli，不要用 Playwright MCP 的 `browser_*` 工具做多账号 UI 回归
 - 每个功能任务 DoD: 单测通过 + playwright-cli 回归通过 + 无 console error（`playwright-cli -s=<name> console error`）
+- 新页面/交互上线前在 320/768/1024/1440 四断点截图核对布局
 - **多账号隔离测试**（双玩家/三账号场景）：用 playwright-cli 的 `-s=<session>` 命名会话隔离 localStorage，每个账号一个会话，不串 token：
   ```bash
   playwright-cli -s=alice open http://localhost:5173/login      # 会话1
@@ -107,3 +125,80 @@ docs/             — prd.md + appendix-a~d + ops-runbook.md + pages/*.html 设�
   - 落子定位：`button[role="gridcell"][aria-label="D3"]`，合法手有 `cursor-pointer` class；结算/重连遮罩是 Teleport 的 `fixed inset-0 z-50`，会拦截棋盘点击
   - 登录限流：3 客户端并发会触发服务端 429，串行登录 + 等 15s 恢复
   - 测试结束 `playwright-cli -s=<name> close` 逐个关闭会话，或 `playwright-cli close-all`
+
+## 更多约定与历史
+
+- 仍在生效的详细约定/决策/模式 → `docs/development-notes/`（按需读，索引见该目录 README）
+- 私密本地信息（端口、本地测试账号等）→ `CLAUDE.local.md`（gitignored，不入库）
+- 项目历史归档（里程碑 / 回归 / 修复轨迹，含未公开的工程决策上下文）→ `.claude/local/history.md`（gitignored，仅本机）
+
+## Guidelines
+
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+
+**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+## 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+## 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+## 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+## 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+---
+
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.

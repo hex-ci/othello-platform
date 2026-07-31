@@ -150,3 +150,5 @@ vite.config.ts.timestamp-*
 
 # Claude Code personal preferences (not shared)
 CLAUDE.local.md
+.claude/settings.local.json
+.claude/local/

@@ -459,6 +459,7 @@ register:
   errAgree: Please accept the Terms and Privacy Policy first
   errMismatch: Passwords do not match
   errShort: Password must be at least 8 characters
+  errUsername: Username allows only letters, digits, underscore, hyphen, and CJK (2-32 chars)
   guestTry: Try as guest
   hasAccount: Already have an account?
   loginNow: Sign in
@@ -477,7 +478,7 @@ register:
   terms: Terms of Service
   title: Create account
   username: Username
-  usernamePlaceholder: 2-32 letters, digits, underscore
+  usernamePlaceholder: 2-32 chars, letters/digits/underscore/hyphen/CJK
   verifyHint: Verify your email after registering to unlock all features
 replay:
   aiMode: vs AI

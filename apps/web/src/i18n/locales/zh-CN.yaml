@@ -447,6 +447,7 @@ register:
   errAgree: 请先同意用户协议和隐私政策
   errMismatch: 两次输入的密码不一致
   errShort: 密码至少 8 位
+  errUsername: 用户名仅支持中英文、数字、下划线和减号（2-32 位）
   guestTry: 游客模式体验
   hasAccount: 已有账号？
   loginNow: 立即登录
@@ -465,7 +466,7 @@ register:
   terms: 用户协议
   title: 创建账号
   username: 用户名
-  usernamePlaceholder: 2-32 位字母数字下划线
+  usernamePlaceholder: 2-32 位，支持中英文、数字、下划线、减号
   verifyHint: 注册后请验证邮箱以启用完整功能
 replay:
   aiMode: 人机对战

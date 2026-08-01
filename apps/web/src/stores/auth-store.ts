@@ -9,7 +9,12 @@ function decodeJwt(token: string | null): { userId: number; username: string } |
   try {
     const part = token.split('.')[1]
     if (!part) return null
-    const json = atob(part.replace(/-/g, '+').replace(/_/g, '/'))
+    // atob 把 base64 解成 Latin-1 二进制串，含中文等非 ASCII 字符的 UTF-8 多字节
+    // 会被逐字节误读为 Latin-1 导致乱码。先转字节数组再用 TextDecoder 按 UTF-8 解码。
+    const binary = atob(part.replace(/-/g, '+').replace(/_/g, '/'))
+    const bytes = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
+    const json = new TextDecoder('utf-8').decode(bytes)
     return JSON.parse(json) as { userId: number; username: string }
   } catch {
     return null

@@ -10,6 +10,9 @@ const router = useRouter()
 const authStore = useAuthStore()
 const { t } = useI18n()
 
+// 与后端 RegisterRequestSchema 用户名正则保持一致：Unicode 字母/数字/下划线/减号
+const USERNAME_RE = /^[\p{L}\p{N}_-]+$/u
+
 const username = ref('')
 const email = ref('')
 const password = ref('')
@@ -45,6 +48,11 @@ const strengthColor = computed(() => {
 
 async function onRegister() {
   error.value = ''
+  const name = username.value.trim()
+  if (name.length < 2 || name.length > 32 || !USERNAME_RE.test(name)) {
+    error.value = t('register.errUsername')
+    return
+  }
   if (password.value !== confirmPassword.value) {
     error.value = t('register.errMismatch')
     return
@@ -55,7 +63,7 @@ async function onRegister() {
   }
   loading.value = true
   try {
-    await authStore.register(username.value, password.value, email.value || undefined)
+    await authStore.register(name, password.value, email.value || undefined)
     await router.push('/lobby')
   } catch (e) {
     error.value = e instanceof Error ? e.message : t('register.registerFail')
@@ -110,8 +118,12 @@ function goPlayOffline() {
             <div
               class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
             ></div>
-            <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"></div>
-            <div class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"></div>
+            <div
+              class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"
+            ></div>
+            <div
+              class="w-5 h-5 rounded-full bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.1)]"
+            ></div>
             <div
               class="w-5 h-5 rounded-full bg-black shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]"
             ></div>
@@ -236,10 +248,6 @@ function goPlayOffline() {
           >
             {{ loading ? $t('register.registering') : $t('register.register') }}
           </button>
-
-          <p class="text-center text-[10px] text-text-secondary/60">
-            {{ $t('register.verifyHint') }}
-          </p>
         </form>
 
         <div class="flex items-center my-5">

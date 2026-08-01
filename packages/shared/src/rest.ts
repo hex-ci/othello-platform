@@ -6,7 +6,13 @@ import { z } from 'zod'
 // ─── 认证 ───
 
 export const RegisterRequestSchema = z.object({
-  username: z.string().min(2).max(32).regex(/^[a-zA-Z0-9_]+$/),
+  // 用户名：2-32 位，支持 Unicode 字母/数字/下划线/减号（含中文、日文、韩文等）。
+  // \p{L}=任意语言字母，\p{N}=任意数字。减号置于字符类末尾避免被解析为范围。需配合 `u` 标志。
+  username: z
+    .string()
+    .min(2)
+    .max(32)
+    .regex(/^[\p{L}\p{N}_-]+$/u),
   email: z.string().email().optional(),
   password: z.string().min(8).max(128),
 })
@@ -28,7 +34,10 @@ export const ResetRequestSchema = z.object({
 
 // F-C-10 refresh-token（64 位 hex = 32 字节随机）
 export const RefreshRequestSchema = z.object({
-  refreshToken: z.string().length(64).regex(/^[0-9a-f]{64}$/),
+  refreshToken: z
+    .string()
+    .length(64)
+    .regex(/^[0-9a-f]{64}$/),
 })
 
 export const LogoutRequestSchema = z.object({

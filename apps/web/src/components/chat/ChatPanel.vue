@@ -6,20 +6,20 @@ import { ref, computed, nextTick, watch } from 'vue'
 import { Send, MessageCircle } from '@lucide/vue'
 import { useChatStore } from '@/stores/chat-store'
 
-const props = withDefaults(
-  defineProps<{
-    roomId: number | null
-    /** true 时撑满父容器高度（大厅三栏），否则固定 h-64（对局侧栏） */
-    fillHeight?: boolean
-  }>(),
-  { fillHeight: false },
-)
+const {
+  roomId,
+  fillHeight = false,
+} = defineProps<{
+  roomId: number | null
+  /** true 时撑满父容器高度（大厅三栏），否则固定 h-64（对局侧栏） */
+  fillHeight?: boolean
+}>();
 
 const chat = useChatStore()
 const input = ref('')
 const scrollRef = ref<HTMLElement | null>(null)
 
-const activeChannel = computed(() => (props.roomId !== null ? 'room' : 'public'))
+const activeChannel = computed(() => (roomId !== null ? 'room' : 'public'))
 const messages = computed(() =>
   activeChannel.value === 'public' ? chat.publicMessages : chat.roomMessages,
 )
@@ -37,8 +37,8 @@ async function send() {
   if (!text) return
   if (activeChannel.value === 'public') {
     await chat.sendPublic(text)
-  } else if (props.roomId !== null) {
-    await chat.sendRoom(props.roomId, text)
+  } else if (roomId !== null) {
+    await chat.sendRoom(roomId, text)
   }
   input.value = ''
 }

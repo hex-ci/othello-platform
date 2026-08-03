@@ -18,7 +18,12 @@ import { useSettingsStore } from '@/stores/settings-store'
 
 const router = useRouter()
 const settings = useSettingsStore()
-const { highContrast, colorblind, reduceMotion, bossKeyEnabled } = storeToRefs(settings)
+const {
+  highContrast,
+  colorblind,
+  reduceMotion,
+  bossKeyEnabled,
+} = storeToRefs(settings)
 const { t } = useI18n()
 
 const toast = ref('')

@@ -4,7 +4,9 @@
  */
 import type { Color, Pos } from '@othello-platform/engine'
 
-defineProps<{
+const {
+  moves,
+} = defineProps<{
   moves: { seq: number, color: Color, pos: Pos | null, isPass: boolean }[]
 }>()
 

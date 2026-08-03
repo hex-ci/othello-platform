@@ -12,13 +12,20 @@ import { getWsClient } from '@/api/ws-client'
 import { useChallenge } from '@/composables/useChallenge'
 import PageNavBar from '@/components/PageNavBar.vue'
 
+type Tab = 'friends' | 'requests' | 'blocked'
+
 const store = useFriendStore()
 const { t } = useI18n()
 
-const { friends, requests, sent, blocked, loading, onlineFriends }
-  = storeToRefs(store)
+const {
+  friends,
+  requests,
+  sent,
+  blocked,
+  loading,
+  onlineFriends,
+} = storeToRefs(store)
 
-type Tab = 'friends' | 'requests' | 'blocked'
 const tab = ref<Tab>('friends')
 const search = ref('')
 const addName = ref('')
@@ -28,7 +35,12 @@ const adding = ref(false)
 
 // ─── 好友挑战（T17，F-E-16，逻辑抽到 useChallenge 与 ProfilePage 共用）───
 // bindChallenge 在 App.vue 全局绑定，页面只读取 incomingChallenge/challengingId + 调用 action
-const { challengingId, incomingChallenge, sendChallenge, respondChallenge } = useChallenge()
+const {
+  challengingId,
+  incomingChallenge,
+  sendChallenge,
+  respondChallenge,
+} = useChallenge()
 
 const filteredFriends = computed(() => {
   const q = search.value.trim().toLowerCase()

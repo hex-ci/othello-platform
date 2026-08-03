@@ -7,7 +7,14 @@
  *   Worker → 主线程: { type: 'result', pos: Pos | null }
  *                    | { type: 'hint-result', pos: Pos | null }
  */
-import { think, stop, hint, type AiLevel, type Color, type Pos } from '@othello-platform/engine'
+import {
+  think,
+  stop,
+  hint,
+  type AiLevel,
+  type Color,
+  type Pos,
+} from '@othello-platform/engine'
 
 export interface AiThinkMessage {
   type: 'think'

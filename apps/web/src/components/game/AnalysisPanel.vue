@@ -22,6 +22,7 @@ const emit = defineEmits<{ analyze: [] }>()
 const { t } = useI18n()
 
 const COL_LABELS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+
 function posLabel(pos: { x: number, y: number } | null): string {
   if (!pos) return t('analyze.pass')
   return `${COL_LABELS[pos.x] ?? ''}${pos.y + 1}`

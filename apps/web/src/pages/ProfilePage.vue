@@ -37,6 +37,8 @@ import { useChallenge } from '@/composables/useChallenge'
 import { getWsClient } from '@/api/ws-client'
 import PageNavBar from '@/components/PageNavBar.vue'
 
+type Tab = 'stats' | 'history' | 'badges'
+
 const route = useRoute()
 const router = useRouter()
 const profile = useProfileStore()
@@ -44,14 +46,22 @@ const auth = useAuthStore()
 const friendStore = useFriendStore()
 const { t } = useI18n()
 
-const { user, eloHistory, gameHistory, aiStats, activity, badges, relation, loading, error }
-  = storeToRefs(profile)
+const {
+  user,
+  eloHistory,
+  gameHistory,
+  aiStats,
+  activity,
+  badges,
+  relation,
+  loading,
+  error,
+} = storeToRefs(profile)
 
 // ─── 好友挑战（T17，F-E-16，与 FriendsPage 共用 useChallenge）───
 // bindChallenge 在 App.vue 全局绑定，页面只读取 challengingId + 调用 action
 const { challengingId, sendChallenge } = useChallenge()
 
-type Tab = 'stats' | 'history' | 'badges'
 const tab = ref<Tab>('history')
 
 const TIER_CLS: Record<TierName, string> = {

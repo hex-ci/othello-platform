@@ -5,7 +5,12 @@
  */
 import { FileText } from '@lucide/vue'
 
-defineProps<{ active: boolean }>()
+const {
+  active,
+} = defineProps<{
+  active: boolean
+}>()
+
 const emit = defineEmits<{ restore: [] }>()
 </script>
 

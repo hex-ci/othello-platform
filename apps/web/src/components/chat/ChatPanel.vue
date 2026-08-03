@@ -2,7 +2,7 @@
 /**
  * 聊天面板（T10）：public/room 切换，发消息。
  */
-import { ref, computed, nextTick, watch } from 'vue'
+import { ref, computed, nextTick, watch, useTemplateRef } from 'vue'
 import { Send, MessageCircle } from '@lucide/vue'
 import { useChatStore } from '@/stores/chat-store'
 
@@ -17,7 +17,7 @@ const {
 
 const chat = useChatStore()
 const input = ref('')
-const scrollRef = ref<HTMLElement | null>(null)
+const scrollRef = useTemplateRef('scrollEl')
 
 const activeChannel = computed(() => (roomId !== null ? 'room' : 'public'))
 const messages = computed(() =>
@@ -81,7 +81,7 @@ function initial(name: string): string {
       <MessageCircle class="w-4 h-4 text-text-secondary" />
     </div>
 
-    <div ref="scrollRef" class="flex-1 overflow-y-auto p-3 space-y-3">
+    <div ref="scrollEl" class="flex-1 overflow-y-auto p-3 space-y-3">
       <div v-if="messages.length === 0" class="text-text-secondary text-sm text-center py-4">
         {{ $t('chat.noMessages') }}
       </div>

@@ -9,10 +9,21 @@ import { useI18n } from 'vue-i18n'
 import { T_BLACK, T_WHITE, type Pos, type Board } from '@othello-platform/engine'
 import Piece from './Piece.vue'
 
+const props = defineProps<{
+  board: Board
+  legalMoves: Pos[]
+  lastMovePos: Pos | null
+  hintPos?: Pos | null
+  readonly: boolean
+}>()
+
+const emit = defineEmits<{ move: [pos: Pos] }>()
+
 const { t } = useI18n()
 
 /** 格子按钮引用（按 y*8+x 索引），供方向键 roving 焦点（T19 全键盘） */
 const cellRefs = ref<(HTMLButtonElement | null)[]>([])
+
 function setCellRef(idx: number) {
   return (el: unknown) => {
     cellRefs.value[idx] = el instanceof HTMLButtonElement ? el : null
@@ -30,16 +41,6 @@ function onCellKeydown(e: KeyboardEvent, x: number, y: number) {
   e.preventDefault()
   cellRefs.value[ny * 8 + nx]?.focus()
 }
-
-const props = defineProps<{
-  board: Board
-  legalMoves: Pos[]
-  lastMovePos: Pos | null
-  hintPos?: Pos | null
-  readonly: boolean
-}>()
-
-const emit = defineEmits<{ move: [pos: Pos] }>()
 
 const cells = computed(() => {
   const result: { x: number, y: number, cell: number, isLegal: boolean, isLast: boolean, isHint: boolean }[] = []

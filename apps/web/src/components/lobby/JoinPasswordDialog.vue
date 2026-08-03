@@ -7,7 +7,6 @@ import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Lock } from '@lucide/vue'
 
-const { t } = useI18n()
 const open = defineModel<boolean>('open', { default: false })
 
 const props = defineProps<{
@@ -18,6 +17,8 @@ const emit = defineEmits<{
   submit: [password: string]
   cancel: []
 }>()
+
+const { t } = useI18n()
 
 const password = ref('')
 const error = ref('')

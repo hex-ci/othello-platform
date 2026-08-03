@@ -14,6 +14,8 @@ import { useAuthStore } from '@/stores/auth-store'
 import { useSeasonStore } from '@/stores/season-store'
 import PageNavBar from '@/components/PageNavBar.vue'
 
+type Tab = 'elo' | 'classic' | 'winrate'
+
 const router = useRouter()
 const lb = useLeaderboardStore()
 const auth = useAuthStore()
@@ -22,7 +24,6 @@ const { t } = useI18n()
 
 const { entries, by, loading } = storeToRefs(lb)
 
-type Tab = 'elo' | 'classic' | 'winrate'
 const tab = ref<Tab>('elo')
 
 const TIER_CLS: Record<TierName, string> = {

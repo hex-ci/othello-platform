@@ -8,7 +8,10 @@ import { useI18n } from 'vue-i18n'
 import { Cpu, Users, Lock } from '@lucide/vue'
 import type { RoomDTO } from '@othello-platform/shared'
 
-defineProps<{
+const {
+  rooms,
+  loading,
+} = defineProps<{
   rooms: RoomDTO[]
   loading: boolean
 }>()

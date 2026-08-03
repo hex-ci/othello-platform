@@ -5,32 +5,32 @@
  */
 import { computed } from 'vue'
 
-const props = withDefaults(
-  defineProps<{
-    /** 当前回合剩余秒数 */
-    remaining: number
-    /** 每步总秒数（用于计算圆环进度） */
-    total?: number
-  }>(),
-  { total: 30 },
-)
+const {
+  remaining,
+  total = 30,
+} = defineProps<{
+  /** 当前回合剩余秒数 */
+  remaining: number
+  /** 每步总秒数（用于计算圆环进度） */
+  total?: number
+}>()
 
 const RADIUS = 35
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS
 
 const dashOffset = computed(() => {
-  const ratio = Math.max(0, Math.min(1, props.remaining / props.total))
+  const ratio = Math.max(0, Math.min(1, remaining / total))
   return CIRCUMFERENCE * (1 - ratio)
 })
 
 const mmss = computed(() => {
-  const s = Math.max(0, props.remaining)
+  const s = Math.max(0, remaining)
   const m = Math.floor(s / 60)
   const r = s % 60
   return `${m}:${String(r).padStart(2, '0')}`
 })
 
-const urgent = computed(() => props.remaining <= 10)
+const urgent = computed(() => remaining <= 10)
 </script>
 
 <template>

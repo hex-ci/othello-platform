@@ -3,7 +3,7 @@
  * 剪贴板复制失败时的降级弹窗：展示待复制文本，用户可全选后手动复制。
  * 非 HTTPS 环境下 navigator.clipboard 不可用，避免直接报错，改为引导手动复制。
  */
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, useTemplateRef } from 'vue'
 import { X, Copy, Check } from '@lucide/vue'
 
 const props = defineProps<{
@@ -14,7 +14,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ close: [] }>()
 
-const inputRef = ref<HTMLInputElement | null>(null)
+const inputRef = useTemplateRef('inputEl')
 const selected = ref(false)
 
 // 打开时自动全选文本，方便用户直接 Ctrl+C
@@ -67,7 +67,7 @@ function selectAll() {
           </div>
 
           <input
-            ref="inputRef"
+            ref="inputEl"
             :value="text"
             readonly
             class="w-full px-3 py-2.5 rounded-xl bg-black/30 border border-glass-border text-sm text-text-primary font-mono focus:outline-none focus:border-gold/50"

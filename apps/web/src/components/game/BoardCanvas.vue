@@ -10,6 +10,7 @@ const { t } = useI18n()
 
 /** 格子按钮引用（按 y*8+x 索引），供方向键 roving 焦点（T19 全键盘） */
 const cellRefs = ref<(HTMLButtonElement | null)[]>([])
+
 function setCellRef(idx: number) {
   return (el: unknown) => {
     cellRefs.value[idx] = el instanceof HTMLButtonElement ? el : null

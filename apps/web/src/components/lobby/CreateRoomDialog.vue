@@ -6,12 +6,13 @@ import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { GameMode, AiLevel } from '@othello-platform/shared'
 
-const { t } = useI18n()
 const open = defineModel<boolean>('open', { default: false })
 
 const emit = defineEmits<{
   create: [input: { name: string, mode: GameMode, aiLevel?: AiLevel, password?: string }]
 }>()
+
+const { t } = useI18n()
 
 const name = ref('')
 const mode = ref<GameMode>('human_vs_human')

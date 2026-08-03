@@ -44,8 +44,15 @@ const { t, locale } = useI18n()
 const isLoggedIn = computed(() => Boolean(auth.token))
 
 // ─── 快速开局（composable，与大厅共用）───
-const { aiQuickLevel, AI_LEVELS, joinError, createAndEnter, quickAi, onMatch, onCancelMatch }
-  = useQuickAi()
+const {
+  aiQuickLevel,
+  AI_LEVELS,
+  joinError,
+  createAndEnter,
+  quickAi,
+  onMatch,
+  onCancelMatch,
+} = useQuickAi()
 
 const showCreate = ref(false)
 

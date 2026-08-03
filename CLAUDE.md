@@ -43,7 +43,7 @@ docs/             — prd.md + appendix-a~d + ops-runbook.md + pages/*.html 设�
 
 - **TypeScript strict + `noUncheckedIndexedAccess`**: 数组/对象索引返回 `T | undefined`，必须处理 undefined
 - **`verbatimModuleSyntax: true`**: 类型-only 导入必须用 `import type { ... }`，否则编译报错
-- **ESLint**: `no-explicit-any` 仅 warn（允许 `any` 但会有告警）；`no-unused-vars` 允许 `_` 前缀参数
+- **ESLint**: `no-explicit-any` 仅 warn（允许 `any` 但会有告警）
 - **命名**: 文件 kebab-case、类型 PascalCase、变量 camelCase、常量 SCREAMING_SNAKE_CASE
 - **WS 事件** snake_case；**REST 路径** kebab-case 复数, `/api/v1` 前缀
 - **棋子常量**: `T_NONE=0, T_BLACK=1, T_WHITE=2`（禁止魔法数字）
@@ -57,7 +57,7 @@ docs/             — prd.md + appendix-a~d + ops-runbook.md + pages/*.html 设�
 - **字体**: 全站用系统字体栈（中文 PingFang SC / Microsoft YaHei），不加载自定义 Web 字体。
 - **`tsx watch` 热重载**: 改后端代码无需手动重启。
 - **Tailwind v4**: 用 `@tailwindcss/vite` 插件 + `@theme` 指令（无 JS config 文件），暗色为唯一主题（浅色模式已弃用，设置页无主题切换）。
-- **`.playwright-mcp/` / `.playwright-cli/` / `.playwright/` 已 gitignore**: Playwright 工件目录，不入库。
+- **`.playwright-cli/` 已 gitignore**: Playwright 工件目录，不入库。
 
 ## 环境变量（关键）
 
@@ -92,12 +92,6 @@ docs/             — prd.md + appendix-a~d + ops-runbook.md + pages/*.html 设�
 | 不适用                                         | `vue-options-api-best-practices` / `vue-jsx-best-practices`（本项目一律 Composition API + `<script setup lang="ts">`） |
 
 skills 采用渐进式披露：SKILL.md 是总纲，具体坑按链接进 `references/`（vue-best-practices）或 `reference/`（其余）查对应方案。
-
-## Git 工作流
-
-- **Conventional Commits**: `feat: / fix: / refactor: / docs: / test: / chore: / perf: / ci:` 前缀
-- **PR 流程**: 每个功能开 feature 分支 + PR 合并（不直推 main）
-- 提交前确认 typecheck / lint / test 全绿（CI 会跑这三项）
 
 ## 测试约定
 

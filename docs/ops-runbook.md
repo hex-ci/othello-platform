@@ -17,7 +17,7 @@
 | `JWT_ACCESS_TTL`      | `15m`                   | Access token 有效期                              |
 | `JWT_REFRESH_TTL`     | `7d`                    | Refresh token 有效期                             |
 | `PORT`                | `3000`                  | HTTP 监听端口                                    |
-| `HOST`                | `0.0.0.0`               | 监听地址                                         |
+| `HOST`                | `127.0.0.1`             | 监听地址                                         |
 | `WS_PATH`             | `/ws`                   | WebSocket 路径                                   |
 | `CORS_ORIGINS`        | `http://localhost:5173` | 允许的 CORS 来源（逗号分隔，生产须配置前端域名） |
 | `TRUST_PROXY`         | `false`                 | 反向代理后置 `true`，使限流按真实客户端 IP 生效  |

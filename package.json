@@ -36,6 +36,7 @@
     "lint": "eslint . --cache --max-warnings 0",
     "lint:fix": "eslint . --cache --max-warnings 0 --fix",
     "test": "pnpm -r test",
+    "dev": "run-p dev:web dev:server",
     "dev:web": "pnpm --filter @othello-platform/web dev",
     "dev:server": "pnpm --filter @othello-platform/server dev",
     "migrate:up": "pnpm --filter @othello-platform/server migrate:up",

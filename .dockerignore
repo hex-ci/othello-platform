@@ -18,6 +18,9 @@ node_modules
 CLAUDE.md
 CLAUDE.local.md
 
+# Git hooks（构建/运行时不需要）
+.husky
+
 # 文档与设计稿（运行时不需要）
 docs
 *.md

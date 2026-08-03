@@ -40,7 +40,8 @@
     "dev:server": "pnpm --filter @othello-platform/server dev",
     "migrate:up": "pnpm --filter @othello-platform/server migrate:up",
     "migrate:down": "pnpm --filter @othello-platform/server migrate:down",
-    "code-check": "run-p typecheck lint"
+    "code-check": "run-p typecheck lint",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -54,6 +55,7 @@
     "eslint": "^10.8.0",
     "eslint-plugin-vue": "^10.10.0",
     "globals": "^17.9.0",
+    "husky": "^9.1.7",
     "npm-run-all2": "^9.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"

@@ -11,7 +11,7 @@ export async function puzzleRoutes(app: FastifyInstance): Promise<void> {
   // 列出题目（可按难度/专题筛选，无需鉴权）
   app.get('/api/v1/puzzles', async (request) => {
     const q = request.query as Record<string, string | undefined>
-    const filter: { difficulty?: PuzzleDifficulty; topic?: PuzzleTopic } = {}
+    const filter: { difficulty?: PuzzleDifficulty, topic?: PuzzleTopic } = {}
     if (q['difficulty']) filter.difficulty = q['difficulty'] as PuzzleDifficulty
     if (q['topic']) filter.topic = q['topic'] as PuzzleTopic
     const puzzles = await puzzleService.listPuzzles(filter)
@@ -36,7 +36,8 @@ export async function puzzleRoutes(app: FastifyInstance): Promise<void> {
       await request.jwtVerify()
       userId = Number(getUserId(request))
       if (!Number.isFinite(userId)) userId = undefined
-    } catch {
+    }
+    catch {
       // 无 token 或 token 无效，不拒绝，completedIds 留空
       userId = undefined
     }
@@ -49,9 +50,9 @@ export async function puzzleRoutes(app: FastifyInstance): Promise<void> {
   app.post('/api/v1/puzzles/:id/attempt', { preHandler: [authGuard] }, async (request) => {
     const puzzleId = parsePuzzleId(request)
     const userId = Number(getUserId(request)) // BIGINT-as-string 归一化
-    const body = request.body as { answerX?: number; answerY?: number; timeMs?: number } | null
-    const answerPos: Pos | null =
-      body && typeof body.answerX === 'number' && typeof body.answerY === 'number'
+    const body = request.body as { answerX?: number, answerY?: number, timeMs?: number } | null
+    const answerPos: Pos | null
+      = body && typeof body.answerX === 'number' && typeof body.answerY === 'number'
         ? { x: body.answerX, y: body.answerY }
         : null
     const timeMs = typeof body?.timeMs === 'number' ? body.timeMs : 0

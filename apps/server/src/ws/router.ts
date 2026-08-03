@@ -18,10 +18,11 @@ export class WsRouter {
 
   async dispatch(ctx: WsContext, raw: string): Promise<void> {
     const conn: ClientConnection = ctx.conn
-    let msg: { type?: unknown; payload?: unknown }
+    let msg: { type?: unknown, payload?: unknown }
     try {
-      msg = JSON.parse(raw) as { type?: unknown; payload?: unknown }
-    } catch {
+      msg = JSON.parse(raw) as { type?: unknown, payload?: unknown }
+    }
+    catch {
       conn.sendError('VALIDATION_ERROR', '消息格式无效')
       return
     }
@@ -46,7 +47,8 @@ export class WsRouter {
 
     try {
       await handler(ctx, msg.payload)
-    } catch (err) {
+    }
+    catch (err) {
       ctx.app.log.error({ err, type }, 'WS handler 异常')
       conn.sendError('INTERNAL', '服务端内部错误')
     }

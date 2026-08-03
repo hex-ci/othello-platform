@@ -8,8 +8,8 @@ import { useI18n } from 'vue-i18n'
 import { useSettingsStore } from '@/stores/settings-store'
 
 /** 伪装用的中性 favicon（文档图标，data URI） */
-const NEUTRAL_FAVICON =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%234a5568'/%3E%3Crect x='14' y='16' width='36' height='4' rx='2' fill='%23cbd5e0'/%3E%3Crect x='14' y='28' width='36' height='4' rx='2' fill='%23cbd5e0'/%3E%3Crect x='14' y='40' width='24' height='4' rx='2' fill='%23cbd5e0'/%3E%3C/svg%3E"
+const NEUTRAL_FAVICON
+  = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 64 64\'%3E%3Crect width=\'64\' height=\'64\' rx=\'8\' fill=\'%234a5568\'/%3E%3Crect x=\'14\' y=\'16\' width=\'36\' height=\'4\' rx=\'2\' fill=\'%23cbd5e0\'/%3E%3Crect x=\'14\' y=\'28\' width=\'36\' height=\'4\' rx=\'2\' fill=\'%23cbd5e0\'/%3E%3Crect x=\'14\' y=\'40\' width=\'24\' height=\'4\' rx=\'2\' fill=\'%23cbd5e0\'/%3E%3C/svg%3E'
 
 const HOTKEY = '`'
 
@@ -23,7 +23,7 @@ export function useBossKey() {
 
   function applyDisguise(): void {
     originalTitle = document.title
-    const link = document.querySelector<HTMLLinkElement>("link[rel~='icon']")
+    const link = document.querySelector<HTMLLinkElement>('link[rel~=\'icon\']')
     originalFavicon = link?.href ?? ''
     document.title = t('bossKey.title')
     if (link) link.href = NEUTRAL_FAVICON
@@ -32,7 +32,7 @@ export function useBossKey() {
 
   function restore(): void {
     document.title = originalTitle || 'Othello'
-    const link = document.querySelector<HTMLLinkElement>("link[rel~='icon']")
+    const link = document.querySelector<HTMLLinkElement>('link[rel~=\'icon\']')
     if (link && originalFavicon) link.href = originalFavicon
     active.value = false
   }

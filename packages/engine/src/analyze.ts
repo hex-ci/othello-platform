@@ -94,7 +94,7 @@ const BRILLIANT_EVAL_MIN = 0.2
  * @param result 可选终局结果，用于 summary
  */
 export function analyzeGame(
-  moves: ReadonlyArray<{ color: Color; pos: Pos | null; isPass: boolean }>,
+  moves: ReadonlyArray<{ color: Color, pos: Pos | null, isPass: boolean }>,
   config: SearchConfig = DEFAULT_ANALYSIS_CONFIG,
   result: GameResult | null = null,
 ): GameAnalysis {
@@ -145,7 +145,7 @@ export function analyzeGame(
     // 最佳手搜索
     const bestResult = search(board, color, config)
     const bestPosIndex = bestResult?.posIndex ?? 0
-    const bestPos = legal.find((p) => p.y * 8 + p.x === bestPosIndex) ?? legal[0]!
+    const bestPos = legal.find(p => p.y * 8 + p.x === bestPosIndex) ?? legal[0]!
     const bestScoreColor = bestResult?.score ?? 0
 
     // 实际手评分：在走子前棋盘上落实际手，再以对手视角搜索
@@ -154,7 +154,8 @@ export function analyzeGame(
     if (afterActual === null) {
       // 非法手（不应发生），按最差处理
       actualScoreColor = -INF
-    } else {
+    }
+    else {
       const oppResult = search(afterActual.board, opponent(color), config)
       actualScoreColor = oppResult === null ? INF : -(oppResult.score)
     }
@@ -221,4 +222,3 @@ export function analyzeGame(
     },
   }
 }
-

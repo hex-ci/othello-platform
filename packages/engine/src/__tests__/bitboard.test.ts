@@ -28,7 +28,7 @@ describe('Bitboard 位运算', () => {
     const bb = boardToBitboard(createInitialBoard())
     const moves = legalMovesBB(ownMask(bb, 'BLACK'), oppMask(bb, 'BLACK'))
     const positions = bitsToPositions(moves)
-    const set = new Set(positions.map((p) => `${p.x},${p.y}`))
+    const set = new Set(positions.map(p => `${p.x},${p.y}`))
     expect(set.has('2,3')).toBe(true)
     expect(set.has('3,2')).toBe(true)
     expect(set.has('4,5')).toBe(true)
@@ -90,7 +90,7 @@ describe('Bitboard 位运算', () => {
     const moves = legalMovesBB(bb.black, bb.white)
     const positions = bitsToPositions(moves)
     // 黑应在 (2,3) 有合法手（东方向翻白）
-    expect(positions.some((p) => p.x === 2 && p.y === 3)).toBe(true)
+    expect(positions.some(p => p.x === 2 && p.y === 3)).toBe(true)
     // 不应有 x<0 或 x>7 的位置
     for (const p of positions) {
       expect(p.x).toBeGreaterThanOrEqual(0)

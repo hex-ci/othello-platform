@@ -28,7 +28,8 @@ function load(): SettingsData {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (raw) return { ...DEFAULTS, ...(JSON.parse(raw) as Partial<SettingsData>) }
-  } catch {
+  }
+  catch {
     /* ignore corrupt data */
   }
   return { ...DEFAULTS }

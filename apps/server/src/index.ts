@@ -5,7 +5,8 @@ const app = await buildApp()
 try {
   await app.listen({ port: Number(process.env['PORT'] ?? 3000), host: process.env['HOST'] ?? '0.0.0.0' })
   app.log.info(`Server listening on ${app.server.address()}`)
-} catch (err) {
+}
+catch (err) {
   app.log.error(err)
   process.exit(1)
 }
@@ -32,7 +33,8 @@ async function shutdown(signal: string): Promise<void> {
     await app.close() // 触发 onClose 钩子：WS drain + AI 池终止
     app.log.info('优雅退出完成')
     process.exit(0)
-  } catch (err) {
+  }
+  catch (err) {
     app.log.error(err, '优雅退出过程出错')
     process.exit(1)
   }

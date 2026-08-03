@@ -30,7 +30,7 @@ export async function getFriendStatus(userId: number): Promise<FriendStatusDTO> 
 /** 修改本人资料（v1 预留 avatar/bio） */
 export async function updateUser(
   userId: number,
-  updates: { avatar?: string; bio?: string },
+  updates: { avatar?: string, bio?: string },
 ): Promise<{ ok: boolean }> {
   return apiFetch<{ ok: boolean }>(`/users/${userId}`, {
     method: 'PATCH',

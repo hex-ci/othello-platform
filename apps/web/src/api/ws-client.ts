@@ -27,7 +27,7 @@ export class WsClient {
   /** 是否已成功连接过（用于区分首连与断线重连） */
   private hasOpenedOnce = false
   /** 连接建立前的待发消息队列（避免早期 send 丢失） */
-  private outbox: { type: string; payload?: unknown }[] = []
+  private outbox: { type: string, payload?: unknown }[] = []
 
   constructor(private readonly opts: WsClientOptions = {}) {}
 
@@ -66,15 +66,16 @@ export class WsClient {
     }
 
     ws.onmessage = (event) => {
-      let msg: { type?: string; payload?: unknown }
+      let msg: { type?: string, payload?: unknown }
       try {
-        msg = JSON.parse(event.data as string) as { type?: string; payload?: unknown }
-      } catch {
+        msg = JSON.parse(event.data as string) as { type?: string, payload?: unknown }
+      }
+      catch {
         return
       }
       if (!msg.type) return
       if (msg.type === 'error') {
-        const p = msg.payload as { code: ErrorCode; msg: string }
+        const p = msg.payload as { code: ErrorCode, msg: string }
         this.opts.onError?.(p.code, p.msg)
         // 鉴权失败统一处理：清 token + 标记 + 跳登录页（toast 在 login 页落地，避免整页跳转销毁）
         if (p.code === 'INVALID_TOKEN' || p.code === 'AUTH_REQUIRED') {
@@ -117,7 +118,8 @@ export class WsClient {
     // 连接未就绪时入队，待 onopen 后 flush（避免早期 send 丢失）
     if (this.ws?.readyState === WebSocket.OPEN) {
       this.rawSend(type, payload)
-    } else {
+    }
+    else {
       this.outbox.push({ type, payload })
     }
   }

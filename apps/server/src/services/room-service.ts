@@ -31,7 +31,7 @@ export async function listRooms(params: {
   status?: 'waiting' | 'playing' | 'finished'
   page: number
   limit: number
-}): Promise<{ items: RoomDTO[]; total: number }> {
+}): Promise<{ items: RoomDTO[], total: number }> {
   const offset = (params.page - 1) * params.limit
   const where = params.status ? 'WHERE status = $1' : ''
   const countParams = params.status ? [params.status] : []
@@ -72,7 +72,8 @@ export async function setReady(
 ): Promise<void> {
   if (userId === blackId) {
     await query('UPDATE rooms SET black_ready = $2 WHERE id = $1', [roomId, ready])
-  } else if (userId === whiteId) {
+  }
+  else if (userId === whiteId) {
     await query('UPDATE rooms SET white_ready = $2 WHERE id = $1', [roomId, ready])
   }
 }
@@ -95,7 +96,7 @@ export async function updatePassword(roomId: number, password: string | null): P
 
 /** 启动时清理僵尸 waiting 房间：重启后内存座位已丢失，这些房间不可能再正常开局 */
 export async function cleanupStaleWaitingRooms(): Promise<number> {
-  const res = await query("UPDATE rooms SET status = 'finished' WHERE status = 'waiting'")
+  const res = await query('UPDATE rooms SET status = \'finished\' WHERE status = \'waiting\'')
   return res.rowCount ?? 0
 }
 

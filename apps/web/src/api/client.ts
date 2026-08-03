@@ -31,11 +31,12 @@ async function doRefresh(): Promise<string | null> {
       body: JSON.stringify({ refreshToken }),
     })
     if (!res.ok) return null
-    const data = (await res.json()) as { token: string; refreshToken: string }
+    const data = (await res.json()) as { token: string, refreshToken: string }
     localStorage.setItem('token', data.token)
     localStorage.setItem('refreshToken', data.refreshToken)
     return data.token
-  } catch {
+  }
+  catch {
     return null
   }
 }
@@ -85,7 +86,7 @@ export async function apiFetch<T>(
       }
       handleUnauthorized()
     }
-    const body = await response.json().catch(() => null) as { error?: { code: string; msg: string } } | null
+    const body = await response.json().catch(() => null) as { error?: { code: string, msg: string } } | null
     const msg = body?.error?.msg ?? `请求失败 (${response.status})`
     throw new Error(msg)
   }

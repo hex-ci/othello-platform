@@ -34,7 +34,7 @@ async function fetchScore(userId: number): Promise<PlayerScore | null> {
     'SELECT id, classic_score, games_played FROM users WHERE id = $1 AND deleted_at IS NULL',
     [userId],
   )
-  const row = res.rows[0] as { id: number; classic_score: number; games_played: number } | undefined
+  const row = res.rows[0] as { id: number, classic_score: number, games_played: number } | undefined
   if (!row) return null
   return { id: row.id, classicScore: row.classic_score, gamesPlayed: row.games_played }
 }
@@ -124,7 +124,7 @@ async function fetchElo(userId: number): Promise<PlayerElo | null> {
     'SELECT id, elo, games_played FROM users WHERE id = $1 AND deleted_at IS NULL',
     [userId],
   )
-  const row = res.rows[0] as { id: number; elo: number; games_played: number } | undefined
+  const row = res.rows[0] as { id: number, elo: number, games_played: number } | undefined
   if (!row) return null
   return { id: row.id, elo: row.elo, gamesPlayed: row.games_played }
 }
@@ -172,7 +172,7 @@ async function applyElo(userId: number, delta: number, gameNumId: number | null)
     `UPDATE users SET elo = elo + $2 WHERE id = $1 RETURNING elo - $2 AS old_value, elo AS new_value`,
     [userId, delta],
   )
-  const row = res.rows[0] as { old_value: number; new_value: number } | undefined
+  const row = res.rows[0] as { old_value: number, new_value: number } | undefined
   if (!row) return
   await query(
     `INSERT INTO rating_history (user_id, game_id, kind, old_value, new_value, delta)
@@ -186,7 +186,7 @@ async function applyElo(userId: number, delta: number, gameNumId: number | null)
     'SELECT wins, losses, draws FROM users WHERE id = $1',
     [userId],
   )
-  const s = stats.rows[0] as { wins: number; losses: number; draws: number } | undefined
+  const s = stats.rows[0] as { wins: number, losses: number, draws: number } | undefined
   if (s) {
     // 连胜：最近连续 wins（简化：用 wins 作为上限，实际连胜需查最近对局）
     const streak = delta > 0 ? Math.min(s.wins, 10) : 0

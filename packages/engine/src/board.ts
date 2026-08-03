@@ -55,7 +55,7 @@ export function createInitialBoard(): Board {
 }
 
 /** 统计双方子数 */
-export function countPieces(board: Board): { black: number; white: number } {
+export function countPieces(board: Board): { black: number, white: number } {
   let black = 0
   let white = 0
   for (let i = 0; i < CELL_COUNT; i++) {

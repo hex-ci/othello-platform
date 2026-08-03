@@ -84,9 +84,15 @@ describe('Board ↔ Bitboard 转换', () => {
     let blackCount = 0
     let whiteCount = 0
     let b = bb.black
-    while (b) { b &= b - 1n; blackCount++ }
+    while (b) {
+      b &= b - 1n
+      blackCount++
+    }
     let w = bb.white
-    while (w) { w &= w - 1n; whiteCount++ }
+    while (w) {
+      w &= w - 1n
+      whiteCount++
+    }
     expect(blackCount).toBe(2)
     expect(whiteCount).toBe(2)
   })

@@ -88,7 +88,7 @@ function initial(name: string): string {
   return name.trim().charAt(0).toUpperCase() || '?'
 }
 
-const waitingRooms = computed(() => lobby.rooms.filter((r) => r.status === 'waiting'))
+const waitingRooms = computed(() => lobby.rooms.filter(r => r.status === 'waiting'))
 
 function tickClock() {
   now.value = new Date().toLocaleString(locale.value, { hour12: false })
@@ -120,7 +120,8 @@ async function loadMe() {
   if (auth.userId === null) return
   try {
     me.value = await usersApi.getUser(auth.userId)
-  } catch {
+  }
+  catch {
     me.value = null
   }
 }
@@ -169,7 +170,7 @@ async function onJoinPwdSubmit(password: string) {
 /** 快速加入：进入第一个等待中的公开房间（跳过口令房） */
 async function quickJoin() {
   joinError.value = ''
-  const target = waitingRooms.value.find((r) => !r.hasPassword)
+  const target = waitingRooms.value.find(r => !r.hasPassword)
   if (!target) {
     joinError.value = t('lobby.noRoomToJoin')
     return

@@ -117,7 +117,7 @@ const moveNumber = computed(() => moveLog.value.length)
 // 最近 5 步（棋谱条）
 const COL_LABELS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 const recentMoves = computed(() => moveLog.value.slice(-5))
-function posLabel(m: { pos: { x: number; y: number } | null; isPass: boolean }): string {
+function posLabel(m: { pos: { x: number, y: number } | null, isPass: boolean }): string {
   if (m.isPass || !m.pos) return 'pass'
   return `${COL_LABELS[m.pos.x] ?? ''}${m.pos.y + 1}`
 }
@@ -154,10 +154,11 @@ onMounted(() => {
   chat.setActiveRoom(roomId.value)
   // 已结束房间/不存在：设 errorState，页面渲染错误卡片（不跳转）
   const unsubError = ws.on('error', (p) => {
-    const payload = p as { code: string; msg?: string }
+    const payload = p as { code: string, msg?: string }
     if (payload.code === 'ROOM_FINISHED') {
       game.errorState = { kind: 'finished', msg: payload.msg ?? '该房间对局已结束' }
-    } else if (payload.code === 'ROOM_NOT_FOUND' || payload.code === 'GAME_NOT_FOUND') {
+    }
+    else if (payload.code === 'ROOM_NOT_FOUND' || payload.code === 'GAME_NOT_FOUND') {
       game.errorState = { kind: 'not_found', msg: payload.msg ?? '房间或对局不存在' }
     }
   })
@@ -182,7 +183,7 @@ onUnmounted(() => {
   chat.setActiveRoom(null)
 })
 
-function onMove(pos: { x: number; y: number }) {
+function onMove(pos: { x: number, y: number }) {
   game.sendMove(pos)
 }
 

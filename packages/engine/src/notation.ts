@@ -99,13 +99,14 @@ export function decodeMoves(notation: string): NotationMove[] {
     let pos: Pos
     try {
       pos = notationToPos(two)
-    } catch (err) {
+    }
+    catch (err) {
       throw new NotationError(`第 ${result.length + 1} 手: ${(err as Error).message}`)
     }
 
     // 校验落子合法
     const legal = legalMoves(board, color)
-    const isLegal = legal.some((p) => p.x === pos.x && p.y === pos.y)
+    const isLegal = legal.some(p => p.x === pos.x && p.y === pos.y)
     if (!isLegal) {
       throw new NotationError(`第 ${result.length + 1} 手: ${two} 不是 ${color} 方的合法落子`)
     }
@@ -128,7 +129,8 @@ export function isValidNotation(notation: string): boolean {
   try {
     decodeMoves(notation)
     return true
-  } catch {
+  }
+  catch {
     return false
   }
 }

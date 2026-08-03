@@ -17,7 +17,7 @@ export function useQuickAi() {
   const aiQuickLevel = ref<AiLevel>(3)
   const joinError = ref('')
 
-  const AI_LEVELS = computed<{ value: AiLevel; label: string }[]>(() => [
+  const AI_LEVELS = computed<{ value: AiLevel, label: string }[]>(() => [
     { value: 0, label: t('aiLevel.l0') },
     { value: 1, label: t('aiLevel.l1') },
     { value: 2, label: t('aiLevel.l2') },
@@ -32,10 +32,12 @@ export function useQuickAi() {
       // 人机房直接进对局页（join 即开局）；人人房先进房间准备页（附录C ready 子阶段）
       if (mode === 'human_vs_ai') {
         await router.push(`/game/${roomId}`)
-      } else {
+      }
+      else {
         await router.push(`/room/${roomId}`)
       }
-    } catch (err) {
+    }
+    catch (err) {
       joinError.value = err instanceof Error ? err.message : t('lobby.joinFail')
     }
   }
@@ -51,7 +53,8 @@ export function useQuickAi() {
     try {
       const room = await api.createRoom(input)
       await enterRoom(room.id, input.mode, input.password)
-    } catch (err) {
+    }
+    catch (err) {
       joinError.value = err instanceof Error ? err.message : t('lobby.createFail')
     }
   }
@@ -62,13 +65,14 @@ export function useQuickAi() {
     try {
       const room = await api.createRoom({
         name: t('lobby.aiRoomName', {
-          level: AI_LEVELS.value.find((l) => l.value === aiQuickLevel.value)?.label ?? 'L3',
+          level: AI_LEVELS.value.find(l => l.value === aiQuickLevel.value)?.label ?? 'L3',
         }),
         mode: 'human_vs_ai',
         aiLevel: aiQuickLevel.value,
       })
       await enterRoom(room.id, 'human_vs_ai')
-    } catch (err) {
+    }
+    catch (err) {
       joinError.value = err instanceof Error ? err.message : t('lobby.createFail')
     }
   }

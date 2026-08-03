@@ -57,7 +57,7 @@ export function applyMove(
   board: Board,
   color: Color,
   pos: Pos,
-): { board: Board; flipped: Pos[] } | null {
+): { board: Board, flipped: Pos[] } | null {
   if (!inBounds(pos.x, pos.y)) return null
   if (board[indexOf(pos)] !== 0) return null
 
@@ -70,8 +70,8 @@ export function applyMove(
   if (flipped === 0n) return null
 
   const result = applyMoveBB(own, opp, posBit)
-  const newBB: Bitboard =
-    color === 'BLACK'
+  const newBB: Bitboard
+    = color === 'BLACK'
       ? { black: result.own, white: result.opp }
       : { black: result.opp, white: result.own }
 

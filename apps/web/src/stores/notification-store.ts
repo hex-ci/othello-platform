@@ -46,7 +46,7 @@ export const useNotificationStore = defineStore('notification', () => {
 
   /** 当前待应答的挑战（兼容现有 useChallenge 的 incomingChallenge 语义） */
   const pendingChallenge = computed<ChallengeNotification | null>(() => {
-    const found = notifications.value.find((n) => n.type === 'challenge')
+    const found = notifications.value.find(n => n.type === 'challenge')
     return found ? (found.payload as ChallengeNotification) : null
   })
 
@@ -61,7 +61,7 @@ export const useNotificationStore = defineStore('notification', () => {
   function pushChallenge(payload: ChallengeNotification): void {
     // 移除同发起方的旧挑战（避免叠加）
     const filtered = notifications.value.filter(
-      (n) => !(n.type === 'challenge' && n.payload.fromUserId === payload.fromUserId),
+      n => !(n.type === 'challenge' && n.payload.fromUserId === payload.fromUserId),
     )
     filtered.unshift({
       id: nextId(),
@@ -74,18 +74,18 @@ export const useNotificationStore = defineStore('notification', () => {
 
   /** 移除指定通知（应答/拒绝后调用） */
   function dismiss(id: string): void {
-    notifications.value = notifications.value.filter((n) => n.id !== id)
+    notifications.value = notifications.value.filter(n => n.id !== id)
   }
 
   /** 移除当前挑战（兼容现有 respondChallenge 的 incomingChallenge=null 语义） */
   function clearChallenge(): void {
-    notifications.value = notifications.value.filter((n) => n.type !== 'challenge')
+    notifications.value = notifications.value.filter(n => n.type !== 'challenge')
   }
 
   /** 清理过期通知（TTL 外的自动移除，供定时调用或读取时惰性清理） */
   function pruneExpired(): void {
     const now = Date.now()
-    notifications.value = notifications.value.filter((n) => now - n.createdAt < NOTIFICATION_TTL_MS)
+    notifications.value = notifications.value.filter(n => now - n.createdAt < NOTIFICATION_TTL_MS)
   }
 
   /** 清空所有（登出/测试用） */

@@ -22,7 +22,7 @@ const emit = defineEmits<{ analyze: [] }>()
 const { t } = useI18n()
 
 const COL_LABELS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
-function posLabel(pos: { x: number; y: number } | null): string {
+function posLabel(pos: { x: number, y: number } | null): string {
   if (!pos) return t('analyze.pass')
   return `${COL_LABELS[pos.x] ?? ''}${pos.y + 1}`
 }
@@ -35,7 +35,7 @@ const currentMove = computed<MoveAnalysisDTO | null>(() => {
 
 const keyMoments = computed<MoveAnalysisDTO[]>(() => {
   if (!props.analysis) return []
-  return props.analysis.moves.filter((m) => m.classification === 'brilliant' || m.classification === 'blunder')
+  return props.analysis.moves.filter(m => m.classification === 'brilliant' || m.classification === 'blunder')
 })
 
 const CLASS_COLOR: Record<MoveClassification, string> = {

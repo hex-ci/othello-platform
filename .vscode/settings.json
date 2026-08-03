@@ -32,5 +32,6 @@
     "target": "ES2022",
     "rootDir": ".",
     "ignoreDeprecations": "6.0"
-  }
+  },
+  "prettier.enable": false,
 }

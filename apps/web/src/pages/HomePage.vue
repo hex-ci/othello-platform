@@ -44,8 +44,8 @@ const { t, locale } = useI18n()
 const isLoggedIn = computed(() => Boolean(auth.token))
 
 // ─── 快速开局（composable，与大厅共用）───
-const { aiQuickLevel, AI_LEVELS, joinError, createAndEnter, quickAi, onMatch, onCancelMatch } =
-  useQuickAi()
+const { aiQuickLevel, AI_LEVELS, joinError, createAndEnter, quickAi, onMatch, onCancelMatch }
+  = useQuickAi()
 
 const showCreate = ref(false)
 
@@ -82,9 +82,9 @@ function initial(name: string): string {
 /** 胜负徽章（我的视角）：result 为胜方色或 DRAW */
 function resultOf(g: GameHistoryDTO): 'win' | 'lose' | 'draw' {
   if (g.result === 'DRAW' || g.result === null) return 'draw'
-  const myWin =
-    (g.myColor === 'BLACK' && g.result === 'BLACK') ||
-    (g.myColor === 'WHITE' && g.result === 'WHITE')
+  const myWin
+    = (g.myColor === 'BLACK' && g.result === 'BLACK')
+      || (g.myColor === 'WHITE' && g.result === 'WHITE')
   return myWin ? 'win' : 'lose'
 }
 
@@ -120,7 +120,8 @@ async function loadRecent() {
   if (auth.userId === null) return
   try {
     recentGames.value = (await usersApi.getGameHistory(auth.userId)).slice(0, 3)
-  } catch {
+  }
+  catch {
     recentGames.value = []
   }
 }
@@ -128,7 +129,8 @@ async function loadRecent() {
 async function loadDaily() {
   try {
     daily.value = await roomsApi.getDailyChallenge()
-  } catch {
+  }
+  catch {
     daily.value = null
   }
 }

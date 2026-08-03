@@ -10,5 +10,5 @@ export async function getOnlineUsers(hub: ConnectionHub): Promise<OnlineUserDTO[
   const ids = hub.onlineUserIds()
   if (ids.length === 0) return []
   const res = await query('SELECT id, username FROM users WHERE id = ANY($1::bigint[])', [ids])
-  return (res.rows as { id: number; username: string }[]).map((r) => ({ id: r.id, username: r.username }))
+  return (res.rows as { id: number, username: string }[]).map(r => ({ id: r.id, username: r.username }))
 }

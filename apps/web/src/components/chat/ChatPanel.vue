@@ -13,7 +13,7 @@ const {
   roomId: number | null
   /** true 时撑满父容器高度（大厅三栏），否则固定 h-64（对局侧栏） */
   fillHeight?: boolean
-}>();
+}>()
 
 const chat = useChatStore()
 const input = ref('')
@@ -37,7 +37,8 @@ async function send() {
   if (!text) return
   if (activeChannel.value === 'public') {
     await chat.sendPublic(text)
-  } else if (roomId !== null) {
+  }
+  else if (roomId !== null) {
     await chat.sendRoom(roomId, text)
   }
   input.value = ''

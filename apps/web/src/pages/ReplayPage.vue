@@ -56,14 +56,14 @@ const {
 
 const COL_LABELS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
-function posLabel(pos: { x: number; y: number } | null): string {
+function posLabel(pos: { x: number, y: number } | null): string {
   if (!pos) return 'pass'
   return `${COL_LABELS[pos.x] ?? ''}${pos.y + 1}`
 }
 
 function formatMove(m: {
   color: string
-  pos: { x: number; y: number } | null
+  pos: { x: number, y: number } | null
   isPass: boolean
 }): string {
   if (m.isPass)
@@ -80,7 +80,8 @@ async function shareGame(): Promise<void> {
     const ok = await copy(url)
     if (ok) toast.success(t('replay.shareCopied'))
     // 失败时 useCopy 已记录 pendingCopy，弹窗引导手动复制
-  } catch {
+  }
+  catch {
     toast.error(t('replay.shareFail'))
   }
 }
@@ -90,8 +91,8 @@ async function exportNotation(): Promise<void> {
   if (!frames.value) return
   const moves = frames.value
     .slice(1)
-    .filter((f) => f.move)
-    .map((f) => ({
+    .filter(f => f.move)
+    .map(f => ({
       color: f.move!.color as 'BLACK' | 'WHITE',
       pos: f.move!.pos,
       isPass: f.move!.isPass,
@@ -120,7 +121,8 @@ function doImport(): void {
     // 用解码出的走子序列构建本地复盘帧
     replay.loadFromMoves(moves)
     showImport.value = false
-  } catch (err) {
+  }
+  catch (err) {
     importError.value = err instanceof NotationError ? err.message : t('notation.invalid')
   }
 }
@@ -132,7 +134,8 @@ onMounted(async () => {
   // gameId 格式为 g_数字；其余一律视为分享令牌（16 位 base64url，含 - 和 _）
   if (/^g_\d+$/.test(id)) {
     await replay.loadById(id)
-  } else {
+  }
+  else {
     await replay.loadByToken(id)
   }
 })

@@ -17,7 +17,8 @@ export const useSeasonStore = defineStore('season', () => {
   async function loadCurrent(): Promise<void> {
     try {
       currentSeason.value = await api.getCurrentSeason()
-    } catch {
+    }
+    catch {
       currentSeason.value = null
     }
   }
@@ -29,9 +30,11 @@ export const useSeasonStore = defineStore('season', () => {
       currentSeason.value = res.season
       myRating.value = res.rating
       badges.value = res.badges
-    } catch {
+    }
+    catch {
       // 未登录等
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }

@@ -5,7 +5,7 @@
 
 export type Color = 'BLACK' | 'WHITE'
 export type Cell = 0 | 1 | 2 // T_NONE | T_BLACK | T_WHITE
-export type Pos = { x: number; y: number } // 0..7
+export type Pos = { x: number, y: number } // 0..7
 export type AiLevel = 0 | 1 | 2 | 3 | 4 | 5 // L0 热身不计分
 
 export type GameMode = 'human_vs_ai' | 'human_vs_human'
@@ -198,8 +198,8 @@ export interface GameAnalysisDTO {
 
 /** 战术题库 / 每日挑战 / 标准记谱（T21，F-E-17/19） */
 export type PuzzleDifficulty = 'beginner' | 'easy' | 'medium' | 'hard' | 'expert'
-export type PuzzleTopic =
-  'corner' | 'edge' | 'x_square' | 'endgame' | 'maximize_flip' | 'fewer_discs'
+export type PuzzleTopic
+  = 'corner' | 'edge' | 'x_square' | 'endgame' | 'maximize_flip' | 'fewer_discs'
 
 export interface PuzzleDTO {
   id: number
@@ -254,7 +254,7 @@ export interface PuzzleStatsDTO {
 export type TierName = 'king' | 'master' | 'diamond' | 'platinum' | 'gold' | 'silver'
 
 /** 段位阈值（降序），首个满足 elo >= threshold 的即为该段位 */
-export const TIER_THRESHOLDS: ReadonlyArray<{ tier: TierName; min: number }> = [
+export const TIER_THRESHOLDS: ReadonlyArray<{ tier: TierName, min: number }> = [
   { tier: 'king', min: 2000 },
   { tier: 'master', min: 1800 },
   { tier: 'diamond', min: 1600 },
@@ -289,14 +289,14 @@ export interface UserSeasonRatingDTO {
   finalElo: number | null
 }
 
-export type BadgeType =
-  | 'first_win'
-  | 'streak_5'
-  | 'streak_10'
-  | 'season_king'
-  | 'perfect_review'
-  | 'puzzle_master'
-  | 'weekly_champion'
+export type BadgeType
+  = | 'first_win'
+    | 'streak_5'
+    | 'streak_10'
+    | 'season_king'
+    | 'perfect_review'
+    | 'puzzle_master'
+    | 'weekly_champion'
 
 export interface BadgeDTO {
   id: number

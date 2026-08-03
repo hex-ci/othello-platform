@@ -130,11 +130,14 @@ export async function listFriends(
   const params: unknown[] = [userId]
   if (status === 'accepted') {
     clauses.push(`(f.user_id = $1 OR f.friend_id = $1) AND f.status = 'accepted'`)
-  } else if (status === 'pending') {
+  }
+  else if (status === 'pending') {
     clauses.push(`(f.user_id = $1 OR f.friend_id = $1) AND f.status = 'pending'`)
-  } else if (status === 'blocked') {
+  }
+  else if (status === 'blocked') {
     clauses.push(`f.user_id = $1 AND f.status = 'blocked'`)
-  } else {
+  }
+  else {
     clauses.push(`(f.user_id = $1 OR f.friend_id = $1)`)
   }
 
@@ -189,7 +192,7 @@ export async function getRelation(userId: number, otherId: number): Promise<Rela
     [userId, otherId],
   )
   if (!res.rowCount || res.rowCount === 0) return 'none'
-  const row = res.rows[0] as { status: FriendStatus; user_id: string | number }
+  const row = res.rows[0] as { status: FriendStatus, user_id: string | number }
   const rowUserId = Number(row.user_id)
   switch (row.status) {
     case 'accepted':
@@ -211,5 +214,5 @@ export async function getBlockedIds(userId: number): Promise<number[]> {
     `SELECT friend_id FROM friends WHERE user_id = $1 AND status = 'blocked'`,
     [userId],
   )
-  return (res.rows as { friend_id: number }[]).map((r) => r.friend_id)
+  return (res.rows as { friend_id: number }[]).map(r => r.friend_id)
 }

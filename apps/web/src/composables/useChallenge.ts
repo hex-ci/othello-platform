@@ -59,7 +59,7 @@ export function useChallenge() {
     // 收到别人的挑战 → 写入 notificationStore（任何页面都能收到）
     unsubs.push(
       ws.on('challenge', (p) => {
-        const payload = p as { fromUserId: number; fromUsername: string }
+        const payload = p as { fromUserId: number, fromUsername: string }
         notifyStore.pushChallenge(payload)
       }),
     )
@@ -76,7 +76,8 @@ export function useChallenge() {
         challengingId.value = null
         if (payload.accepted && payload.roomId !== null) {
           void router.push(`/game/${payload.roomId}`)
-        } else {
+        }
+        else {
           toast.error(
             payload.opponentUsername
               ? t('friends.challengeRejected', { name: payload.opponentUsername })
@@ -89,11 +90,12 @@ export function useChallenge() {
     // 服务端拒绝挑战（非好友 / 对方离线，T17/F-E-16 服务端校验）
     unsubs.push(
       ws.on('error', (p) => {
-        const payload = p as { code: string; msg: string }
+        const payload = p as { code: string, msg: string }
         if (payload.code === 'NOT_FRIEND') {
           challengingId.value = null
           toast.error(t('friends.challengeNotFriend'))
-        } else if (payload.code === 'OPPONENT_OFFLINE') {
+        }
+        else if (payload.code === 'OPPONENT_OFFLINE') {
           challengingId.value = null
           toast.error(t('friends.challengeOffline'))
         }

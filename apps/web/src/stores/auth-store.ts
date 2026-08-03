@@ -4,7 +4,7 @@ import type { UserDTO } from '@othello-platform/shared'
 import * as authApi from '@/api/auth'
 
 /** 从 JWT 解析 payload（不校验签名，仅读取 userId/username） */
-function decodeJwt(token: string | null): { userId: number; username: string } | null {
+function decodeJwt(token: string | null): { userId: number, username: string } | null {
   if (!token) return null
   try {
     const part = token.split('.')[1]
@@ -15,8 +15,9 @@ function decodeJwt(token: string | null): { userId: number; username: string } |
     const bytes = new Uint8Array(binary.length)
     for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
     const json = new TextDecoder('utf-8').decode(bytes)
-    return JSON.parse(json) as { userId: number; username: string }
-  } catch {
+    return JSON.parse(json) as { userId: number, username: string }
+  }
+  catch {
     return null
   }
 }

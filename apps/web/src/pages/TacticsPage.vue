@@ -97,7 +97,7 @@ const legalSet = computed<Set<number>>(() => {
   if (!currentPuzzle.value || attemptResult.value) return new Set()
   const b = board.value
   const moves = legalMoves(b, turn.value as 'BLACK' | 'WHITE')
-  return new Set(moves.map((p) => p.y * 8 + p.x))
+  return new Set(moves.map(p => p.y * 8 + p.x))
 })
 
 function onCellClick(x: number, y: number): void {
@@ -155,8 +155,8 @@ const todayDate = computed(() => {
 const dailyProgress = computed(() => {
   const d = daily.value
   if (!d) return { done: 0, total: 0 }
-  const puzzleIds = new Set(d.puzzles.map((p) => p.id))
-  const done = d.completedIds.filter((id) => puzzleIds.has(id)).length
+  const puzzleIds = new Set(d.puzzles.map(p => p.id))
+  const done = d.completedIds.filter(id => puzzleIds.has(id)).length
   return { done, total: d.puzzles.length }
 })
 

@@ -50,7 +50,7 @@ export function resetAbort(): void {
  * 评估函数（静态）。
  * 正值对 color 有利。
  */
-function evaluate(ownBB: bigint, oppBB: bigint, _color: Color): number {
+function evaluate(ownBB: bigint, oppBB: bigint): number {
   const empties = ~(ownBB | oppBB) & FULL
   const emptyCount = popcount(empties)
 
@@ -98,7 +98,10 @@ function evaluate(ownBB: bigint, oppBB: bigint, _color: Color): number {
 function log2(n: bigint): bigint {
   let r = 0n
   let v = n
-  while (v > 1n) { v >>= 1n; r++ }
+  while (v > 1n) {
+    v >>= 1n
+    r++
+  }
   return r
 }
 
@@ -146,7 +149,8 @@ function solveEndgame(
     // 己方无手 → pass，对手走
     const oppColor = opponent(color)
     best = -solveEndgame(oppBB, ownBB, oppColor, tt)
-  } else {
+  }
+  else {
     best = -INF
     let b = moves
     while (b !== 0n) {
@@ -196,7 +200,7 @@ function negascout(
 
   // 叶子节点
   if (depth <= 0) {
-    return evaluate(ownBB, oppBB, color)
+    return evaluate(ownBB, oppBB)
   }
 
   // 置换表查询
@@ -221,7 +225,7 @@ function negascout(
 
   const orderedIndices = config.useMoveOrdering
     ? orderMoves(moves)
-    : bitsToPositions(moves).map((p) => p.y * 8 + p.x)
+    : bitsToPositions(moves).map(p => p.y * 8 + p.x)
 
   let best = -INF
   let flag: 'exact' | 'lower' | 'upper' = 'upper'
@@ -235,7 +239,8 @@ function negascout(
     let score: number
     if (searchFull) {
       score = -negascout(result.opp, result.own, oppColor, depth - 1, -beta, -alpha, config, tt)
-    } else {
+    }
+    else {
       // 零窗口搜索
       score = -negascout(result.opp, result.own, oppColor, depth - 1, -alpha - 1, -alpha, config, tt)
       if (score > alpha && score < beta) {
@@ -291,7 +296,7 @@ export function search(
   const tt: Map<string, TTEntry> | null = config.useTT ? new Map() : null
   const orderedIndices = config.useMoveOrdering
     ? orderMoves(moves)
-    : bitsToPositions(moves).map((p) => p.y * 8 + p.x)
+    : bitsToPositions(moves).map(p => p.y * 8 + p.x)
 
   let bestIndex = orderedIndices[0] ?? 0
   let bestScore = -INF

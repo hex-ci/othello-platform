@@ -17,7 +17,8 @@ export const useLeaderboardStore = defineStore('leaderboard', () => {
     try {
       const res = await api.getLeaderboard(mode, 50)
       entries.value = res.entries
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }

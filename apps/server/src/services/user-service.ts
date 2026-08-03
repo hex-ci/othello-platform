@@ -15,7 +15,7 @@ export async function createUser(
   username: string,
   password: string,
   email?: string,
-): Promise<{ userId: number; elo: number; classicScore: number }> {
+): Promise<{ userId: number, elo: number, classicScore: number }> {
   const existing = await query('SELECT id FROM users WHERE username = $1', [username])
   if (existing.rowCount && existing.rowCount > 0) {
     throw new AppError('VALIDATION_ERROR', '用户名已存在', 409)
@@ -29,7 +29,7 @@ export async function createUser(
     [username, passwordHash, email ?? null],
   )
 
-  const row = result.rows[0] as { id: number; elo: number; classic_score: number }
+  const row = result.rows[0] as { id: number, elo: number, classic_score: number }
   return { userId: row.id, elo: row.elo, classicScore: row.classic_score }
 }
 
@@ -74,7 +74,7 @@ export async function getUserByUsername(username: string): Promise<UserDTO> {
 
 export async function updateUser(
   id: number,
-  updates: { avatar?: string; bio?: string },
+  updates: { avatar?: string, bio?: string },
 ): Promise<void> {
   // v1: avatar/bio 字段暂未加入 users 表，预留接口
   // 后续迁移加列后启用
@@ -125,7 +125,7 @@ export async function getEloHistory(userId: number, limit = 20): Promise<EloHist
      LIMIT $2`,
     [userId, limit],
   )
-  return (res.rows as { game_id: number; new_value: number; delta: number; created_at: string }[]).map((r) => ({
+  return (res.rows as { game_id: number, new_value: number, delta: number, created_at: string }[]).map(r => ({
     gameId: gameIdToString(r.game_id),
     elo: r.new_value,
     delta: r.delta,
@@ -160,7 +160,7 @@ export async function getGameHistory(userId: number, limit = 20): Promise<GameHi
     ai_color: string | null
     opponent_id: number | null
     opponent_name: string | null
-  }>).map((r) => ({
+  }>).map(r => ({
     gameId: gameIdToString(r.id),
     opponentId: r.opponent_id,
     opponentName: r.opponent_name ?? (r.ai_color !== null ? 'AI' : '未知'),
@@ -189,7 +189,7 @@ export async function getAiStats(userId: number): Promise<AiStatDTO[]> {
      ORDER BY g.ai_level ASC`,
     [userId],
   )
-  return (res.rows as Array<{ ai_level: number; games: number; wins: number; losses: number; draws: number }>).map((r) => ({
+  return (res.rows as Array<{ ai_level: number, games: number, wins: number, losses: number, draws: number }>).map(r => ({
     aiLevel: r.ai_level,
     games: r.games,
     wins: r.wins,
@@ -210,7 +210,7 @@ export async function getActivity(userId: number, days = 7): Promise<ActivityDTO
      ORDER BY date ASC`,
     [userId],
   )
-  return (res.rows as Array<{ date: string; games: number }>).map((r) => ({
+  return (res.rows as Array<{ date: string, games: number }>).map(r => ({
     date: r.date,
     games: r.games,
   }))

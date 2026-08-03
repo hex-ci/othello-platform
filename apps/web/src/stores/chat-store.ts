@@ -34,7 +34,8 @@ export const useChatStore = defineStore('chat', () => {
       }
       if (payload.channel === 'public') {
         publicMessages.value.push(msg)
-      } else if (payload.roomId === activeRoomId.value) {
+      }
+      else if (payload.roomId === activeRoomId.value) {
         roomMessages.value.push(msg)
       }
     })

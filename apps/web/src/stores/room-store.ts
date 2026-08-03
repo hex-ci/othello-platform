@@ -48,7 +48,7 @@ export const useRoomStore = defineStore('room', () => {
   const spectators = ref<RoomSpectator[]>([])
   const status = ref<'idle' | 'waiting' | 'playing' | 'finished'>('idle')
   /** 房间错误态：not_found/finished，页面据此渲染错误卡片而非跳转 */
-  const errorState = ref<{ kind: 'not_found' | 'finished' | 'full'; msg: string } | null>(null)
+  const errorState = ref<{ kind: 'not_found' | 'finished' | 'full', msg: string } | null>(null)
 
   const myUserId = computed(() => {
     const raw = auth.userId
@@ -121,12 +121,14 @@ export const useRoomStore = defineStore('room', () => {
     // 错误处理：房间不存在/已结束/已满 → 设 errorState，页面渲染错误卡片（不跳转）
     unsubs.push(
       ws.on('error', (p) => {
-        const payload = p as { code?: string; msg?: string }
+        const payload = p as { code?: string, msg?: string }
         if (payload.code === 'ROOM_NOT_FOUND') {
           errorState.value = { kind: 'not_found', msg: payload.msg ?? '房间不存在' }
-        } else if (payload.code === 'ROOM_FINISHED') {
+        }
+        else if (payload.code === 'ROOM_FINISHED') {
           errorState.value = { kind: 'finished', msg: payload.msg ?? '该房间对局已结束' }
-        } else if (payload.code === 'ROOM_FULL') {
+        }
+        else if (payload.code === 'ROOM_FULL') {
           errorState.value = { kind: 'full', msg: payload.msg ?? '房间已满' }
         }
       }),
@@ -176,7 +178,8 @@ export const useRoomStore = defineStore('room', () => {
       try {
         const { quitRoom } = await import('@/api/rooms')
         await quitRoom(roomId.value)
-      } catch {
+      }
+      catch {
         /* 忽略，导航回大厅 */
       }
     }

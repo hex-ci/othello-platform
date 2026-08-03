@@ -68,7 +68,7 @@ const moveNumber = computed(() => moveLog.value.length)
 // 最近 5 步
 const COL_LABELS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 const recentMoves = computed(() => moveLog.value.slice(-5))
-function posLabel(m: { pos: { x: number; y: number } | null; isPass: boolean }): string {
+function posLabel(m: { pos: { x: number, y: number } | null, isPass: boolean }): string {
   if (m.isPass || !m.pos) return 'pass'
   return `${COL_LABELS[m.pos.x] ?? ''}${m.pos.y + 1}`
 }

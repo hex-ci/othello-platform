@@ -32,7 +32,7 @@ export interface CreateGameInput {
   aiColor: Color | null
 }
 
-export async function createGame(input: CreateGameInput): Promise<{ id: number; gameId: string }> {
+export async function createGame(input: CreateGameInput): Promise<{ id: number, gameId: string }> {
   const res = await query(
     `INSERT INTO games (room_id, black_id, white_id, mode, ai_level, ai_color, status)
      VALUES ($1, $2, $3, $4, $5, $6, 'playing')
@@ -57,8 +57,8 @@ export async function recordMove(params: {
   flipped: Pos[]
   boardSnapshot: number[] | null
 }): Promise<void> {
-  const snapshot =
-    params.boardSnapshot !== null && params.seq % SNAPSHOT_EVERY === 0
+  const snapshot
+    = params.boardSnapshot !== null && params.seq % SNAPSHOT_EVERY === 0
       ? JSON.stringify(params.boardSnapshot)
       : null
   await query(
@@ -159,7 +159,7 @@ async function buildReplayData(row: GameRow): Promise<ReplayData> {
        (SELECT username FROM users WHERE id = $2) AS white_name`,
     [row.black_id, row.white_id],
   )
-  const n = names.rows[0] as { black_name: string | null; white_name: string | null } | undefined
+  const n = names.rows[0] as { black_name: string | null, white_name: string | null } | undefined
   return {
     game: gameRowToDTO(row),
     moves,
@@ -205,7 +205,7 @@ export async function computeAndStoreAnalysis(gameId: number): Promise<GameAnaly
 
   const moves = await getGameMoves(gameId)
   const analysis = analyzeGame(
-    moves.map((m) => ({ color: m.color, pos: m.pos, isPass: m.isPass })),
+    moves.map(m => ({ color: m.color, pos: m.pos, isPass: m.isPass })),
     DEFAULT_ANALYSIS_CONFIG,
     game.result,
   )

@@ -10,7 +10,7 @@ const { t } = useI18n()
 const open = defineModel<boolean>('open', { default: false })
 
 const emit = defineEmits<{
-  create: [input: { name: string; mode: GameMode; aiLevel?: AiLevel; password?: string }]
+  create: [input: { name: string, mode: GameMode, aiLevel?: AiLevel, password?: string }]
 }>()
 
 const name = ref('')

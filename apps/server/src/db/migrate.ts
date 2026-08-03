@@ -21,8 +21,8 @@ pg.types.setTypeParser(pg.types.builtins.INT8, (val: string) => {
   const n = Number(val)
   if (!Number.isSafeInteger(n)) {
     throw new Error(
-      `BIGINT 值 ${val} 超过 Number.MAX_SAFE_INTEGER，精度损失。` +
-        `若预期会出现超大 id，需改用 bigint 全链路或改回 string。`,
+      `BIGINT 值 ${val} 超过 Number.MAX_SAFE_INTEGER，精度损失。`
+      + `若预期会出现超大 id，需改用 bigint 全链路或改回 string。`,
     )
   }
   return n
@@ -49,7 +49,7 @@ async function getApplied(): Promise<Set<string>> {
 async function up(): Promise<void> {
   await ensureMigrationsTable()
   const applied = await getApplied()
-  const files = (await readdir(MIGRATIONS_DIR)).filter((f) => f.endsWith('.sql')).sort()
+  const files = (await readdir(MIGRATIONS_DIR)).filter(f => f.endsWith('.sql')).sort()
 
   for (const file of files) {
     if (applied.has(file)) {
@@ -68,7 +68,7 @@ async function down(): Promise<void> {
   await ensureMigrationsTable()
   const applied = await getApplied()
   const files = (await readdir(MIGRATIONS_DIR))
-    .filter((f) => f.endsWith('.sql'))
+    .filter(f => f.endsWith('.sql'))
     .sort()
     .reverse()
 
@@ -94,9 +94,11 @@ try {
     console.error('Usage: tsx src/db/migrate.ts up|down')
     process.exit(1)
   }
-} catch (err) {
+}
+catch (err) {
   console.error('Migration failed:', err)
   process.exit(1)
-} finally {
+}
+finally {
   await pool.end()
 }

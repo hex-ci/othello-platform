@@ -29,7 +29,7 @@ function onCellKeydown(e: KeyboardEvent, x: number, y: number) {
 }
 
 const cells = computed(() => {
-  const result: { x: number; y: number; cell: number; isLegal: boolean; isHint: boolean; isLast: boolean }[] = []
+  const result: { x: number, y: number, cell: number, isLegal: boolean, isHint: boolean, isLast: boolean }[] = []
   for (let y = 0; y < 8; y++) {
     for (let x = 0; x < 8; x++) {
       const cell = store.board[y * 8 + x] ?? 0

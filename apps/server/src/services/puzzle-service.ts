@@ -85,13 +85,13 @@ export async function getDailyChallenge(
 ): Promise<DailyChallengeDTO | null> {
   const target = date ?? localDateStr()
   let res = await query('SELECT * FROM daily_challenges WHERE challenge_date = $1', [target])
-  let row = res.rows[0] as { challenge_date: string; puzzle_ids: number[] | string } | undefined
+  let row = res.rows[0] as { challenge_date: string, puzzle_ids: number[] | string } | undefined
   // 当日无记录时自动生成：随机抽 5 题（按难度递增），幂等插入
   if (!row) {
     const pickRes = await query(
       `SELECT puzzle_no FROM tactics_puzzles ORDER BY difficulty, puzzle_no ASC`,
     )
-    const allNos = (pickRes.rows as Array<{ puzzle_no: number }>).map((r) => r.puzzle_no)
+    const allNos = (pickRes.rows as Array<{ puzzle_no: number }>).map(r => r.puzzle_no)
     if (allNos.length === 0) return { challengeDate: target, puzzles: [], completedIds: [] }
     // 按难度分层抽样，取 5 题（不足则循环补）
     const picked: number[] = []
@@ -108,7 +108,7 @@ export async function getDailyChallenge(
       [target, picked],
     )
     res = await query('SELECT * FROM daily_challenges WHERE challenge_date = $1', [target])
-    row = res.rows[0] as { challenge_date: string; puzzle_ids: number[] | string } | undefined
+    row = res.rows[0] as { challenge_date: string, puzzle_ids: number[] | string } | undefined
     if (!row) return { challengeDate: target, puzzles: [], completedIds: [] }
   }
   // node-postgres 可能把 int[] 返回为字符串 "{1,2,3}"，需归一化
@@ -117,8 +117,8 @@ export async function getDailyChallenge(
     : (row.puzzle_ids as string)
         .replace(/[{}]/g, '')
         .split(',')
-        .filter((s) => s.trim() !== '')
-        .map((s) => Number(s.trim()))
+        .filter(s => s.trim() !== '')
+        .map(s => Number(s.trim()))
   if (nos.length === 0) return { challengeDate: target, puzzles: [], completedIds: [] }
   // 按 puzzle_no 查询（种子存的就是 puzzle_no）
   const puzzlesRes = await query(`SELECT * FROM tactics_puzzles WHERE puzzle_no = ANY($1::int[])`, [
@@ -127,7 +127,7 @@ export async function getDailyChallenge(
   const puzzles = (puzzlesRes.rows as PuzzleRow[]).map(rowToDTO)
   // 按 nos 原始顺序排序
   const ordered = nos
-    .map((no) => puzzles.find((p) => p.puzzleNo === no))
+    .map(no => puzzles.find(p => p.puzzleNo === no))
     .filter((p): p is PuzzleDTO => p !== null)
   // 查当日已答对题 id（P1：进度 done 需要真实完成数）
   let completedIds: number[] = []
@@ -139,7 +139,7 @@ export async function getDailyChallenge(
        ORDER BY puzzle_id`,
       [userId, target],
     )
-    completedIds = (doneRes.rows as Array<{ puzzle_id: number }>).map((r) => r.puzzle_id)
+    completedIds = (doneRes.rows as Array<{ puzzle_id: number }>).map(r => r.puzzle_id)
   }
   return {
     challengeDate: target,
@@ -154,7 +154,7 @@ export async function submitAttempt(params: {
   puzzleId: number
   answerPos: Pos | null // null = 跳过/未答
   timeMs: number
-}): Promise<{ attempt: PuzzleAttemptDTO; correct: boolean }> {
+}): Promise<{ attempt: PuzzleAttemptDTO, correct: boolean }> {
   const puzzle = await getPuzzle(params.puzzleId)
   if (!puzzle) throw new AppError('GAME_NOT_FOUND', '题目不存在', 404)
 
@@ -163,7 +163,7 @@ export async function submitAttempt(params: {
   if (params.answerPos) {
     const board = Uint8Array.from(puzzle.board)
     const legal = legalMoves(board, puzzle.turn)
-    const isLegal = legal.some((p) => p.x === params.answerPos!.x && p.y === params.answerPos!.y)
+    const isLegal = legal.some(p => p.x === params.answerPos!.x && p.y === params.answerPos!.y)
     if (isLegal) {
       correct = params.answerPos.x === puzzle.bestPos.x && params.answerPos.y === puzzle.bestPos.y
     }
@@ -233,7 +233,7 @@ export async function listMyAttempts(userId: number, limit = 10): Promise<Puzzle
      LIMIT $2`,
     [userId, limit],
   )
-  return (res.rows as Array<Record<string, unknown>>).map((r) => ({
+  return (res.rows as Array<Record<string, unknown>>).map(r => ({
     id: Number(r['id'] as string),
     userId: Number(r['user_id'] as number),
     puzzleId: Number(r['puzzle_id'] as number),
@@ -277,13 +277,13 @@ export async function getMyStats(userId: number): Promise<PuzzleStatsDTO> {
      WHERE user_id = $1`,
     [userId],
   )
-  const r = res.rows[0] as { solved: string; total: string; avg_rating_num: string | null }
+  const r = res.rows[0] as { solved: string, total: string, avg_rating_num: string | null }
   const solved = Number(r.solved ?? 0)
   const total = Number(r.total ?? 0)
   const accuracy = total > 0 ? solved / total : 0
   const avgRatingNum = r.avg_rating_num ? Number(r.avg_rating_num) : null
-  const avgRating: AttemptRating | null =
-    avgRatingNum === null
+  const avgRating: AttemptRating | null
+    = avgRatingNum === null
       ? null
       : avgRatingNum >= 3.5
         ? 'S'
@@ -323,7 +323,8 @@ export async function getMyStats(userId: number): Promise<PuzzleStatsDTO> {
       const pm = String(prev.getMonth() + 1).padStart(2, '0')
       const pd = String(prev.getDate()).padStart(2, '0')
       cursor = `${py}-${pm}-${pd}`
-    } else break
+    }
+    else break
   }
 
   return { solved, totalAttempts: total, accuracy, streakDays, avgRating }

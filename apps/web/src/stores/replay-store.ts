@@ -72,9 +72,11 @@ export const useReplayStore = defineStore('replay', () => {
     try {
       const data = await api.getReplay(gameId)
       hydrate(data)
-    } catch (err) {
+    }
+    catch (err) {
       error.value = err instanceof Error ? err.message : '加载复盘失败'
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
@@ -85,15 +87,17 @@ export const useReplayStore = defineStore('replay', () => {
     try {
       const data = await api.getReplayByToken(token)
       hydrate(data)
-    } catch (err) {
+    }
+    catch (err) {
       error.value = err instanceof Error ? err.message : '分享链接无效或已失效'
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
 
   /** 由记谱序列构建本地复盘帧（F-E-19 导入记谱，无服务端数据） */
-  function loadFromMoves(moves: Array<{ color: Color; pos: Pos | null; isPass: boolean }>): void {
+  function loadFromMoves(moves: Array<{ color: Color, pos: Pos | null, isPass: boolean }>): void {
     stop()
     game.value = null
     blackName.value = null
@@ -133,13 +137,16 @@ export const useReplayStore = defineStore('replay', () => {
       // 先尝试读缓存
       try {
         analysis.value = await api.getAnalysis(game.value.id)
-      } catch {
+      }
+      catch {
         // 缓存不存在 → 触发分析
         analysis.value = await api.analyzeGame(game.value.id)
       }
-    } catch (err) {
+    }
+    catch (err) {
       analysisError.value = err instanceof Error ? err.message : 'AI 分析失败'
-    } finally {
+    }
+    finally {
       analyzing.value = false
     }
   }

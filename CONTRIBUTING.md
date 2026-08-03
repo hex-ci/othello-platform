@@ -24,7 +24,6 @@
 
 ## 代码规范
 
-- **Prettier**：无分号、单引号、`trailingComma: all`、`printWidth: 100`、2 空格缩进
 - **TypeScript strict + `noUncheckedIndexedAccess`**：索引访问返回 `T | undefined`，必须处理
 - **`verbatimModuleSyntax`**：类型-only 导入用 `import type { ... }`
 - **命名**：文件 kebab-case、类型 PascalCase、变量 camelCase、常量 SCREAMING_SNAKE_CASE

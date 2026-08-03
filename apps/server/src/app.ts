@@ -29,7 +29,7 @@ export async function buildApp() {
   // 生产经 CORS_ORIGINS 配置前端来源；未配置时默认本地开发来源。
   const allowedOrigins = (process.env['CORS_ORIGINS'] ?? 'http://localhost:5173')
     .split(',')
-    .map((s) => s.trim())
+    .map(s => s.trim())
     .filter(Boolean)
   await app.register(cors, {
     origin: allowedOrigins,
@@ -54,7 +54,8 @@ export async function buildApp() {
               userId?: string | number
             }
             if (payload.userId !== undefined) return `u:${payload.userId}`
-          } catch {
+          }
+          catch {
             // token 非 JSON 或格式异常 → 回退 IP
           }
         }

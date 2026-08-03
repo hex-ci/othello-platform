@@ -40,7 +40,8 @@ export const useLobbyStore = defineStore('lobby', () => {
       const res = await api.listRooms({ status, page, limit: 20 })
       rooms.value = res.items
       total.value = res.total
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }

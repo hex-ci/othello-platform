@@ -15,8 +15,8 @@ import PageNavBar from '@/components/PageNavBar.vue'
 const store = useFriendStore()
 const { t } = useI18n()
 
-const { friends, requests, sent, blocked, loading, onlineFriends } =
-  storeToRefs(store)
+const { friends, requests, sent, blocked, loading, onlineFriends }
+  = storeToRefs(store)
 
 type Tab = 'friends' | 'requests' | 'blocked'
 const tab = ref<Tab>('friends')
@@ -33,11 +33,11 @@ const { challengingId, incomingChallenge, sendChallenge, respondChallenge } = us
 const filteredFriends = computed(() => {
   const q = search.value.trim().toLowerCase()
   if (!q) return friends.value
-  return friends.value.filter((f) => f.username.toLowerCase().includes(q))
+  return friends.value.filter(f => f.username.toLowerCase().includes(q))
 })
 
-const filteredOnline = computed(() => filteredFriends.value.filter((f) => f.online))
-const filteredOffline = computed(() => filteredFriends.value.filter((f) => !f.online))
+const filteredOnline = computed(() => filteredFriends.value.filter(f => f.online))
+const filteredOffline = computed(() => filteredFriends.value.filter(f => !f.online))
 
 function initial(name: string): string {
   return name.trim().charAt(0).toUpperCase() || '?'
@@ -76,9 +76,11 @@ async function onAdd() {
     addOk.value = t('friends.addOk', { name })
     addName.value = ''
     await store.refresh()
-  } catch {
+  }
+  catch {
     addError.value = t('friends.addFail')
-  } finally {
+  }
+  finally {
     adding.value = false
   }
 }

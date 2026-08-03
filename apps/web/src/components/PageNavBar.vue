@@ -19,7 +19,8 @@ onMounted(async () => {
   if (auth.userId === null) return
   try {
     me.value = await usersApi.getUser(auth.userId)
-  } catch {
+  }
+  catch {
     // 加载失败不阻塞页面渲染
   }
 })

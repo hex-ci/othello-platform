@@ -5,7 +5,7 @@
 import type { Color, Pos } from '@othello-platform/engine'
 
 defineProps<{
-  moves: { seq: number; color: Color; pos: Pos | null; isPass: boolean }[]
+  moves: { seq: number, color: Color, pos: Pos | null, isPass: boolean }[]
 }>()
 
 const COL_LABELS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']

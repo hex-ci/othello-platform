@@ -17,7 +17,8 @@ export function useCopy() {
       try {
         await navigator.clipboard.writeText(text)
         return true
-      } catch {
+      }
+      catch {
         // 非 secure context 或权限被拒，走降级
       }
     }
@@ -37,7 +38,8 @@ export function useCopy() {
     let ok: boolean
     try {
       ok = document.execCommand('copy')
-    } catch {
+    }
+    catch {
       ok = false // execCommand 不支持或失败
     }
     document.body.removeChild(textarea)

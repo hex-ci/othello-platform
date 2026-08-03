@@ -51,7 +51,7 @@ export async function think(board: Board, level: AiLevel, color: Color): Promise
     if (Math.random() < 0.3 && moves.length > 1) {
       // 随机选一个非最优的
       const bestIdx = result.posIndex
-      const others = moves.filter((p) => p.y * 8 + p.x !== bestIdx)
+      const others = moves.filter(p => p.y * 8 + p.x !== bestIdx)
       return others[Math.floor(Math.random() * others.length)] ?? moves[0] ?? null
     }
     return { x: result.posIndex % 8, y: Math.floor(result.posIndex / 8) }

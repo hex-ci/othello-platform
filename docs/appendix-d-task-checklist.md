@@ -9,7 +9,7 @@
 
 ## T01 · monorepo 脚手架 + CI
 
-- **目标**：pnpm workspace，`packages/{shared,engine}` + `apps/{web,server}` 空包可构建；`.env.example`；ESLint/Prettier/tsconfig 共享。
+- **目标**：pnpm workspace，`packages/{shared,engine}` + `apps/{web,server}` 空包可构建；`.env.example`；ESLint/tsconfig 共享。
 - **依赖**：无。
 - **DoD**：`pnpm i && pnpm -r build && pnpm -r typecheck && pnpm -r test` 全绿；CI 在 PR 上跑通 `typecheck+lint+test`。
 

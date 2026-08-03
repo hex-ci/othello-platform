@@ -35,9 +35,11 @@ async function onLogin() {
     // 登录后进入大厅；若有守卫回跳目标则优先返回
     const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/lobby'
     await router.push(redirect)
-  } catch (e) {
+  }
+  catch (e) {
     error.value = e instanceof Error ? e.message : t('login.loginFail')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }

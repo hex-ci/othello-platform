@@ -14,7 +14,7 @@ vi.mock('../db/pool.js', () => ({
 import { query } from '../db/pool.js'
 import { settleClassicScore } from '../services/rating-service.js'
 
-type QueryRow = { id: number; classic_score: number; games_played: number }
+type QueryRow = { id: number, classic_score: number, games_played: number }
 
 const mockQuery = query as unknown as ReturnType<typeof vi.fn>
 

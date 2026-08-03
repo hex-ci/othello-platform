@@ -22,7 +22,7 @@ interface SpectateStartPayload {
   remainingMs: number
   status: 'playing' | 'finished' | 'cancelled'
   spectatorCount: number
-  moves: { seq: number; color: Color; pos: Pos | null; isPass: boolean }[]
+  moves: { seq: number, color: Color, pos: Pos | null, isPass: boolean }[]
 }
 
 export const useSpectateStore = defineStore('spectate', () => {
@@ -38,10 +38,10 @@ export const useSpectateStore = defineStore('spectate', () => {
   const status = ref<'idle' | 'playing' | 'finished'>('idle')
   const result = ref<'BLACK' | 'WHITE' | 'DRAW' | null>(null)
   /** 对局不存在错误态，页面据此渲染错误卡片而非跳转 */
-  const errorState = ref<{ kind: 'not_found'; msg: string } | null>(null)
+  const errorState = ref<{ kind: 'not_found', msg: string } | null>(null)
   const endReason = ref<string | null>(null)
   const lastMovePos = ref<Pos | null>(null)
-  const moveLog = ref<{ seq: number; color: Color; pos: Pos | null; isPass: boolean }[]>([])
+  const moveLog = ref<{ seq: number, color: Color, pos: Pos | null, isPass: boolean }[]>([])
   const remainingSeconds = ref(30)
   /** 每步总秒数（人机 120s / 人人 30s，供 MoveTimer 圆环进度计算） */
   const totalSeconds = ref(30)
@@ -71,7 +71,7 @@ export const useSpectateStore = defineStore('spectate', () => {
         totalSeconds.value = payload.whiteId === null ? 120 : 30
         remainingSeconds.value = Math.ceil(payload.remainingMs / 1000)
         spectatorCount.value = payload.spectatorCount
-        moveLog.value = payload.moves.map((m) => ({
+        moveLog.value = payload.moves.map(m => ({
           seq: m.seq,
           color: m.color,
           pos: m.pos,
@@ -139,7 +139,7 @@ export const useSpectateStore = defineStore('spectate', () => {
     // 错误处理：对局不存在 → 设 errorState，页面渲染错误卡片（不跳转）
     unsubs.push(
       ws.on('error', (p) => {
-        const payload = p as { code?: string; msg?: string }
+        const payload = p as { code?: string, msg?: string }
         if (payload.code === 'GAME_NOT_FOUND') {
           errorState.value = { kind: 'not_found', msg: payload.msg ?? '对局不存在或已结束' }
         }

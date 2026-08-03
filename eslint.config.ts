@@ -1,10 +1,10 @@
 import js from '@eslint/js'
-import tseslint from 'typescript-eslint'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import { globalIgnores } from 'eslint/config'
 import vueI18n from '@intlify/eslint-plugin-vue-i18n'
 import pluginVue from 'eslint-plugin-vue'
 import globals from 'globals'
+import stylistic from '@stylistic/eslint-plugin'
 import type { Linter } from 'eslint'
 
 export default defineConfigWithVueTs(
@@ -13,15 +13,18 @@ export default defineConfigWithVueTs(
     files: ['**/*.{vue,js,jsx,ts,tsx,cjs,mjs}'],
   },
 
-  globalIgnores(['**/dist/**', '**/node_modules/**', '**/coverage/**']),
+  globalIgnores(['**/dist/**', '**/node_modules/**', '**/coverage/**', '**/.playwright-cli/**', '**/*.yml', '**/*.yaml']),
 
   js.configs.recommended,
-  tseslint.configs.recommended,
   pluginVue.configs['flat/recommended'],
   vueTsConfigs.recommended,
-  vueI18n.configs.recommended as unknown as Linter.Config[],
+  vueI18n.configs.recommended as unknown as Linter.Config,
+  stylistic.configs.recommended,
 
   {
+    plugins: {
+      '@stylistic': stylistic,
+    },
     languageOptions: {
       ecmaVersion: 'latest',
       globals: {
@@ -37,9 +40,14 @@ export default defineConfigWithVueTs(
       },
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-redeclare': 2,
+      '@typescript-eslint/no-explicit-any': 0,
+      '@typescript-eslint/no-unused-expressions': [2, {
+        allowShortCircuit: true,
+      }],
+      '@typescript-eslint/no-unused-vars': [2, {
+        caughtErrors: 'none',
+      }],
 
       'vue/max-attributes-per-line': 0,
       'vue/attributes-order': 0,
@@ -104,11 +112,9 @@ export default defineConfigWithVueTs(
       }],
       'vue/block-spacing': [2, 'always'],
       'vue/brace-style': [1, 'stroustrup', { allowSingleLine: true }],
-      'vue/key-spacing': [1, { beforeColon: false, afterColon: true, mode: "minimum" }],
-      // "vue/keyword-spacing": [2, {"after": true}],
-      // 'vue/no-empty-pattern': 2,
+      'vue/key-spacing': [1, { beforeColon: false, afterColon: true, mode: 'minimum' }],
       'vue/object-curly-spacing': [1, 'always', { objectsInObjects: true }],
-      "vue/space-infix-ops": 1,
+      'vue/space-infix-ops': 1,
       'vue/space-unary-ops': [2, {
         words: true,
         nonwords: false,
@@ -138,5 +144,5 @@ export default defineConfigWithVueTs(
 
       '@intlify/vue-i18n/no-raw-text': 0,
     },
-  }
+  },
 )

@@ -88,7 +88,7 @@ export const useGameStore = defineStore('game', () => {
   const counts = computed(() => countPieces(board.value))
 
   function isLegalMove(pos: Pos): boolean {
-    return legalMovesList.value.some((p) => p.x === pos.x && p.y === pos.y)
+    return legalMovesList.value.some(p => p.x === pos.x && p.y === pos.y)
   }
 
   function playerMove(pos: Pos): boolean {
@@ -141,7 +141,8 @@ export const useGameStore = defineStore('game', () => {
       })
       lastMovePos.value = pos
       advanceTurn('WHITE')
-    } finally {
+    }
+    finally {
       isThinking.value = false
     }
   }
@@ -171,7 +172,8 @@ export const useGameStore = defineStore('game', () => {
     if (lastRecord) {
       board.value = lastRecord.board.slice()
       lastMovePos.value = lastRecord.pos
-    } else {
+    }
+    else {
       board.value = createInitialBoard()
       lastMovePos.value = null
     }

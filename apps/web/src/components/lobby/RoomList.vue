@@ -14,7 +14,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  join: [room: RoomDTO]
+  'join': [room: RoomDTO]
   'join-with-password': [room: RoomDTO]
 }>()
 

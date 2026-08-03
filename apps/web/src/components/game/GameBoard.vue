@@ -42,7 +42,7 @@ const props = defineProps<{
 const emit = defineEmits<{ move: [pos: Pos] }>()
 
 const cells = computed(() => {
-  const result: { x: number; y: number; cell: number; isLegal: boolean; isLast: boolean; isHint: boolean }[] = []
+  const result: { x: number, y: number, cell: number, isLegal: boolean, isLast: boolean, isHint: boolean }[] = []
   for (let y = 0; y < 8; y++) {
     for (let x = 0; x < 8; x++) {
       const cell = props.board[y * 8 + x] ?? 0
@@ -50,7 +50,7 @@ const cells = computed(() => {
         x,
         y,
         cell,
-        isLegal: !props.readonly && props.legalMoves.some((p) => p.x === x && p.y === y),
+        isLegal: !props.readonly && props.legalMoves.some(p => p.x === x && p.y === y),
         isLast: props.lastMovePos?.x === x && props.lastMovePos?.y === y,
         isHint: props.hintPos?.x === x && props.hintPos?.y === y,
       })

@@ -30,10 +30,10 @@ export const useTacticsStore = defineStore('tactics', () => {
   const showExplanation = ref(false)
   const showHint = ref(false)
   const stats = ref<PuzzleStatsDTO | null>(null)
-  const recentAttempts = ref<(PuzzleAttemptDTO & { puzzleNo?: number; topic?: string })[]>([])
+  const recentAttempts = ref<(PuzzleAttemptDTO & { puzzleNo?: number, topic?: string })[]>([])
   const loading = ref(false)
   const error = ref<string | null>(null)
-  const filter = ref<{ difficulty?: PuzzleDifficulty; topic?: PuzzleTopic }>({})
+  const filter = ref<{ difficulty?: PuzzleDifficulty, topic?: PuzzleTopic }>({})
 
   let startTime = 0
 
@@ -50,9 +50,11 @@ export const useTacticsStore = defineStore('tactics', () => {
       }
       const res = await api.listPuzzles(filter.value)
       puzzles.value = res.puzzles
-    } catch (err) {
+    }
+    catch (err) {
       error.value = err instanceof Error ? err.message : '加载题库失败'
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
@@ -60,7 +62,8 @@ export const useTacticsStore = defineStore('tactics', () => {
   async function loadDaily(): Promise<void> {
     try {
       daily.value = await api.getDailyChallenge()
-    } catch {
+    }
+    catch {
       daily.value = null
     }
   }
@@ -73,7 +76,8 @@ export const useTacticsStore = defineStore('tactics', () => {
         puzzleNo?: number
         topic?: string
       })[]
-    } catch {
+    }
+    catch {
       // 未登录等
     }
   }
@@ -89,9 +93,9 @@ export const useTacticsStore = defineStore('tactics', () => {
 
   /** 重做某题（最近答题点击）：若已在当前列表则直接选中，否则按 id 加载 */
   async function retryPuzzle(puzzleId: number): Promise<void> {
-    const existing =
-      puzzles.value.find((p) => p.id === puzzleId) ??
-      allPuzzles.value.find((p) => p.id === puzzleId)
+    const existing
+      = puzzles.value.find(p => p.id === puzzleId)
+        ?? allPuzzles.value.find(p => p.id === puzzleId)
     if (existing) {
       selectPuzzle(existing)
       return
@@ -101,9 +105,11 @@ export const useTacticsStore = defineStore('tactics', () => {
     try {
       const p = await api.getPuzzle(puzzleId)
       selectPuzzle(p)
-    } catch (err) {
+    }
+    catch (err) {
       error.value = err instanceof Error ? err.message : '加载题目失败'
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }
@@ -136,7 +142,8 @@ export const useTacticsStore = defineStore('tactics', () => {
       void loadStats()
       // P1：刷新每日挑战进度（completedIds 更新）
       void loadDaily()
-    } catch (err) {
+    }
+    catch (err) {
       error.value = err instanceof Error ? err.message : '提交失败'
     }
   }
@@ -154,7 +161,7 @@ export const useTacticsStore = defineStore('tactics', () => {
   /** 切到下一题。返回 false 表示已是最后一题（P6：供组件提示） */
   function nextPuzzle(): boolean {
     if (!currentPuzzle.value) return false
-    const idx = puzzles.value.findIndex((p) => p.id === currentPuzzle.value!.id)
+    const idx = puzzles.value.findIndex(p => p.id === currentPuzzle.value!.id)
     const next = puzzles.value[idx + 1]
     if (next) {
       selectPuzzle(next)
@@ -163,7 +170,7 @@ export const useTacticsStore = defineStore('tactics', () => {
     return false
   }
 
-  function setFilter(f: { difficulty?: PuzzleDifficulty; topic?: PuzzleTopic }): void {
+  function setFilter(f: { difficulty?: PuzzleDifficulty, topic?: PuzzleTopic }): void {
     filter.value = f
     void loadPuzzles().then(() => {
       // P8：筛选后自动切到列表第一题（避免显示不在筛选范围的题）

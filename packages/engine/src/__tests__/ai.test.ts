@@ -13,7 +13,7 @@ describe('AI 引擎', () => {
     const pos = await think(board, 0, 'BLACK')
     expect(pos).not.toBeNull()
     const moves = legalMoves(board, 'BLACK')
-    const set = new Set(moves.map((p) => `${p.x},${p.y}`))
+    const set = new Set(moves.map(p => `${p.x},${p.y}`))
     expect(set.has(`${pos!.x},${pos!.y}`)).toBe(true)
   })
 
@@ -22,7 +22,7 @@ describe('AI 引擎', () => {
     const pos = await think(board, 1, 'BLACK')
     expect(pos).not.toBeNull()
     const moves = legalMoves(board, 'BLACK')
-    const set = new Set(moves.map((p) => `${p.x},${p.y}`))
+    const set = new Set(moves.map(p => `${p.x},${p.y}`))
     expect(set.has(`${pos!.x},${pos!.y}`)).toBe(true)
   })
 
@@ -31,7 +31,7 @@ describe('AI 引擎', () => {
     const pos = await think(board, 3, 'BLACK')
     expect(pos).not.toBeNull()
     const moves = legalMoves(board, 'BLACK')
-    const set = new Set(moves.map((p) => `${p.x},${p.y}`))
+    const set = new Set(moves.map(p => `${p.x},${p.y}`))
     expect(set.has(`${pos!.x},${pos!.y}`)).toBe(true)
   })
 
@@ -47,7 +47,7 @@ describe('AI 引擎', () => {
     const pos = hint(board, 'BLACK')
     expect(pos).not.toBeNull()
     const moves = legalMoves(board, 'BLACK')
-    const set = new Set(moves.map((p) => `${p.x},${p.y}`))
+    const set = new Set(moves.map(p => `${p.x},${p.y}`))
     expect(set.has(`${pos!.x},${pos!.y}`)).toBe(true)
   })
 

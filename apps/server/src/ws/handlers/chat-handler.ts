@@ -22,7 +22,7 @@ function isRateLimited(userId: number): boolean {
     bucket = []
     rateBuckets.set(userId, bucket)
   }
-  const recent = bucket.filter((t) => now - t < RATE_WINDOW_MS)
+  const recent = bucket.filter(t => now - t < RATE_WINDOW_MS)
   recent.push(now)
   rateBuckets.set(userId, recent)
   return recent.length > RATE_MAX_PER_WINDOW
@@ -66,7 +66,8 @@ export const chatHandler: WsHandler = async (ctx, payload) => {
 
   if (parsed.data.channel === 'public') {
     hub.broadcastToAllOnline('chat', broadcastPayload)
-  } else if (roomId !== null) {
+  }
+  else if (roomId !== null) {
     hub.sendToUsers(rooms.roomMemberIds(roomId), 'chat', broadcastPayload)
   }
 }

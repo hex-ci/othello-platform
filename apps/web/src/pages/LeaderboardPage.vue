@@ -34,12 +34,12 @@ const TIER_CLS: Record<TierName, string> = {
   silver: 'bg-gray-500/15 text-gray-400 border-gray-500/25',
 }
 
-function tierOf(elo: number): { name: string; cls: string } {
+function tierOf(elo: number): { name: string, cls: string } {
   const tier = tierOfElo(elo)
   return { name: t(`tier.${tier}`), cls: TIER_CLS[tier] }
 }
 
-const BADGE_META: Record<BadgeType, { icon: typeof Award; cls: string }> = {
+const BADGE_META: Record<BadgeType, { icon: typeof Award, cls: string }> = {
   first_win: { icon: Trophy, cls: 'text-gold' },
   streak_5: { icon: Flame, cls: 'text-orange-400' },
   streak_10: { icon: Flame, cls: 'text-rose-400' },
@@ -57,7 +57,7 @@ function badgeCls(bt: BadgeType) {
   return BADGE_META[bt]?.cls ?? 'text-text-secondary'
 }
 
-const myTier = computed<{ name: string; cls: string }>(() => {
+const myTier = computed<{ name: string, cls: string }>(() => {
   const elo = season.myRating?.peakElo ?? 1500
   return tierOf(elo)
 })

@@ -9,7 +9,7 @@ import { legalMoves } from '@othello-platform/engine'
 import type { MoveDTO } from '@othello-platform/shared'
 
 /** 用 GameRuntime 直接落子 n 手（每手取首个合法手），收集 MoveDTO 序列 */
-function playLegalMoves(count: number): { moves: MoveDTO[]; runtime: GameRuntime } {
+function playLegalMoves(count: number): { moves: MoveDTO[], runtime: GameRuntime } {
   const rt = new GameRuntime({
     gameId: 'g_test',
     roomId: 1,

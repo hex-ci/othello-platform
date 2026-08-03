@@ -4,7 +4,8 @@ import type { JwtPayload } from '../auth/jwt.js'
 export async function authGuard(request: FastifyRequest, reply: FastifyReply): Promise<void> {
   try {
     await request.jwtVerify()
-  } catch {
+  }
+  catch {
     void reply.status(401).send({
       error: { code: 'AUTH_REQUIRED', msg: '未鉴权或令牌无效' },
     })

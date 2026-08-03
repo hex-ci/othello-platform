@@ -70,7 +70,7 @@ export function registerAuthService(app: FastifyInstance) {
      * 2. 若认领失败且 token 存在但已吊销 → 复用攻击，级联吊销 family
      * 3. 认领成功 → 同 family 签发新 refresh token
      */
-    async refresh(rawRefreshToken: string): Promise<{ token: string; refreshToken: string }> {
+    async refresh(rawRefreshToken: string): Promise<{ token: string, refreshToken: string }> {
       const hash = sha256(rawRefreshToken)
       const client = await pool.connect()
       try {
@@ -128,10 +128,12 @@ export function registerAuthService(app: FastifyInstance) {
 
         const token = app.jwt.sign({ userId, username } satisfies JwtPayload)
         return { token, refreshToken: newRaw }
-      } catch (e) {
+      }
+      catch (e) {
         await client.query('ROLLBACK').catch(() => {})
         throw e
-      } finally {
+      }
+      finally {
         client.release()
       }
     },

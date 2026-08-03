@@ -34,11 +34,11 @@ export const useOnlineGameStore = defineStore('online-game', () => {
   const result = ref<'BLACK' | 'WHITE' | 'DRAW' | null>(null)
   const endReason = ref<string | null>(null)
   const lastMovePos = ref<Pos | null>(null)
-  const moveLog = ref<{ seq: number; color: Color; pos: Pos | null; isPass: boolean }[]>([])
+  const moveLog = ref<{ seq: number, color: Color, pos: Pos | null, isPass: boolean }[]>([])
   const drawRequestedBy = ref<number | null>(null)
   const myUserId = ref<number | null>(null)
   /** 对局/房间错误态：not_found/finished，页面据此渲染错误卡片而非跳转 */
-  const errorState = ref<{ kind: 'not_found' | 'finished'; msg: string } | null>(null)
+  const errorState = ref<{ kind: 'not_found' | 'finished', msg: string } | null>(null)
   /** 当前回合剩余秒数（本地倒计时，服务端超时为权威） */
   const remainingSeconds = ref(30)
   /** 每步总秒数（人机 120s / 人人 30s，供 MoveTimer 圆环进度计算） */
@@ -50,7 +50,7 @@ export const useOnlineGameStore = defineStore('online-game', () => {
 
   // ─── 再战（T17，F-E-16）───
   /** 对方发起再战请求时的发起方信息 */
-  const rematchRequestedBy = ref<{ userId: number; username: string } | null>(null)
+  const rematchRequestedBy = ref<{ userId: number, username: string } | null>(null)
   /** 我已发起再战，等待对方应答 */
   const rematchWaiting = ref(false)
   /** 再战等待超时计时器（对方在线但不响应时兜底，避免无限等待） */
@@ -76,7 +76,7 @@ export const useOnlineGameStore = defineStore('online-game', () => {
   })
 
   function isLegalMove(pos: Pos): boolean {
-    return legalMovesList.value.some((p) => p.x === pos.x && p.y === pos.y)
+    return legalMovesList.value.some(p => p.x === pos.x && p.y === pos.y)
   }
 
   let unsubs: (() => void)[] = []
@@ -109,18 +109,19 @@ export const useOnlineGameStore = defineStore('online-game', () => {
         drawRequestedBy.value = null
         // 人机对局每步 120s，人人 30s（与服务端 timeoutForMode 一致）
         totalSeconds.value = payload.whiteId === null ? 120 : 30
-        remainingSeconds.value =
-          payload.remainingMs != null ? Math.ceil(payload.remainingMs / 1000) : totalSeconds.value
+        remainingSeconds.value
+          = payload.remainingMs != null ? Math.ceil(payload.remainingMs / 1000) : totalSeconds.value
         // 重入/重连补发时携带 moves → 恢复走子记录；全新开局无 moves → 清空（F-E-04）
         if (payload.moves && payload.moves.length > 0) {
-          moveLog.value = payload.moves.map((m) => ({
+          moveLog.value = payload.moves.map(m => ({
             seq: m.seq,
             color: m.color,
             pos: m.pos,
             isPass: m.isPass,
           }))
           lastMovePos.value = moveLog.value[moveLog.value.length - 1]?.pos ?? null
-        } else {
+        }
+        else {
           moveLog.value = []
           lastMovePos.value = null
         }
@@ -219,7 +220,7 @@ export const useOnlineGameStore = defineStore('online-game', () => {
     // 提示：高亮最优手 3s（T12，F-E-02）
     unsubs.push(
       ws.on('hint', (p) => {
-        const payload = p as { gameId: string; pos: Pos | null }
+        const payload = p as { gameId: string, pos: Pos | null }
         if (payload.gameId !== gameId.value || !payload.pos) return
         hintPos.value = payload.pos
         setTimeout(() => {
@@ -260,7 +261,7 @@ export const useOnlineGameStore = defineStore('online-game', () => {
     // 对方发起再战请求
     unsubs.push(
       ws.on('rematch_request', (p) => {
-        const payload = p as { gameId: string; fromUserId: number; fromUsername: string }
+        const payload = p as { gameId: string, fromUserId: number, fromUsername: string }
         if (payload.gameId !== gameId.value) return
         rematchRequestedBy.value = { userId: payload.fromUserId, username: payload.fromUsername }
       }),
@@ -268,7 +269,7 @@ export const useOnlineGameStore = defineStore('online-game', () => {
     // 对方拒绝再战
     unsubs.push(
       ws.on('rematch_response', (p) => {
-        const payload = p as { gameId: string; accept: boolean }
+        const payload = p as { gameId: string, accept: boolean }
         if (payload.gameId !== gameId.value) return
         if (!payload.accept) {
           rematchWaiting.value = false
@@ -280,7 +281,7 @@ export const useOnlineGameStore = defineStore('online-game', () => {
     // 双方接受 → 导航到再战新房间
     unsubs.push(
       ws.on('rematch_started', (p) => {
-        const payload = p as { roomId: number; gameId: string }
+        const payload = p as { roomId: number, gameId: string }
         rematchWaiting.value = false
         rematchRequestedBy.value = null
         clearRematchTimer()
@@ -293,13 +294,13 @@ export const useOnlineGameStore = defineStore('online-game', () => {
     // 避免按钮卡在"等待对方接受…"（对比 spectate-store 的 error 监听）
     unsubs.push(
       ws.on('error', (p) => {
-        const payload = p as { code: string; msg: string }
+        const payload = p as { code: string, msg: string }
         if (!rematchWaiting.value) return
         // 对方离线 / 已离开对局页 / 对局不存在 → 立即失败
         if (
-          payload.code === 'OPPONENT_OFFLINE' ||
-          payload.code === 'OPPONENT_LEFT' ||
-          payload.code === 'GAME_NOT_FOUND'
+          payload.code === 'OPPONENT_OFFLINE'
+          || payload.code === 'OPPONENT_LEFT'
+          || payload.code === 'GAME_NOT_FOUND'
         ) {
           rematchWaiting.value = false
           clearRematchTimer()
@@ -413,7 +414,7 @@ export const useOnlineGameStore = defineStore('online-game', () => {
     if (remainingSeconds.value > 0) remainingSeconds.value -= 1
   }
 
-  function countFromBoard(b: Board): { black: number; white: number } {
+  function countFromBoard(b: Board): { black: number, white: number } {
     let black = 0
     let white = 0
     for (const c of b as unknown as Cell[]) {

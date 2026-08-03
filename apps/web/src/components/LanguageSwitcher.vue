@@ -8,7 +8,7 @@ import { setLocale, type Locale } from '@/i18n'
 
 const { locale } = useI18n()
 
-const OPTIONS: { value: Locale; label: string }[] = [
+const OPTIONS: { value: Locale, label: string }[] = [
   { value: 'zh-CN', label: '中文' },
   { value: 'en', label: 'EN' },
 ]

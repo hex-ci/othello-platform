@@ -65,9 +65,11 @@ async function onRegister() {
   try {
     await authStore.register(name, password.value, email.value || undefined)
     await router.push('/lobby')
-  } catch (e) {
+  }
+  catch (e) {
     error.value = e instanceof Error ? e.message : t('register.registerFail')
-  } finally {
+  }
+  finally {
     loading.value = false
   }
 }

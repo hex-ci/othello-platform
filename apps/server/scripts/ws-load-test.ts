@@ -71,8 +71,8 @@ function reportStats(label: string, stats: Stats, activeCount: number): void {
   console.log(
     `  错误: 建连失败=${stats.errors} 鉴权失败=${stats.authFailures} 断连=${stats.disconnects}`,
   )
-  const errRate =
-    total > 0
+  const errRate
+    = total > 0
       ? ((stats.errors + stats.authFailures) / (total + stats.errors + stats.authFailures)) * 100
       : 0
   console.log(`  错误率: ${errRate.toFixed(2)}%`)
@@ -118,13 +118,15 @@ function createConnection(id: number, stats: Stats): Promise<Conn> {
             ;(conn as Conn & { _pingStart?: number })._pingStart = start
           }, PING_INTERVAL_MS)
           resolve(conn)
-        } else if (msg.type === 'pong') {
+        }
+        else if (msg.type === 'pong') {
           const c = conn as Conn & { _pingStart?: number }
           if (c._pingStart) {
             stats.latencies.push(performance.now() - c._pingStart)
             c._pingStart = undefined
           }
-        } else if (msg.type === 'error') {
+        }
+        else if (msg.type === 'error') {
           if (!authed) {
             stats.authFailures++
             clearTimeout(timeout)
@@ -132,7 +134,8 @@ function createConnection(id: number, stats: Stats): Promise<Conn> {
             reject(new Error(`conn ${id} auth error`))
           }
         }
-      } catch {
+      }
+      catch {
         // 忽略解析错误
       }
     })
@@ -182,15 +185,15 @@ async function main(): Promise<void> {
         if (c) allConns.push(c)
       }
       if (i + CONNECT_BATCH < toOpen) {
-        await new Promise((r) => setTimeout(r, CONNECT_BATCH_DELAY_MS))
+        await new Promise(r => setTimeout(r, CONNECT_BATCH_DELAY_MS))
       }
     }
 
     // 稳定等待，收集延迟样本
     console.log(`  已建连 ${allConns.length}，等待 ${SETTLE_MS}ms 收集延迟样本...`)
-    await new Promise((r) => setTimeout(r, SETTLE_MS))
+    await new Promise(r => setTimeout(r, SETTLE_MS))
 
-    const activeCount = allConns.filter((c) => c.alive).length
+    const activeCount = allConns.filter(c => c.alive).length
     reportStats(`档位 ${Math.min(stage, TARGET)}`, stageStats, activeCount)
 
     // 合并到全局
@@ -201,7 +204,7 @@ async function main(): Promise<void> {
   }
 
   // 最终报告
-  const activeCount = allConns.filter((c) => c.alive).length
+  const activeCount = allConns.filter(c => c.alive).length
   reportStats(`最终（目标 ${TARGET}）`, globalStats, activeCount)
 
   // 清理
@@ -214,11 +217,11 @@ async function main(): Promise<void> {
   // 判定
   const sorted = [...globalStats.latencies].sort((a, b) => a - b)
   const p95 = percentile(sorted, 95)
-  const errRate =
-    globalStats.latencies.length > 0
-      ? ((globalStats.errors + globalStats.authFailures) /
-          (globalStats.latencies.length + globalStats.errors + globalStats.authFailures)) *
-        100
+  const errRate
+    = globalStats.latencies.length > 0
+      ? ((globalStats.errors + globalStats.authFailures)
+        / (globalStats.latencies.length + globalStats.errors + globalStats.authFailures))
+      * 100
       : 0
   const pass = activeCount >= TARGET && p95 < 100 && errRate < 1
   console.log(`\n${'═'.repeat(40)}`)

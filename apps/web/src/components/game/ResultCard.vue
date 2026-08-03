@@ -38,7 +38,8 @@ const subtitle = computed(() => {
   let base: string
   if (isDraw.value) {
     base = t('result.drawSubtitle', { b: props.blackCount, w: props.whiteCount })
-  } else {
+  }
+  else {
     const winner = props.result === 'BLACK' ? props.blackName : props.whiteName
     const wc = props.result === 'BLACK' ? props.blackCount : props.whiteCount
     const lc = props.result === 'BLACK' ? props.whiteCount : props.blackCount

@@ -24,7 +24,8 @@ export const authHandler: WsHandler = (ctx: WsContext, payload: unknown) => {
   let decoded: JwtPayload
   try {
     decoded = app.jwt.verify<JwtPayload>(parsed.data.token)
-  } catch {
+  }
+  catch {
     conn.sendError('INVALID_TOKEN', 'JWT 无效或已过期')
     conn.close()
     return

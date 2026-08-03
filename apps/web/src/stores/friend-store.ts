@@ -13,8 +13,8 @@ export const useFriendStore = defineStore('friend', () => {
   const blocked = ref<FriendDTO[]>([])
   const loading = ref(false)
 
-  const onlineFriends = computed(() => friends.value.filter((f) => f.online))
-  const offlineFriends = computed(() => friends.value.filter((f) => !f.online))
+  const onlineFriends = computed(() => friends.value.filter(f => f.online))
+  const offlineFriends = computed(() => friends.value.filter(f => !f.online))
 
   async function refresh(): Promise<void> {
     loading.value = true
@@ -26,10 +26,11 @@ export const useFriendStore = defineStore('friend', () => {
       ])
       friends.value = f.friends
       // pending 中 incoming 才是待我处理的请求；outgoing 是我发出待对方接受的
-      requests.value = r.friends.filter((x) => x.direction === 'incoming')
-      sent.value = r.friends.filter((x) => x.direction === 'outgoing')
+      requests.value = r.friends.filter(x => x.direction === 'incoming')
+      sent.value = r.friends.filter(x => x.direction === 'outgoing')
       blocked.value = b.friends
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }

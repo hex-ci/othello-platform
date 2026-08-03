@@ -44,8 +44,8 @@ const auth = useAuthStore()
 const friendStore = useFriendStore()
 const { t } = useI18n()
 
-const { user, eloHistory, gameHistory, aiStats, activity, badges, relation, loading, error } =
-  storeToRefs(profile)
+const { user, eloHistory, gameHistory, aiStats, activity, badges, relation, loading, error }
+  = storeToRefs(profile)
 
 // ─── 好友挑战（T17，F-E-16，与 FriendsPage 共用 useChallenge）───
 // bindChallenge 在 App.vue 全局绑定，页面只读取 challengingId + 调用 action
@@ -63,12 +63,12 @@ const TIER_CLS: Record<TierName, string> = {
   silver: 'bg-gray-500/15 text-gray-400 border-gray-500/25',
 }
 
-function tierOf(elo: number): { name: string; cls: string } {
+function tierOf(elo: number): { name: string, cls: string } {
   const tier = tierOfElo(elo)
   return { name: t(`tier.${tier}`), cls: TIER_CLS[tier] }
 }
 
-const BADGE_META: Record<BadgeType, { icon: typeof Award; cls: string }> = {
+const BADGE_META: Record<BadgeType, { icon: typeof Award, cls: string }> = {
   first_win: { icon: Trophy, cls: 'text-gold' },
   streak_5: { icon: Flame, cls: 'text-orange-400' },
   streak_10: { icon: Flame, cls: 'text-rose-400' },
@@ -95,7 +95,7 @@ function badgeCls(bt: BadgeType) {
   return BADGE_META[bt]?.cls ?? 'text-text-secondary'
 }
 function hasBadge(bt: BadgeType): boolean {
-  return badges.value.some((b) => b.badgeType === bt)
+  return badges.value.some(b => b.badgeType === bt)
 }
 
 function initial(name: string): string {
@@ -121,7 +121,7 @@ const winRate = computed(() => {
 /** ELO 走势柱状高度（百分比，按 min/max 归一化） */
 function eloBarHeight(pt: { elo: number }): string {
   if (eloHistory.value.length === 0) return '20%'
-  const elos = eloHistory.value.map((p) => p.elo)
+  const elos = eloHistory.value.map(p => p.elo)
   const min = Math.min(...elos)
   const max = Math.max(...elos)
   if (max === min) return '50%'
@@ -139,8 +139,8 @@ function eloBarColor(delta: number): string {
 function matchDot(result: string | null, myColor: string): string {
   if (result === 'DRAW') return 'bg-gray-400'
   if (result === null) return 'bg-gray-400'
-  const won =
-    (myColor === 'BLACK' && result === 'BLACK') || (myColor === 'WHITE' && result === 'WHITE')
+  const won
+    = (myColor === 'BLACK' && result === 'BLACK') || (myColor === 'WHITE' && result === 'WHITE')
   return won ? 'bg-emerald-400' : 'bg-red-400'
 }
 
@@ -169,8 +169,8 @@ const activityMap = computed<Record<string, number>>(() => {
   return m
 })
 
-function last7Days(): { date: string; label: string }[] {
-  const days: { date: string; label: string }[] = []
+function last7Days(): { date: string, label: string }[] {
+  const days: { date: string, label: string }[] = []
   const labels = ['一', '二', '三', '四', '五', '六', '日']
   for (let i = 6; i >= 0; i--) {
     const d = new Date()
@@ -207,7 +207,8 @@ async function addFriend(): Promise<void> {
     await friendStore.sendRequest(targetId)
     toast.success(t('profile.addFriendOk', { name: user.value.username }))
     await profile.refreshRelation(targetId)
-  } catch {
+  }
+  catch {
     toast.error(t('profile.addFriendFail'))
   }
 }
@@ -219,7 +220,8 @@ async function acceptFriend(): Promise<void> {
   try {
     await friendStore.accept(targetId)
     await profile.refreshRelation(targetId)
-  } catch {
+  }
+  catch {
     toast.error(t('profile.addFriendFail'))
   }
 }

@@ -33,10 +33,10 @@ export function registerErrorHandler(app: FastifyInstance): void {
     // 若不拦截会被下面的兜底吞成 500 "Internal server error"，无法反馈给前端。
     if (error.name === 'ZodError') {
       const issues = (
-        error as unknown as { issues?: Array<{ path: (string | number)[]; message: string }> }
+        error as unknown as { issues?: Array<{ path: (string | number)[], message: string }> }
       ).issues
       const msg = issues?.length
-        ? issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ')
+        ? issues.map(i => `${i.path.join('.')}: ${i.message}`).join('; ')
         : error.message
       void reply.status(400).send({
         error: { code: 'VALIDATION_ERROR', msg },

@@ -15,7 +15,7 @@ import {
 } from '../index.js'
 
 function posSet(positions: Pos[]): Set<string> {
-  return new Set(positions.map((p) => `${p.x},${p.y}`))
+  return new Set(positions.map(p => `${p.x},${p.y}`))
 }
 
 describe('F-C-01 · 8×8 规则引擎', () => {
@@ -113,7 +113,7 @@ describe('F-C-01 · 8×8 规则引擎', () => {
       expect(result).not.toBeNull()
       // 应翻 2 个子：(2,1) 和 (1,2)
       expect(result!.flipped).toHaveLength(2)
-      const flippedSet = new Set(result!.flipped.map((p) => `${p.x},${p.y}`))
+      const flippedSet = new Set(result!.flipped.map(p => `${p.x},${p.y}`))
       expect(flippedSet.has('2,1')).toBe(true)
       expect(flippedSet.has('1,2')).toBe(true)
     })

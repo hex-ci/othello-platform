@@ -8,7 +8,7 @@ import {
 import type { Color, Pos } from '../index.js'
 
 /** 辅助：从初始盘走一个标准开局序列，返回 moves 数组 */
-function openingMoves(): { color: Color; pos: Pos | null; isPass: boolean }[] {
+function openingMoves(): { color: Color, pos: Pos | null, isPass: boolean }[] {
   return [
     { color: 'BLACK', pos: { x: 4, y: 2 }, isPass: false }, // D3
     { color: 'WHITE', pos: { x: 3, y: 2 }, isPass: false }, // C3
@@ -46,7 +46,7 @@ describe('analyzeGame 复盘分析', () => {
 
   it('含 pass 手时 pass 手沿用前值且不改变棋盘', () => {
     // 构造一个极简序列：黑落 D3，白 pass（构造 pass 需要白无合法手，这里直接模拟 pass 行为）
-    const moves: { color: Color; pos: Pos | null; isPass: boolean }[] = [
+    const moves: { color: Color, pos: Pos | null, isPass: boolean }[] = [
       { color: 'BLACK', pos: { x: 4, y: 2 }, isPass: false },
       { color: 'WHITE', pos: null, isPass: true },
     ]
@@ -98,7 +98,7 @@ describe('analyzeGame 复盘分析', () => {
     const moves = legalMoves(board, 'BLACK')
     // 取引擎推荐手作为"实际手"
     // 直接构造 moves 数组让 analyzeGame 内部再次搜索
-    const seq: { color: Color; pos: Pos | null; isPass: boolean }[] = []
+    const seq: { color: Color, pos: Pos | null, isPass: boolean }[] = []
     // 让黑方走第一个合法手，引擎在同一盘面下应返回同一手
     seq.push({ color: 'BLACK', pos: moves[0]!, isPass: false })
     const result = analyzeGame(seq)

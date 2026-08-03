@@ -36,9 +36,11 @@ port.on('message', async (msg: ThinkTask | AbortTask) => {
     const board = new Uint8Array(task.board)
     const pos: Pos | null = await think(board, task.level, task.color)
     port.postMessage({ id: task.id, pos })
-  } catch {
+  }
+  catch {
     port.postMessage({ id: task.id, pos: null })
-  } finally {
+  }
+  finally {
     currentId = null
   }
 })

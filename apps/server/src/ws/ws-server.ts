@@ -120,10 +120,10 @@ export function setupWsServer(app: FastifyInstance): WsServer {
       // 等待既有连接关闭（在飞落子已同步落库，此处仅等客户端确认断开），上限 5s
       const deadline = Date.now() + 5_000
       while (connections.size > 0 && Date.now() < deadline) {
-        await new Promise((r) => setTimeout(r, 50))
+        await new Promise(r => setTimeout(r, 50))
       }
       for (const conn of connections) conn.close()
-      await new Promise<void>((resolve) => wss.close(() => resolve()))
+      await new Promise<void>(resolve => wss.close(() => resolve()))
       app.log.info('WS 服务端已关闭')
     },
   }

@@ -53,10 +53,12 @@ export const useProfileStore = defineStore('profile', () => {
       activity.value = act
       badges.value = bdg
       relation.value = fs.status
-    } catch (e) {
+    }
+    catch (e) {
       error.value = e instanceof Error ? e.message : '加载资料失败'
       user.value = null
-    } finally {
+    }
+    finally {
       loading.value = false
     }
   }

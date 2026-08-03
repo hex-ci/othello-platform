@@ -27,13 +27,13 @@ import type {
 
 // ─── 房间 ───
 
-export async function listRooms(params?: { status?: string; page?: number; limit?: number }) {
+export async function listRooms(params?: { status?: string, page?: number, limit?: number }) {
   const qs = new URLSearchParams()
   if (params?.status) qs.set('status', params.status)
   if (params?.page) qs.set('page', String(params.page))
   if (params?.limit) qs.set('limit', String(params.limit))
   const suffix = qs.toString() ? `?${qs.toString()}` : ''
-  return apiFetch<{ items: RoomDTO[]; total: number }>(`/rooms${suffix}`)
+  return apiFetch<{ items: RoomDTO[], total: number }>(`/rooms${suffix}`)
 }
 
 export async function createRoom(input: {
@@ -72,14 +72,14 @@ export async function cancelGame(gameId: string) {
 
 // ─── 聊天 / 在线 ───
 
-export async function listChats(params: { channel: 'public' | 'room'; roomId?: number; since?: number }) {
+export async function listChats(params: { channel: 'public' | 'room', roomId?: number, since?: number }) {
   const qs = new URLSearchParams({ channel: params.channel })
   if (params.roomId !== undefined) qs.set('roomId', String(params.roomId))
   if (params.since !== undefined) qs.set('since', String(params.since))
   return apiFetch<{ messages: ChatDTO[] }>(`/chats?${qs.toString()}`)
 }
 
-export async function postChat(input: { channel: 'public' | 'room'; roomId?: number; message: string }) {
+export async function postChat(input: { channel: 'public' | 'room', roomId?: number, message: string }) {
   return apiFetch<ChatDTO>('/chats', { method: 'POST', body: JSON.stringify(input) })
 }
 
@@ -138,7 +138,7 @@ export async function getAnalysis(gameId: string) {
 
 // ─── 题库 / 每日挑战（T21，F-E-17）───
 
-export async function listPuzzles(filter?: { difficulty?: PuzzleDifficulty; topic?: PuzzleTopic }) {
+export async function listPuzzles(filter?: { difficulty?: PuzzleDifficulty, topic?: PuzzleTopic }) {
   const qs = new URLSearchParams()
   if (filter?.difficulty) qs.set('difficulty', filter.difficulty)
   if (filter?.topic) qs.set('topic', filter.topic)
@@ -156,7 +156,7 @@ export async function getDailyChallenge(date?: string) {
 }
 
 export async function submitAttempt(puzzleId: number, answerPos: Pos | null, timeMs: number) {
-  return apiFetch<{ attempt: PuzzleAttemptDTO; correct: boolean }>(`/puzzles/${puzzleId}/attempt`, {
+  return apiFetch<{ attempt: PuzzleAttemptDTO, correct: boolean }>(`/puzzles/${puzzleId}/attempt`, {
     method: 'POST',
     body: JSON.stringify({
       answerX: answerPos?.x ?? null,
@@ -181,7 +181,7 @@ export async function getCurrentSeason() {
 }
 
 export async function getMySeason() {
-  return apiFetch<{ season: SeasonDTO; rating: UserSeasonRatingDTO | null; badges: BadgeDTO[] }>('/seasons/me')
+  return apiFetch<{ season: SeasonDTO, rating: UserSeasonRatingDTO | null, badges: BadgeDTO[] }>('/seasons/me')
 }
 
 export async function getUserBadges(userId: number) {

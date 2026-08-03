@@ -114,8 +114,8 @@ export function roomRowToDTO(row: RoomRow): RoomDTO {
 
 export function moveRowToDTO(row: MoveRow): MoveDTO {
   // flipped 为 JSONB 列：pg 读出时已自动解析为数组；兼容字符串形式（防御）
-  const flipped =
-    typeof row.flipped === 'string'
+  const flipped
+    = typeof row.flipped === 'string'
       ? (JSON.parse(row.flipped) as MoveDTO['flipped'])
       : (row.flipped as MoveDTO['flipped'])
   return {
@@ -139,7 +139,7 @@ export function gameIdToNumber(gameId: string): number | null {
 
 export function gameRowToDTO(row: GameRow): GameDTO {
   // pg BIGINT-as-string：room_id/black_id/white_id 为 BIGINT，统一 Number() 归一化
-  //（id 经 gameIdToString 拼接不受影响，但保持入参为 number 更稳妥）
+  // （id 经 gameIdToString 拼接不受影响，但保持入参为 number 更稳妥）
   return {
     id: gameIdToString(Number(row.id)),
     roomId: row.room_id !== null ? Number(row.room_id) : null,

@@ -30,7 +30,7 @@ export class AiPool {
   start(): void {
     for (let i = 0; i < POOL_SIZE; i++) {
       const worker = new Worker(workerUrl, { execArgv: process.execArgv })
-      worker.on('message', (msg: { id: number; pos: Pos | null }) => {
+      worker.on('message', (msg: { id: number, pos: Pos | null }) => {
         const task = this.pending.get(msg.id)
         if (!task) return
         this.pending.delete(msg.id)
@@ -81,7 +81,7 @@ export class AiPool {
   async stop(): Promise<void> {
     for (const task of this.pending.values()) clearTimeout(task.timer)
     this.pending.clear()
-    await Promise.all(this.workers.map((w) => w.terminate()))
+    await Promise.all(this.workers.map(w => w.terminate()))
     this.workers = []
   }
 }

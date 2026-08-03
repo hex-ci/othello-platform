@@ -49,7 +49,7 @@ export interface MoveOk {
   blackCount: number
   whiteCount: number
   /** 落子后轮到的一方无合法手，需广播 pass 并再换手 */
-  passAfter: { passedColor: Color; nextTurn: Color } | null
+  passAfter: { passedColor: Color, nextTurn: Color } | null
   gameOver: GameOverInfo | null
 }
 
@@ -83,7 +83,7 @@ export class GameRuntime {
     return this.config.gameId
   }
 
-  counts(): { blackCount: number; whiteCount: number } {
+  counts(): { blackCount: number, whiteCount: number } {
     const { black, white } = countPieces(this.board)
     return { blackCount: black, whiteCount: white }
   }
@@ -111,7 +111,7 @@ export class GameRuntime {
       return { ok: false, code: 'NOT_YOUR_TURN' }
     }
     const moves = legalMoves(this.board, color)
-    if (!moves.some((m) => m.x === pos.x && m.y === pos.y)) {
+    if (!moves.some(m => m.x === pos.x && m.y === pos.y)) {
       return { ok: false, code: 'ILLEGAL_MOVE' }
     }
 
@@ -153,11 +153,13 @@ export class GameRuntime {
     if (next === null) {
       // nextTurn 返回 null 但非终局：理论上不会发生（终局已判），保底
       nextTurnColor = null
-    } else if (!hasLegalMove(this.board, next)) {
+    }
+    else if (!hasLegalMove(this.board, next)) {
       // 轮到 next 无合法手 → pass，再换回 color 方
       passAfter = { passedColor: next, nextTurn: color }
       this.turn = color
-    } else {
+    }
+    else {
       this.turn = next
     }
 

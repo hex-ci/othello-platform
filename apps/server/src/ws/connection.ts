@@ -42,7 +42,7 @@ export class ClientConnection {
    */
   isRateLimited(): boolean {
     const now = Date.now()
-    this.msgTimestamps = this.msgTimestamps.filter((t) => now - t < RATE_WINDOW_MS)
+    this.msgTimestamps = this.msgTimestamps.filter(t => now - t < RATE_WINDOW_MS)
     this.msgTimestamps.push(now)
     return this.msgTimestamps.length > RATE_MAX_MESSAGES
   }
@@ -73,7 +73,8 @@ export class ClientConnection {
     }
     try {
       this.ws.close()
-    } catch {
+    }
+    catch {
       // 连接可能已关闭
     }
   }

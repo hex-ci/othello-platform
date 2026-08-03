@@ -12,15 +12,15 @@ const NOT_A_FILE = 0xFEFE_FEFE_FEFE_FEFEn
 const NOT_H_FILE = 0x7F7F_7F7F_7F7F_7F7Fn
 
 /** 8 方向的位移量与对应列掩码（掩码排除源位中会绕列的列） */
-const SHIFTS: readonly { shift: bigint; mask: bigint }[] = [
-  { shift: 1n, mask: NOT_H_FILE },   // 东 (x+1)：排除 H 列防绕到 A 列
-  { shift: -1n, mask: NOT_A_FILE },  // 西 (x-1)：排除 A 列防绕到 H 列
-  { shift: 8n, mask: FULL },         // 南 (y+1)
-  { shift: -8n, mask: FULL },        // 北 (y-1)
-  { shift: 9n, mask: NOT_H_FILE },   // 东南：含东，排除 H 列
-  { shift: 7n, mask: NOT_A_FILE },   // 西南：含西，排除 A 列
-  { shift: -7n, mask: NOT_H_FILE },  // 东北：含东，排除 H 列
-  { shift: -9n, mask: NOT_A_FILE },  // 西北：含西，排除 A 列
+const SHIFTS: readonly { shift: bigint, mask: bigint }[] = [
+  { shift: 1n, mask: NOT_H_FILE }, // 东 (x+1)：排除 H 列防绕到 A 列
+  { shift: -1n, mask: NOT_A_FILE }, // 西 (x-1)：排除 A 列防绕到 H 列
+  { shift: 8n, mask: FULL }, // 南 (y+1)
+  { shift: -8n, mask: FULL }, // 北 (y-1)
+  { shift: 9n, mask: NOT_H_FILE }, // 东南：含东，排除 H 列
+  { shift: 7n, mask: NOT_A_FILE }, // 西南：含西，排除 A 列
+  { shift: -7n, mask: NOT_H_FILE }, // 东北：含东，排除 H 列
+  { shift: -9n, mask: NOT_A_FILE }, // 西北：含西，排除 A 列
 ]
 
 function shiftDir(bits: bigint, shift: bigint, mask: bigint): bigint {
@@ -84,7 +84,7 @@ export function applyMoveBB(
   own: bigint,
   opp: bigint,
   posBit: bigint,
-): { own: bigint; opp: bigint; flipped: bigint } {
+): { own: bigint, opp: bigint, flipped: bigint } {
   const flipped = flippedBB(own, opp, posBit)
   const newOwn = own | posBit | flipped
   const newOpp = opp & ~flipped
@@ -103,8 +103,8 @@ export function popcount(bits: bigint): number {
 }
 
 /** 将 bitboard 转为 Pos 数组 */
-export function bitsToPositions(bits: bigint): { x: number; y: number }[] {
-  const positions: { x: number; y: number }[] = []
+export function bitsToPositions(bits: bigint): { x: number, y: number }[] {
+  const positions: { x: number, y: number }[] = []
   let b = bits
   while (b !== 0n) {
     const lsb = b & -b

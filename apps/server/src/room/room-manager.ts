@@ -64,13 +64,13 @@ export class RoomManager {
   /** userId → 当前所在房间 */
   private userRoom = new Map<number, number>()
   /** userId → 断线重连窗口 { gameId, timer } */
-  private reconnectWindows = new Map<number, { gameId: string; timer: NodeJS.Timeout }>()
+  private reconnectWindows = new Map<number, { gameId: string, timer: NodeJS.Timeout }>()
   /** 再战请求：gameId → 已接受的 userId 集合（T17） */
   private rematchAccepted = new Map<string, Set<number>>()
   /** 已离开终局对局页的玩家：gameId → 已离开的 userId 集合（F-E-16，避免对方卡等） */
   private rematchLeftUsers = new Map<string, Set<number>>()
   /** 待处理挑战：fromUserId → { toUserId, aiLevel }（T17） */
-  private pendingChallenges = new Map<number, { toUserId: number; aiLevel: AiLevel | null }>()
+  private pendingChallenges = new Map<number, { toUserId: number, aiLevel: AiLevel | null }>()
 
   constructor(
     private readonly app: FastifyInstance,
@@ -115,7 +115,7 @@ export class RoomManager {
       const rebuilt = rebuildBoard(moves)
       runtime.restore(rebuilt.board, rebuilt.turn, moves.length)
 
-      const timer = new MoveTimer((color) => void this.handleTimeout(gameId, color))
+      const timer = new MoveTimer(color => void this.handleTimeout(gameId, color))
       timer.reset(runtime.turn, timeoutForMode(runtime.config.mode))
       this.games.set(gameId, { runtime, timer, busy: false, spectators: new Set() })
       restored += 1
@@ -188,9 +188,11 @@ export class RoomManager {
     // 人人房：分配座位（双方就位后进入 ready 子阶段，不自动开局）
     if (seat.blackId === null) {
       seat.blackId = userId
-    } else if (seat.whiteId === null) {
+    }
+    else if (seat.whiteId === null) {
       seat.whiteId = userId
-    } else {
+    }
+    else {
       this.sendToUser(userId, 'error', { code: 'ROOM_FULL', msg: '房间已满' })
       return
     }
@@ -289,7 +291,7 @@ export class RoomManager {
   async updateSettings(
     userId: number,
     roomId: number,
-    input: { colorAssign?: 'swap' | 'keep'; spectatable?: boolean; password?: string | null },
+    input: { colorAssign?: 'swap' | 'keep', spectatable?: boolean, password?: string | null },
   ): Promise<void> {
     const seat = this.rooms.get(roomId)
     if (!seat) {
@@ -355,7 +357,7 @@ export class RoomManager {
       aiLevel: seat.aiLevel,
       aiColor,
     })
-    const timer = new MoveTimer((color) => void this.handleTimeout(created.gameId, color))
+    const timer = new MoveTimer(color => void this.handleTimeout(created.gameId, color))
     this.games.set(created.gameId, { runtime, timer, busy: false, spectators: new Set() })
 
     // 广播 game_start（携带每步预算作为 remainingMs，前端据此初始化倒计时）
@@ -392,7 +394,8 @@ export class RoomManager {
     active.busy = true
     try {
       await this.applyMove(active, color, pos, userId)
-    } finally {
+    }
+    finally {
       active.busy = false
     }
   }
@@ -520,7 +523,8 @@ export class RoomManager {
     active.busy = true
     try {
       await this.applyMove(active, color, pos, -1)
-    } finally {
+    }
+    finally {
       active.busy = false
     }
   }
@@ -817,7 +821,7 @@ export class RoomManager {
     if (numId === null) return null
     try {
       const res = await query('SELECT black_id, white_id FROM games WHERE id = $1', [numId])
-      const row = res.rows[0] as { black_id: string | null; white_id: string | null } | undefined
+      const row = res.rows[0] as { black_id: string | null, white_id: string | null } | undefined
       if (!row) return null
       // pg BIGINT-as-string：black_id/white_id 返回字符串，统一 Number() 归一化（CLAUDE.md）
       const blackId = row.black_id !== null ? Number(row.black_id) : null
@@ -825,7 +829,8 @@ export class RoomManager {
       if (blackId === userId) return whiteId
       if (whiteId === userId) return blackId
       return null
-    } catch {
+    }
+    catch {
       return null
     }
   }
@@ -839,7 +844,8 @@ export class RoomManager {
       // pg BIGINT-as-string：black_id 返回字符串，统一 Number() 归一化（CLAUDE.md）
       const raw = (res.rows[0] as { black_id: string | null } | undefined)?.black_id ?? null
       return raw !== null ? Number(raw) : null
-    } catch {
+    }
+    catch {
       return null
     }
   }
@@ -1005,7 +1011,7 @@ export class RoomManager {
         : await this.usernameOf(runtime.config.white.userId),
       remainingMs: active.timer.remainingMs(),
       status: runtime.status,
-      moves: moves.map((m) => ({
+      moves: moves.map(m => ({
         seq: m.seq,
         color: m.color,
         pos: m.pos,
@@ -1077,7 +1083,7 @@ export class RoomManager {
       remainingMs: active.timer.remainingMs(),
       status: runtime.status,
       spectatorCount: active.spectators.size,
-      moves: moves.map((m) => ({
+      moves: moves.map(m => ({
         seq: m.seq,
         color: m.color,
         pos: m.pos,
@@ -1151,7 +1157,8 @@ export class RoomManager {
     if (seat.blackId === userId) {
       seat.blackId = null
       seat.blackReady = false
-    } else if (seat.whiteId === userId) {
+    }
+    else if (seat.whiteId === userId) {
       seat.whiteId = null
       seat.whiteReady = false
     }
@@ -1203,7 +1210,8 @@ export class RoomManager {
     try {
       const row = await query('SELECT username FROM users WHERE id = $1', [userId])
       return (row.rows[0]?.username as string | undefined) ?? null
-    } catch {
+    }
+    catch {
       return null
     }
   }
@@ -1217,7 +1225,7 @@ export class RoomManager {
     const moves = gameNumId !== null ? await gameService.getGameMovesSince(gameNumId, 0) : []
     this.sendToUser(userId, 'game_start', {
       ...(await this.gameStartPayload(active.runtime, active.timer.remainingMs())),
-      moves: moves.map((m) => ({
+      moves: moves.map(m => ({
         seq: m.seq,
         color: m.color,
         pos: m.pos,
@@ -1285,7 +1293,8 @@ export class RoomManager {
         action,
         JSON.stringify(meta),
       ])
-    } catch (err) {
+    }
+    catch (err) {
       this.app.log.warn({ err }, '写审计日志失败')
     }
   }

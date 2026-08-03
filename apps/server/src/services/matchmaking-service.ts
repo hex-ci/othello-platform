@@ -70,7 +70,8 @@ export class MatchmakingService {
     try {
       const res = await query('SELECT elo FROM users WHERE id = $1', [userId])
       return (res.rows[0]?.elo as number | undefined) ?? 1500
-    } catch {
+    }
+    catch {
       return 1500
     }
   }
@@ -117,7 +118,8 @@ export class MatchmakingService {
           }
         }
       }
-    } finally {
+    }
+    finally {
       this.busy = false
     }
   }
@@ -138,7 +140,8 @@ export class MatchmakingService {
         roomId: room.id,
         opponent: null,
       })
-    } catch (err) {
+    }
+    catch (err) {
       // 建房失败：通知双方重试
       this.hub.sendToUsers([a.userId, b.userId], 'match_timeout', {})
       throw err

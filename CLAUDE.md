@@ -41,7 +41,6 @@ docs/             — prd.md + appendix-a~d + ops-runbook.md + pages/*.html 设�
 
 ## 代码风格（与默认不同）
 
-- **Prettier**: 无分号 (`semi: false`)、单引号、`trailingComma: 'all'`、`printWidth: 100`、2 空格缩进
 - **TypeScript strict + `noUncheckedIndexedAccess`**: 数组/对象索引返回 `T | undefined`，必须处理 undefined
 - **`verbatimModuleSyntax: true`**: 类型-only 导入必须用 `import type { ... }`，否则编译报错
 - **ESLint**: `no-explicit-any` 仅 warn（允许 `any` 但会有告警）；`no-unused-vars` 允许 `_` 前缀参数

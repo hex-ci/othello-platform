@@ -28,7 +28,7 @@ function rowToSeasonDTO(r: SeasonRow): SeasonDTO {
 
 /** 当前活跃赛季 */
 export async function getCurrentSeason(): Promise<SeasonDTO | null> {
-  const res = await query("SELECT * FROM seasons WHERE status = 'active' ORDER BY id DESC LIMIT 1")
+  const res = await query('SELECT * FROM seasons WHERE status = \'active\' ORDER BY id DESC LIMIT 1')
   const row = res.rows[0] as SeasonRow | undefined
   return row ? rowToSeasonDTO(row) : null
 }
@@ -48,7 +48,7 @@ export async function getUserSeasonRating(userId: number, seasonId?: number): Pr
     'SELECT season_id, user_id, peak_elo, peak_tier, final_elo FROM user_season_ratings WHERE season_id = $1 AND user_id = $2',
     [sid, userId],
   )
-  const row = res.rows[0] as { season_id: number; user_id: number; peak_elo: number; peak_tier: string; final_elo: number | null } | undefined
+  const row = res.rows[0] as { season_id: number, user_id: number, peak_elo: number, peak_tier: string, final_elo: number | null } | undefined
   if (!row) return null
   return {
     seasonId: row.season_id,
@@ -88,7 +88,7 @@ export async function settleSeason(seasonId: number): Promise<void> {
      WHERE usr.user_id = u.id AND usr.season_id = $1 AND usr.final_elo IS NULL`,
     [seasonId],
   )
-  await query("UPDATE seasons SET status = 'settled' WHERE id = $1", [seasonId])
+  await query('UPDATE seasons SET status = \'settled\' WHERE id = $1', [seasonId])
 }
 
 // ─── 徽章 ───
@@ -99,7 +99,7 @@ export async function listUserBadges(userId: number): Promise<BadgeDTO[]> {
     'SELECT id, user_id, badge_type, earned_at FROM user_badges WHERE user_id = $1 ORDER BY earned_at DESC',
     [userId],
   )
-  return (res.rows as Array<{ id: string; user_id: number; badge_type: string; earned_at: Date }>).map((r) => ({
+  return (res.rows as Array<{ id: string, user_id: number, badge_type: string, earned_at: Date }>).map(r => ({
     id: Number(r.id),
     userId: r.user_id,
     badgeType: r.badge_type as BadgeType,
@@ -122,7 +122,7 @@ export async function grantBadge(userId: number, badgeType: BadgeType): Promise<
  */
 export async function checkBadges(
   userId: number,
-  context: { afterGame?: { wins: number; streak: number }; afterPuzzle?: { solved: number }; afterReview?: { brilliant: number } },
+  context: { afterGame?: { wins: number, streak: number }, afterPuzzle?: { solved: number }, afterReview?: { brilliant: number } },
 ): Promise<void> {
   if (context.afterGame) {
     const { wins, streak } = context.afterGame
@@ -139,11 +139,11 @@ export async function checkBadges(
 }
 
 /** 当前赛季王者（peak_elo 最高） */
-export async function getSeasonKing(seasonId: number): Promise<{ userId: number; peakElo: number } | null> {
+export async function getSeasonKing(seasonId: number): Promise<{ userId: number, peakElo: number } | null> {
   const res = await query(
     'SELECT user_id, peak_elo FROM user_season_ratings WHERE season_id = $1 ORDER BY peak_elo DESC LIMIT 1',
     [seasonId],
   )
-  const row = res.rows[0] as { user_id: number; peak_elo: number } | undefined
+  const row = res.rows[0] as { user_id: number, peak_elo: number } | undefined
   return row ? { userId: row.user_id, peakElo: row.peak_elo } : null
 }

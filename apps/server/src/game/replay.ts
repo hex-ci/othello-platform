@@ -6,7 +6,7 @@ import { createInitialBoard, applyMove, type Board, type Color as EngineColor, t
 import type { MoveDTO } from '@othello-platform/shared'
 
 /** 从走子序列重建棋盘与当前回合方 */
-export function rebuildBoard(moves: MoveDTO[]): { board: Board; turn: EngineColor } {
+export function rebuildBoard(moves: MoveDTO[]): { board: Board, turn: EngineColor } {
   let board = createInitialBoard()
   let turn: EngineColor = 'BLACK'
   for (const m of moves) {

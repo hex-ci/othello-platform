@@ -18,8 +18,8 @@ pg.types.setTypeParser(pg.types.builtins.INT8, (val: string) => {
   const n = Number(val)
   if (!Number.isSafeInteger(n)) {
     throw new Error(
-      `BIGINT 值 ${val} 超过 Number.MAX_SAFE_INTEGER，精度损失。` +
-        `若预期会出现超大 id，需改用 bigint 全链路或改回 string。`,
+      `BIGINT 值 ${val} 超过 Number.MAX_SAFE_INTEGER，精度损失。`
+      + `若预期会出现超大 id，需改用 bigint 全链路或改回 string。`,
     )
   }
   return n

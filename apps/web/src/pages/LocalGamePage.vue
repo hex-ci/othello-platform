@@ -26,7 +26,7 @@ const router = useRouter()
 const store = useGameStore()
 const { t } = useI18n()
 
-const LEVELS = computed<{ value: AiLevel; label: string }[]>(() => [
+const LEVELS = computed<{ value: AiLevel, label: string }[]>(() => [
   { value: 0, label: t('aiLevel.l0') },
   { value: 1, label: t('aiLevel.l1') },
   { value: 2, label: t('aiLevel.l2') },

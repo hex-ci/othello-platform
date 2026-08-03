@@ -41,14 +41,14 @@
 
 ## 技术栈
 
-| 层     | 技术                                                                                                              |
-| ------ | ----------------------------------------------------------------------------------------------------------------- |
+| 层     | 技术                                                                                                            |
+| ------ | --------------------------------------------------------------------------------------------------------------- |
 | 前端   | Vue 3 · TypeScript · Tailwind CSS 4 · Vite · Pinia · vue-router · vue-i18n · reka-ui · vue-sonner · @lucide/vue |
-| 后端   | Node 22 · Fastify 5 · ws · `pg`（原生 SQL，无 ORM）· argon2 · pino                                                |
-| 数据库 | PostgreSQL 18（Docker Compose）                                                                                   |
-| AI     | 纯 TypeScript NegaScout + bitboard                                                                                |
-| 契约   | `packages/shared`（Zod schema + TS 类型，单一来源）                                                               |
-| 工程   | pnpm 11 monorepo（`packages/*` + `apps/*`）                                                                       |
+| 后端   | Node 22 · Fastify 5 · ws · `pg`（原生 SQL，无 ORM）· argon2 · pino                                              |
+| 数据库 | PostgreSQL 18（Docker Compose）                                                                                 |
+| AI     | 纯 TypeScript NegaScout + bitboard                                                                              |
+| 契约   | `packages/shared`（Zod schema + TS 类型，单一来源）                                                             |
+| 工程   | pnpm 11 monorepo（`packages/*` + `apps/*`）                                                                     |
 
 ## 快速开始
 
@@ -130,7 +130,7 @@ docs/              — PRD + 附录 + 运维手册 + 页面设计稿
 pnpm -r typecheck    # 全包类型检查（web 用 vue-tsc）
 pnpm -r test         # 全包 Vitest 测试
 pnpm lint            # ESLint（flat config）
-pnpm build           # 全包构建
+pnpm build           # 先并行跑 typecheck + lint（code-check），全绿后全包构建
 pnpm migrate:up      # 运行 SQL 迁移
 pnpm migrate:down    # 回滚迁移
 ```

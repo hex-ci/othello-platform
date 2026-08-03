@@ -18,13 +18,14 @@ pnpm i                    # 安装依赖
 pnpm -r typecheck         # 全包类型检查（web 用 vue-tsc）
 pnpm -r test              # 全包 Vitest 测试
 pnpm lint                 # ESLint (flat config)
+pnpm build                # 先并行跑 typecheck + lint（code-check），全绿后全包构建
 pnpm dev:web              # 前端开发 (localhost:5173)
 pnpm dev:server           # 后端开发 (localhost:3000, tsx watch 热重载)
 docker compose up -d      # 启动 PostgreSQL
 pnpm migrate:up           # 运行 SQL 迁移（apps/server 的 tsx 脚本）
 ```
 
-非标准脚本：`@othello-platform/engine` 有 `test:coverage`；`@othello-platform/server` 有 `loadtest`（`scripts/ws-load-test.ts`）；web 的 `build` 会先跑 `vue-tsc --noEmit` 做类型门；CI 跑 `typecheck + lint + test`（无 build 步骤）。
+非标准脚本：`@othello-platform/engine` 有 `test:coverage`；`@othello-platform/server` 有 `loadtest`（`scripts/ws-load-test.ts`）；web 的 `build` 是纯 `vite build`（无类型门），类型检查走独立的 `typecheck` 脚本（`vue-tsc --build`，solution 模式跟随 project references）；根 `build` 内建 code-check（`run-p typecheck lint` → `run-s` 串到 `pnpm -r build` 前，用 `npm-run-all2`）；CI 跑 `typecheck + lint + test`（无 build 步骤）。
 
 ## 目录结构
 

@@ -1,5 +1,5 @@
 # Othello Platform 前端镜像
-# 阶段 1：构建静态资源（vue-tsc 类型门 + vite build）
+# 阶段 1：构建静态资源（vite build；类型门由 CI 的 typecheck 步骤把关，不在镜像构建时重复）
 FROM node:24-slim AS build
 
 RUN corepack enable
@@ -13,7 +13,7 @@ COPY apps/web/package.json apps/web/
 
 RUN pnpm install --frozen-lockfile
 
-# 拷入源码与共享 tsconfig（apps/web/tsconfig.json 继承 ../../tsconfig.base.json）
+# 拷入源码与共享 tsconfig（apps/web/tsconfig.{app,node}.json 经 @vue/tsconfig / @tsconfig/node22 + ../../tsconfig.base.json 组合继承）
 COPY tsconfig.base.json ./
 COPY packages/shared/ packages/shared/
 COPY packages/engine/ packages/engine/

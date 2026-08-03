@@ -51,8 +51,8 @@ interface Stats {
 
 function percentile(sorted: number[], p: number): number {
   if (sorted.length === 0) return 0
-  const idx = Math.ceil(sorted.length * (p / 100)) - 1
-  return sorted[Math.max(0, idx)]
+  const idx = Math.max(0, Math.ceil(sorted.length * (p / 100)) - 1)
+  return sorted[idx] ?? 0
 }
 
 function reportStats(label: string, stats: Stats, activeCount: number): void {
@@ -62,13 +62,19 @@ function reportStats(label: string, stats: Stats, activeCount: number): void {
   console.log(`  活跃连接: ${activeCount}`)
   console.log(`  延迟样本: ${total}`)
   if (total > 0) {
+    const maxLatency = sorted[sorted.length - 1] ?? 0
     console.log(`  p50: ${percentile(sorted, 50).toFixed(1)}ms`)
     console.log(`  p95: ${percentile(sorted, 95).toFixed(1)}ms`)
     console.log(`  p99: ${percentile(sorted, 99).toFixed(1)}ms`)
-    console.log(`  max: ${sorted[sorted.length - 1].toFixed(1)}ms`)
+    console.log(`  max: ${maxLatency.toFixed(1)}ms`)
   }
-  console.log(`  错误: 建连失败=${stats.errors} 鉴权失败=${stats.authFailures} 断连=${stats.disconnects}`)
-  const errRate = total > 0 ? ((stats.errors + stats.authFailures) / (total + stats.errors + stats.authFailures) * 100) : 0
+  console.log(
+    `  错误: 建连失败=${stats.errors} 鉴权失败=${stats.authFailures} 断连=${stats.disconnects}`,
+  )
+  const errRate =
+    total > 0
+      ? ((stats.errors + stats.authFailures) / (total + stats.errors + stats.authFailures)) * 100
+      : 0
   console.log(`  错误率: ${errRate.toFixed(2)}%`)
 }
 
@@ -208,9 +214,12 @@ async function main(): Promise<void> {
   // 判定
   const sorted = [...globalStats.latencies].sort((a, b) => a - b)
   const p95 = percentile(sorted, 95)
-  const errRate = globalStats.latencies.length > 0
-    ? (globalStats.errors + globalStats.authFailures) / (globalStats.latencies.length + globalStats.errors + globalStats.authFailures) * 100
-    : 0
+  const errRate =
+    globalStats.latencies.length > 0
+      ? ((globalStats.errors + globalStats.authFailures) /
+          (globalStats.latencies.length + globalStats.errors + globalStats.authFailures)) *
+        100
+      : 0
   const pass = activeCount >= TARGET && p95 < 100 && errRate < 1
   console.log(`\n${'═'.repeat(40)}`)
   console.log(`结论: ${pass ? '✅ PASS' : '❌ FAIL'}`)

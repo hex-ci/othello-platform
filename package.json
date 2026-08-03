@@ -30,7 +30,8 @@
     "pnpm": ">=11"
   },
   "scripts": {
-    "build": "pnpm -r build",
+    "build": "run-s code-check build-only",
+    "build-only": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -38,16 +39,21 @@
     "dev:web": "pnpm --filter @othello-platform/web dev",
     "dev:server": "pnpm --filter @othello-platform/server dev",
     "migrate:up": "pnpm --filter @othello-platform/server migrate:up",
-    "migrate:down": "pnpm --filter @othello-platform/server migrate:down"
+    "migrate:down": "pnpm --filter @othello-platform/server migrate:down",
+    "code-check": "run-p typecheck lint"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@intlify/eslint-plugin-vue-i18n": "^4.5.1",
     "@intlify/unplugin-vue-i18n": "^11.2.4",
+    "@tsconfig/node22": "^22.0.5",
+    "@types/node": "^22.20.1",
     "@vue/eslint-config-typescript": "^14.9.0",
+    "@vue/tsconfig": "^0.9.1",
     "eslint": "^10.8.0",
     "eslint-plugin-vue": "^10.10.0",
-    "globals": "^17.8.0",
+    "globals": "^17.9.0",
+    "npm-run-all2": "^9.0.3",
     "prettier": "^3.9.6",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3",

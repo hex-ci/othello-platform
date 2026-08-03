@@ -41,14 +41,14 @@ A full-stack online Othello (Reversi) game platform. Server-authoritative play, 
 
 ## Tech Stack
 
-| Layer     | Technology                                                                                                        |
-| --------- | ----------------------------------------------------------------------------------------------------------------- |
+| Layer     | Technology                                                                                                      |
+| --------- | --------------------------------------------------------------------------------------------------------------- |
 | Frontend  | Vue 3 · TypeScript · Tailwind CSS 4 · Vite · Pinia · vue-router · vue-i18n · reka-ui · vue-sonner · @lucide/vue |
-| Backend   | Node 22 · Fastify 5 · ws · `pg` (raw SQL, no ORM) · argon2 · pino                                                 |
-| Database  | PostgreSQL 18 (Docker Compose)                                                                                    |
-| AI        | Pure-TypeScript NegaScout + bitboard                                                                              |
-| Contracts | `packages/shared` (Zod schemas + TS types, single source of truth)                                                |
-| Tooling   | pnpm 11 monorepo (`packages/*` + `apps/*`)                                                                        |
+| Backend   | Node 22 · Fastify 5 · ws · `pg` (raw SQL, no ORM) · argon2 · pino                                               |
+| Database  | PostgreSQL 18 (Docker Compose)                                                                                  |
+| AI        | Pure-TypeScript NegaScout + bitboard                                                                            |
+| Contracts | `packages/shared` (Zod schemas + TS types, single source of truth)                                              |
+| Tooling   | pnpm 11 monorepo (`packages/*` + `apps/*`)                                                                      |
 
 ## Getting Started
 
@@ -130,7 +130,7 @@ docs/              — PRD + appendices + ops runbook + page design mockups
 pnpm -r typecheck    # Type-check all packages (web uses vue-tsc)
 pnpm -r test         # Run Vitest across all packages
 pnpm lint            # ESLint (flat config)
-pnpm build           # Build all packages
+pnpm build           # Run typecheck + lint in parallel (code-check), then build all packages
 pnpm migrate:up      # Run SQL migrations
 pnpm migrate:down    # Roll back migrations
 ```

@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       vue(),
       tailwindcss(),
       VueI18nPlugin({
-        include: join(__dirname, './src/i18n/locales/**'),
+        include: join(import.meta.dirname, './src/i18n/locales/**'),
         dropMessageCompiler: true,
       }),
     ],

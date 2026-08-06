@@ -95,6 +95,11 @@ skills 采用渐进式披露：SKILL.md 是总纲，具体坑按链接进 `refer
 
 ## 测试约定
 
+- **config/工具链变更验证清单**：修改 tsconfig、eslint、vite/husky/ci 配置、package.json scripts、引入新依赖等 config/工具链变更后，handoff 前必须按以下清单验证：
+  1. **识别受影响的构建脚本**：检查 `package.json` 的 `build`/`typecheck`/`lint`/`test` 脚本、各子包 `package.json` scripts、`.github/workflows/ci.yml` 步骤是否需要同步修改
+  2. **运行 typecheck + lint**：`pnpm -r typecheck` + `pnpm lint`（根 `build` 内建 code-check，改构建配置后必须确认类型门和 lint 门全绿）
+  3. **检查部署配置**：确认 `.env.example`、`docker-compose.yml`、CI 步骤、husky hooks 与 config 变更一致
+  4. **同步文档**：更新 `CLAUDE.md` 常用命令/gotchas 段、`docs/ops-runbook.md`（如涉及环境变量或运维变更）、`docs/development-notes/`（如涉及约定变更）
 - **单测**: Vitest（`pnpm -r test`）
 - **功能回归**: **playwright-cli** 交互式真实浏览器验证（**不维护 `@playwright/test` 自动化套件**）。playwright-cli 是本地 CLI skill，命令跨调用保持浏览器状态，比 Playwright MCP 的 `browser_run_code_unsafe`（跨调用丢状态、默认 tab 被路由守卫踢回 login）稳定得多。优先用 playwright-cli，不要用 Playwright MCP 的 `browser_*` 工具做多账号 UI 回归
 - 每个功能任务 DoD: 单测通过 + playwright-cli 回归通过 + 无 console error（`playwright-cli -s=<name> console error`）

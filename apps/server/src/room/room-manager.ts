@@ -2,6 +2,9 @@
  * 房间/对局协调器（T07+T08+T09 中枢）。
  * 进程内持有房间座位与对局运行时（§6.1 弃用 Redis）；
  * 所有落子/终局/AI 回合在此串行编排，服务端为唯一权威（附录 C §C.4）。
+ *
+ * 类型定义 → room-types.ts，无状态辅助函数 → room-utils.ts。
+ * 本模块保留核心编排逻辑（落子/AI/终局/重连）及私有状态。
  */
 import type { FastifyInstance } from 'fastify'
 import type { ConnectionHub } from '../ws/hub.js'
@@ -12,7 +15,6 @@ import { aiPool } from '../ai/ai-pool.js'
 import * as gameService from '../services/game-service.js'
 import * as roomService from '../services/room-service.js'
 import { settleClassicScore, settleElo } from '../services/rating-service.js'
-import * as friendService from '../services/friend-service.js'
 import { query } from '../db/pool.js'
 import {
   gameIdToNumber,
@@ -25,38 +27,28 @@ import {
 } from '@othello-platform/shared'
 import type { Color as EngineColor, Pos as EnginePos } from '@othello-platform/engine'
 import { rebuildBoard } from '../game/replay.js'
-
-/** 断线重连窗口（F-E-04）：窗口内重连不判逃跑，超时判负 */
-const RECONNECT_WINDOW_MS = Number(process.env['RECONNECT_WINDOW_MS'] ?? 30_000)
-
-interface RoomSeat {
-  roomId: number
-  mode: GameMode
-  aiLevel: AiLevel | null
-  blackId: number | null
-  whiteId: number | null
-  gameId: string | null
-  /** 人人房准备阶段（附录C ready 子阶段）：与 DB rooms.black_ready/white_ready 同步 */
-  blackReady: boolean
-  whiteReady: boolean
-  /** 房主 userId（Number 归一化；仅房主可开局） */
-  ownerId: number | null
-  /** 房间名（显示用，与 DB rooms.name 同步） */
-  roomName: string
-  /** 是否允许观战（房主设置，与 DB 同步） */
-  spectatable: boolean
-  /** 房间等待期旁观者 userId 集合（观战席，T14 扩展） */
-  roomSpectators: Set<number>
-}
-
-interface ActiveGame {
-  runtime: GameRuntime
-  timer: MoveTimer
-  /** 串行化锁：避免并发落子竞态 */
-  busy: boolean
-  /** 观战者 userId 集合（只读订阅，T14） */
-  spectators: Set<number>
-}
+import { RECONNECT_WINDOW_MS, type RoomSeat, type ActiveGame } from './room-types.js'
+import {
+  usernameOf,
+  audit,
+  gameStartPayload,
+  broadcastToGameByRuntime,
+  broadcastToGame,
+  broadcastRoomState,
+} from './room-utils.js'
+import {
+  rematchRequest as rematchRequestFn,
+  rematchLeave as rematchLeaveFn,
+  rematchResponse as rematchResponseFn,
+  challenge as challengeFn,
+  challengeResponse as challengeResponseFn,
+  type RematchState,
+} from './room-rematch.js'
+import {
+  spectateJoin as spectateJoinFn,
+  spectateLeave as spectateLeaveFn,
+  listActiveGames as listActiveGamesFn,
+} from './room-spectate.js'
 
 export class RoomManager {
   private rooms = new Map<number, RoomSeat>()
@@ -168,7 +160,7 @@ export class RoomManager {
     // 已在房（重入）→ 重发房间状态；若已开局则补发 game_start
     // （修复客户端导航到对局页前错过首帧广播；兼作 M2 断线重连基础）
     if (seat.blackId === userId || seat.whiteId === userId) {
-      await this.broadcastRoomState(seat)
+      await broadcastRoomState(this.hub, seat)
       void this.syncGameToUser(userId, seat)
       return
     }
@@ -197,7 +189,7 @@ export class RoomManager {
       return
     }
     this.userRoom.set(userId, roomId)
-    await this.broadcastRoomState(seat)
+    await broadcastRoomState(this.hub, seat)
     // 人人房：双方就位后等待双方准备 + 房主开局（附录C ready 子阶段）
   }
 
@@ -218,7 +210,7 @@ export class RoomManager {
     if (userId === seat.blackId) seat.blackReady = ready
     else if (userId === seat.whiteId) seat.whiteReady = ready
     await roomService.setReady(roomId, userId, ready, seat.blackId, seat.whiteId)
-    await this.broadcastRoomState(seat)
+    await broadcastRoomState(this.hub, seat)
   }
 
   /**
@@ -272,7 +264,7 @@ export class RoomManager {
       return
     }
     seat.roomSpectators.add(userId)
-    await this.broadcastRoomState(seat)
+    await broadcastRoomState(this.hub, seat)
   }
 
   /** 退出房间旁观 */
@@ -280,7 +272,7 @@ export class RoomManager {
     const seat = this.rooms.get(roomId)
     if (!seat) return
     seat.roomSpectators.delete(userId)
-    await this.broadcastRoomState(seat)
+    await broadcastRoomState(this.hub, seat)
   }
 
   /**
@@ -332,7 +324,7 @@ export class RoomManager {
     if (input.password !== undefined) {
       await roomService.updatePassword(roomId, input.password)
     }
-    await this.broadcastRoomState(seat)
+    await broadcastRoomState(this.hub, seat)
   }
 
   private async startGame(seat: RoomSeat, creatorName?: string): Promise<void> {
@@ -362,8 +354,8 @@ export class RoomManager {
 
     // 广播 game_start（携带每步预算作为 remainingMs，前端据此初始化倒计时）
     const stepBudget = timeoutForMode(runtime.config.mode)
-    this.broadcastToGame(seat, 'game_start', await this.gameStartPayload(runtime, stepBudget))
-    await this.broadcastRoomState(seat)
+    broadcastToGame(this.hub, seat, 'game_start', await gameStartPayload(runtime, stepBudget))
+    await broadcastRoomState(this.hub, seat)
 
     // 启动首步倒计时（黑方）
     timer.reset(runtime.turn, stepBudget)
@@ -385,7 +377,7 @@ export class RoomManager {
     // 校验执子色归属（防伪造 color，F-C-03）
     const own = runtime.colorOf(userId)
     if (own !== color) {
-      await this.audit(userId, 'illegal_move', { gameId, reason: 'color_mismatch', color })
+      await audit(this.app, userId, 'illegal_move', { gameId, reason: 'color_mismatch', color })
       this.sendToUser(userId, 'error', { code: 'NOT_YOUR_TURN', msg: '非该方回合' })
       return
     }
@@ -410,7 +402,7 @@ export class RoomManager {
     const result = runtime.tryMove(color as EngineColor, pos as EnginePos)
 
     if (!result.ok) {
-      await this.audit(actorId, 'illegal_move', {
+      await audit(this.app, actorId, 'illegal_move', {
         gameId: runtime.gameId,
         reason: result.code,
         pos,
@@ -440,7 +432,7 @@ export class RoomManager {
     // pass 处理：轮到的一方无合法手
     if (result.passAfter) {
       await this.recordPass(runtime, result.passAfter.passedColor)
-      this.broadcastToGameByRuntime(runtime, 'pass', {
+      broadcastToGameByRuntime(this.hub, this.games, runtime, 'pass', {
         gameId: runtime.gameId,
         color: result.passAfter.passedColor,
         nextTurn: result.passAfter.nextTurn,
@@ -480,7 +472,7 @@ export class RoomManager {
     result: Extract<ReturnType<GameRuntime['tryMove']>, { ok: true }>,
     remainingMs: number,
   ): void {
-    this.broadcastToGameByRuntime(runtime, 'move', {
+    broadcastToGameByRuntime(this.hub, this.games, runtime, 'move', {
       gameId: runtime.gameId,
       seq: result.seq,
       color: result.color,
@@ -511,7 +503,7 @@ export class RoomManager {
     if (pos === null) {
       // AI 无合法手 → pass
       await this.recordPass(runtime, color)
-      this.broadcastToGameByRuntime(runtime, 'pass', {
+      broadcastToGameByRuntime(this.hub, this.games, runtime, 'pass', {
         gameId: runtime.gameId,
         color,
         nextTurn: runtime.turn,
@@ -562,7 +554,7 @@ export class RoomManager {
       gameNumId,
     })
 
-    this.broadcastToGameByRuntime(runtime, 'game_over', {
+    broadcastToGameByRuntime(this.hub, this.games, runtime, 'game_over', {
       gameId: runtime.gameId,
       result: info.result,
       endReason: info.endReason,
@@ -574,7 +566,7 @@ export class RoomManager {
     if (runtime.config.roomId !== null) {
       await roomService.updateRoomStatus(runtime.config.roomId, 'finished')
       const seat = this.rooms.get(runtime.config.roomId)
-      if (seat) await this.broadcastRoomState(seat)
+      if (seat) await broadcastRoomState(this.hub, seat)
     }
 
     this.games.delete(runtime.gameId)
@@ -604,7 +596,7 @@ export class RoomManager {
     const active = this.games.get(gameId)
     if (!active) return
     active.runtime.drawRequestedBy = userId
-    this.broadcastToGameByRuntime(active.runtime, 'draw_request', { gameId, byUserId: userId })
+    broadcastToGameByRuntime(this.hub, this.games, active.runtime, 'draw_request', { gameId, byUserId: userId })
   }
 
   async drawResponse(userId: number, gameId: string, accept: boolean): Promise<void> {
@@ -614,241 +606,51 @@ export class RoomManager {
     if (rt.drawRequestedBy === null || rt.drawRequestedBy === userId) return
     if (!accept) {
       rt.drawRequestedBy = null
-      this.broadcastToGameByRuntime(rt, 'draw_response', { gameId, accept: false })
+      broadcastToGameByRuntime(this.hub, this.games, rt, 'draw_response', { gameId, accept: false })
       return
     }
     const info = rt.agreeDraw()
     if (info) await this.finalizeGame(rt, info)
   }
 
-  // ─── 再战 / 好友挑战（T17，F-E-16）───
+  // ─── 再战 / 好友挑战（T17，F-E-16）─── 委托 room-rematch.ts
+
+  private get rematchState(): RematchState {
+    return {
+      rematchAccepted: this.rematchAccepted,
+      rematchLeftUsers: this.rematchLeftUsers,
+      pendingChallenges: this.pendingChallenges,
+      rooms: this.rooms,
+      userRoom: this.userRoom,
+    }
+  }
 
   /** 再战请求：通知对局另一方 */
   async rematchRequest(userId: number, gameId: string): Promise<void> {
-    const active = this.games.get(gameId)
-    const opponentId = active
-      ? this.opponentOf(active.runtime, userId)
-      : await this.lastOpponentOf(gameId, userId)
-    if (opponentId === null) {
-      this.sendToUser(userId, 'error', { code: 'GAME_NOT_FOUND', msg: '对局不存在' })
-      return
-    }
-    // 对方已离开（离线或退到大厅）→ 立即失败，避免发起方卡在等待
-    if (!this.hub.isOnline(opponentId)) {
-      this.sendToUser(userId, 'error', { code: 'OPPONENT_OFFLINE', msg: '对方已离开' })
-      return
-    }
-    if (this.rematchLeftUsers.get(gameId)?.has(opponentId)) {
-      this.sendToUser(userId, 'error', { code: 'OPPONENT_LEFT', msg: '对方已离开对局' })
-      return
-    }
-    const fromUsername = (await this.usernameOf(userId)) ?? '对手'
-    this.sendToUser(opponentId, 'rematch_request', { gameId, fromUserId: userId, fromUsername })
+    await rematchRequestFn(this.hub, this.rematchState, this.games, userId, gameId)
   }
 
-  /** 标记玩家已离开终局对局页（F-E-16）：对方发起再战时据此快速失败 */
+  /** 标记玩家已离开终局对局页（F-E-16） */
   rematchLeave(userId: number, gameId: string): void {
-    let set = this.rematchLeftUsers.get(gameId)
-    if (!set) {
-      set = new Set()
-      this.rematchLeftUsers.set(gameId, set)
-    }
-    set.add(userId)
+    rematchLeaveFn(this.rematchState, userId, gameId)
   }
 
   /** 再战应答：双方均接受 → 互换执子开新局 */
   async rematchResponse(userId: number, gameId: string, accept: boolean): Promise<void> {
-    const opponentId = await this.lastOpponentOf(gameId, userId)
-    if (opponentId === null) {
-      this.sendToUser(userId, 'error', { code: 'GAME_NOT_FOUND', msg: '对局不存在' })
-      return
-    }
-    if (!accept) {
-      this.rematchAccepted.delete(gameId)
-      this.sendToUser(opponentId, 'rematch_response', { gameId, accept: false })
-      return
-    }
-    let accepted = this.rematchAccepted.get(gameId)
-    if (!accepted) {
-      accepted = new Set()
-      this.rematchAccepted.set(gameId, accepted)
-    }
-    // 应答方接受 → 发起方(opponentId)通过 rematch_request 已表达再战意愿，一并计入
-    accepted.add(userId)
-    accepted.add(opponentId)
-    // 双方（2 人）均接受 → 开局
-    if (accepted.size >= 2) {
-      this.rematchAccepted.delete(gameId)
-      this.rematchLeftUsers.delete(gameId)
-      const players = [...accepted]
-      const a = players[0]!
-      const b = players[1]!
-      await this.startRematchGame(gameId, a, b)
-    }
-  }
-
-  /** 互换执子开再战新局：原黑方执白，原白方执黑 */
-  private async startRematchGame(prevGameId: string, userA: number, userB: number): Promise<void> {
-    const prevBlack = await this.lastBlackOf(prevGameId)
-    // 互换：原黑方这局执白
-    const blackId = prevBlack === userA ? userB : userA
-    const whiteId = prevBlack === userA ? userA : userB
-
-    const room = await roomService.createRoom({
-      name: '再战',
-      ownerId: blackId,
-      mode: 'human_vs_human',
-      aiLevel: null,
-    })
-    const seat: RoomSeat = {
-      roomId: room.id,
-      mode: 'human_vs_human',
-      aiLevel: null,
-      blackId,
-      whiteId,
-      gameId: null,
-      blackReady: false,
-      whiteReady: false,
-      ownerId: blackId,
-      roomName: '再战',
-      spectatable: true,
-      roomSpectators: new Set<number>(),
-    }
-    this.rooms.set(room.id, seat)
-    this.userRoom.set(blackId, room.id)
-    this.userRoom.set(whiteId, room.id)
-    await this.startGame(seat)
-    // 通知双方导航到新房间（roomId 归一化为 number，DB BIGINT 原为字符串）
-    if (seat.gameId) {
-      this.hub.sendToUsers([blackId, whiteId], 'rematch_started', {
-        roomId: Number(room.id),
-        gameId: seat.gameId,
-      })
-    }
+    await rematchResponseFn(this.hub, this.rematchState, userId, gameId, accept, seat => this.startGame(seat))
   }
 
   /** 好友挑战：建房并通知对方 */
   async challenge(fromUserId: number, toUserId: number, aiLevel: AiLevel | null): Promise<void> {
-    // pg BIGINT 经 JWT 传回为字符串，统一归一化为 number（与 hub 键一致）
-    const from = Number(fromUserId)
-    const to = Number(toUserId)
-    if (from === to) {
-      this.sendToUser(from, 'error', { code: 'VALIDATION_ERROR', msg: '不能挑战自己' })
-      return
-    }
-    // PRD F-E-16「向指定好友发 challenge」：强制校验好友关系，防陌生人骚扰
-    const relation = await friendService.getRelation(from, to)
-    if (relation !== 'accepted') {
-      this.sendToUser(from, 'error', { code: 'NOT_FRIEND', msg: '只能向好友发起挑战' })
-      return
-    }
-    // 对方离线时 pendingChallenge 会永远挂着，直接拒绝
-    if (!this.hub.isOnline(to)) {
-      this.sendToUser(from, 'error', { code: 'OPPONENT_OFFLINE', msg: '对方不在线' })
-      return
-    }
-    this.pendingChallenges.set(from, { toUserId: to, aiLevel })
-    const fromUsername = (await this.usernameOf(from)) ?? '对手'
-    this.sendToUser(to, 'challenge', { fromUserId: from, fromUsername })
+    await challengeFn(this.hub, this.rematchState, fromUserId, toUserId, aiLevel)
   }
 
   /** 挑战应答：接受 → 建房开局；拒绝 → 通知发起方 */
   async challengeResponse(fromUserId: number, toUserId: number, accept: boolean): Promise<void> {
-    const from = Number(fromUserId)
-    const to = Number(toUserId)
-    const pending = this.pendingChallenges.get(from)
-    if (!pending || pending.toUserId !== to) {
-      this.sendToUser(to, 'error', { code: 'VALIDATION_ERROR', msg: '挑战不存在或已过期' })
-      return
-    }
-    this.pendingChallenges.delete(from)
-    const opponentUsername = (await this.usernameOf(to)) ?? '对手'
-
-    if (!accept) {
-      this.sendToUser(from, 'challenge_result', {
-        accepted: false,
-        roomId: null,
-        gameId: null,
-        opponentUsername,
-      })
-      return
-    }
-
-    // 接受：建房，发起方执黑，应战方执白
-    const room = await roomService.createRoom({
-      name: '好友挑战',
-      ownerId: from,
-      mode: 'human_vs_human',
-      aiLevel: null,
-    })
-    const seat: RoomSeat = {
-      roomId: room.id,
-      mode: 'human_vs_human',
-      aiLevel: null,
-      blackId: from,
-      whiteId: to,
-      gameId: null,
-      blackReady: false,
-      whiteReady: false,
-      ownerId: from,
-      roomName: '好友挑战',
-      spectatable: true,
-      roomSpectators: new Set<number>(),
-    }
-    this.rooms.set(room.id, seat)
-    this.userRoom.set(from, room.id)
-    this.userRoom.set(to, room.id)
-    await this.startGame(seat)
-    this.hub.sendToUsers([from, to], 'challenge_result', {
-      accepted: true,
-      roomId: Number(room.id),
-      gameId: seat.gameId,
-      opponentUsername,
-    })
+    await challengeResponseFn(this.hub, this.rematchState, fromUserId, toUserId, accept, seat => this.startGame(seat))
   }
 
-  /** 对局中某玩家的对手 id（进行中） */
-  private opponentOf(runtime: GameRuntime, userId: number): number | null {
-    const { black, white } = runtime.config
-    if (black.userId === userId) return white.userId
-    if (white.userId === userId) return black.userId
-    return null
-  }
-
-  /** 从 DB 查已结束对局的对手 id（再战用） */
-  private async lastOpponentOf(gameId: string, userId: number): Promise<number | null> {
-    const numId = gameIdToNumber(gameId)
-    if (numId === null) return null
-    try {
-      const res = await query('SELECT black_id, white_id FROM games WHERE id = $1', [numId])
-      const row = res.rows[0] as { black_id: string | null, white_id: string | null } | undefined
-      if (!row) return null
-      // pg BIGINT-as-string：black_id/white_id 返回字符串，统一 Number() 归一化（CLAUDE.md）
-      const blackId = row.black_id !== null ? Number(row.black_id) : null
-      const whiteId = row.white_id !== null ? Number(row.white_id) : null
-      if (blackId === userId) return whiteId
-      if (whiteId === userId) return blackId
-      return null
-    }
-    catch {
-      return null
-    }
-  }
-
-  /** 从 DB 查已结束对局的原黑方 id（再战互换执子用） */
-  private async lastBlackOf(gameId: string): Promise<number | null> {
-    const numId = gameIdToNumber(gameId)
-    if (numId === null) return null
-    try {
-      const res = await query('SELECT black_id FROM games WHERE id = $1', [numId])
-      // pg BIGINT-as-string：black_id 返回字符串，统一 Number() 归一化（CLAUDE.md）
-      const raw = (res.rows[0] as { black_id: string | null } | undefined)?.black_id ?? null
-      return raw !== null ? Number(raw) : null
-    }
-    catch {
-      return null
-    }
-  }
+  // opponentOf / lastOpponentOf / lastBlackOf → room-utils.ts
 
   // ─── 提示 / 悔棋（T12，仅人机）───
 
@@ -920,7 +722,7 @@ export class RoomManager {
     // 重置倒计时并广播新状态
     active.timer.reset(rt.turn as Color, timeoutForMode(rt.config.mode))
     const { blackCount, whiteCount } = rt.counts()
-    this.broadcastToGameByRuntime(rt, 'undo', {
+    broadcastToGameByRuntime(this.hub, this.games, rt, 'undo', {
       gameId,
       success: true,
       board: Array.from(rt.board),
@@ -1005,10 +807,10 @@ export class RoomManager {
       whiteId: runtime.config.white.userId,
       blackName: runtime.config.black.isAi
         ? 'AI'
-        : await this.usernameOf(runtime.config.black.userId),
+        : await usernameOf(runtime.config.black.userId),
       whiteName: runtime.config.white.isAi
         ? 'AI'
-        : await this.usernameOf(runtime.config.white.userId),
+        : await usernameOf(runtime.config.white.userId),
       remainingMs: active.timer.remainingMs(),
       status: runtime.status,
       moves: moves.map(m => ({
@@ -1045,61 +847,16 @@ export class RoomManager {
     if (info) await this.finalizeGame(active.runtime, info)
   }
 
-  // ─── 观战（T14，F-E-05/10）───
+  // ─── 观战（T14，F-E-05/10）─── 委托 room-spectate.ts
 
   /** 观战加入（只读订阅）：立即下发当前棋盘快照，后续随广播收走子 */
   async spectateJoin(userId: number, gameId: string): Promise<void> {
-    const active = this.games.get(gameId)
-    if (!active) {
-      this.sendToUser(userId, 'error', { code: 'GAME_NOT_FOUND', msg: '对局不存在或已结束' })
-      return
-    }
-    const { runtime } = active
-    // 对局玩家不能观战自己的局
-    if (runtime.colorOf(userId) !== null) {
-      this.sendToUser(userId, 'error', { code: 'VALIDATION_ERROR', msg: '对局玩家无需观战' })
-      return
-    }
-    active.spectators.add(userId)
-
-    // 下发当前状态快照（复用 state_sync，lastSeq=0 即全量走子）
-    const gameNumId = gameIdToNumber(gameId)
-    const moves = gameNumId !== null ? await gameService.getGameMovesSince(gameNumId, 0) : []
-    const { blackCount, whiteCount } = runtime.counts()
-    this.sendToUser(userId, 'spectate_start', {
-      gameId,
-      turn: runtime.turn,
-      board: Array.from(runtime.board),
-      blackCount,
-      whiteCount,
-      blackId: runtime.config.black.userId,
-      whiteId: runtime.config.white.userId,
-      blackName: runtime.config.black.isAi
-        ? 'AI'
-        : await this.usernameOf(runtime.config.black.userId),
-      whiteName: runtime.config.white.isAi
-        ? 'AI'
-        : await this.usernameOf(runtime.config.white.userId),
-      remainingMs: active.timer.remainingMs(),
-      status: runtime.status,
-      spectatorCount: active.spectators.size,
-      moves: moves.map(m => ({
-        seq: m.seq,
-        color: m.color,
-        pos: m.pos,
-        isPass: m.isPass,
-        flipped: m.flipped,
-      })),
-    })
-    this.app.log.info({ userId, gameId, spectators: active.spectators.size }, '观战者加入')
+    await spectateJoinFn(this.app, this.hub, this.games, userId, gameId)
   }
 
   /** 观战离开 */
   spectateLeave(userId: number, gameId: string): void {
-    const active = this.games.get(gameId)
-    if (!active) return
-    active.spectators.delete(userId)
-    this.app.log.info({ userId, gameId, spectators: active.spectators.size }, '观战者离开')
+    spectateLeaveFn(this.app, this.games, userId, gameId)
   }
 
   /** 观战大厅：列出进行中对局（F-E-10） */
@@ -1116,36 +873,7 @@ export class RoomManager {
       spectatorCount: number
     }[]
   > {
-    const result: {
-      gameId: string
-      blackId: number | null
-      whiteId: number | null
-      blackName: string | null
-      whiteName: string | null
-      blackCount: number
-      whiteCount: number
-      moveCount: number
-      spectatorCount: number
-    }[] = []
-    for (const active of this.games.values()) {
-      const rt = active.runtime
-      if (rt.status !== 'playing') continue
-      // 仅列出人人对局（F-C-06 人机为服务端托管、不计 ELO，旁观意义低，不进观战大厅）
-      if (rt.config.mode === 'human_vs_ai') continue
-      const { blackCount, whiteCount } = rt.counts()
-      result.push({
-        gameId: rt.gameId,
-        blackId: rt.config.black.userId,
-        whiteId: rt.config.white.userId,
-        blackName: rt.config.black.isAi ? 'AI' : await this.usernameOf(rt.config.black.userId),
-        whiteName: rt.config.white.isAi ? 'AI' : await this.usernameOf(rt.config.white.userId),
-        blackCount,
-        whiteCount,
-        moveCount: rt.seq,
-        spectatorCount: active.spectators.size,
-      })
-    }
-    return result
+    return listActiveGamesFn(this.games)
   }
 
   /** 退出房间（仅 waiting 状态可退；playing 中退出按断线处理，M2 重连）。
@@ -1170,7 +898,7 @@ export class RoomManager {
       this.rooms.delete(roomId)
       return
     }
-    await this.broadcastRoomState(seat)
+    await broadcastRoomState(this.hub, seat)
   }
 
   /** 房间内玩家 id（房间聊天广播用，T10） */
@@ -1185,37 +913,6 @@ export class RoomManager {
 
   // ─── 广播辅助 ───
 
-  /** 构造 game_start 载荷（开局与状态同步共用）；解析双方用户名供玩家卡片展示。
-   *  remainingMs 为当前回合剩余毫秒（服务端权威，前端据此初始化每步倒计时）。
-   */
-  private async gameStartPayload(runtime: GameRuntime, remainingMs: number) {
-    const { black, white } = runtime.config
-    return {
-      gameId: runtime.gameId,
-      blackId: black.userId,
-      whiteId: white.userId,
-      blackName: black.isAi ? 'AI' : await this.usernameOf(black.userId),
-      whiteName: white.isAi ? 'AI' : await this.usernameOf(white.userId),
-      turn: runtime.turn,
-      board: Array.from(runtime.board),
-      aiLevel: runtime.config.aiLevel,
-      aiColor: runtime.config.aiColor,
-      remainingMs,
-    }
-  }
-
-  /** 解析用户名（缺失返回 null，不阻断开局） */
-  private async usernameOf(userId: number | null): Promise<string | null> {
-    if (userId === null) return null
-    try {
-      const row = await query('SELECT username FROM users WHERE id = $1', [userId])
-      return (row.rows[0]?.username as string | undefined) ?? null
-    }
-    catch {
-      return null
-    }
-  }
-
   /** 向指定用户补发当前对局状态（重入/重连时修复错过的 game_start，携带完整走子历史） */
   private async syncGameToUser(userId: number, seat: RoomSeat): Promise<void> {
     if (seat.gameId === null) return
@@ -1223,8 +920,8 @@ export class RoomManager {
     if (!active) return
     const gameNumId = gameIdToNumber(seat.gameId)
     const moves = gameNumId !== null ? await gameService.getGameMovesSince(gameNumId, 0) : []
-    this.sendToUser(userId, 'game_start', {
-      ...(await this.gameStartPayload(active.runtime, active.timer.remainingMs())),
+    this.hub.sendToUser(userId, 'game_start', {
+      ...(await gameStartPayload(active.runtime, active.timer.remainingMs())),
       moves: moves.map(m => ({
         seq: m.seq,
         color: m.color,
@@ -1234,68 +931,7 @@ export class RoomManager {
     })
   }
 
-  private broadcastToGameByRuntime(runtime: GameRuntime, type: string, payload: unknown): void {
-    const ids: number[] = []
-    if (runtime.config.black.userId !== null) ids.push(runtime.config.black.userId)
-    if (runtime.config.white.userId !== null) ids.push(runtime.config.white.userId)
-    // 观战者同样接收实时走子（只读订阅，T14）
-    const active = this.games.get(runtime.gameId)
-    if (active) for (const sid of active.spectators) ids.push(sid)
-    this.hub.sendToUsers(ids, type, payload)
-  }
-
-  private broadcastToGame(seat: RoomSeat, type: string, payload: unknown): void {
-    const ids: number[] = []
-    if (seat.blackId !== null) ids.push(seat.blackId)
-    if (seat.whiteId !== null) ids.push(seat.whiteId)
-    this.hub.sendToUsers(ids, type, payload)
-  }
-
-  private async broadcastRoomState(seat: RoomSeat): Promise<void> {
-    const ids: number[] = []
-    if (seat.blackId !== null) ids.push(seat.blackId)
-    if (seat.whiteId !== null) ids.push(seat.whiteId)
-    // 房间等待期旁观者也接收 room_state（观战席，T14 扩展）
-    for (const sid of seat.roomSpectators) ids.push(sid)
-    const blackName = seat.blackId !== null ? ((await this.usernameOf(seat.blackId)) ?? null) : null
-    const whiteName = seat.whiteId !== null ? ((await this.usernameOf(seat.whiteId)) ?? null) : null
-    // 旁观者列表（含用户名）
-    const spectatorList = []
-    for (const sid of seat.roomSpectators) {
-      const name = (await this.usernameOf(sid)) ?? '旁观者'
-      spectatorList.push({ userId: sid, username: name })
-    }
-    this.hub.sendToUsers(ids, 'room_state', {
-      roomId: seat.roomId,
-      gameId: seat.gameId,
-      blackId: seat.blackId,
-      whiteId: seat.whiteId,
-      status: seat.gameId ? 'playing' : 'waiting',
-      blackReady: seat.blackReady,
-      whiteReady: seat.whiteReady,
-      blackName,
-      whiteName,
-      ownerId: seat.ownerId,
-      roomName: seat.roomName,
-      spectatable: seat.spectatable,
-      spectators: spectatorList,
-    })
-  }
-
   private sendToUser(userId: number, type: string, payload: unknown): void {
     this.hub.sendToUser(userId, type, payload)
-  }
-
-  private async audit(userId: number, action: string, meta: unknown): Promise<void> {
-    try {
-      await query('INSERT INTO audit_logs (user_id, action, meta) VALUES ($1, $2, $3)', [
-        userId > 0 ? userId : null,
-        action,
-        JSON.stringify(meta),
-      ])
-    }
-    catch (err) {
-      this.app.log.warn({ err }, '写审计日志失败')
-    }
   }
 }

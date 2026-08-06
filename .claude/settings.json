@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "timeout 60 pnpm -r typecheck 2>/dev/null || true",
+            "command": "timeout 60 pnpm -r typecheck",
             "timeout": 70,
             "statusMessage": "Type-checking…"
           }

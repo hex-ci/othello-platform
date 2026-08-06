@@ -14,9 +14,8 @@ COPY packages/shared/package.json packages/shared/
 COPY packages/engine/package.json packages/engine/
 COPY apps/server/package.json apps/server/
 
-# argon2 在 linux x64 有预编译包；若目标平台无 prebuild，
-# 取消下行注释以提供编译工具链（ARM 等场景）：
-# RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
+# argon2 在 linux x64 有预编译包；ARM64 等平台无 prebuild，需编译工具链
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
 RUN pnpm install --frozen-lockfile
 
 # 拷入后端与其依赖包的全部源码，以及迁移文件（migrate.ts 相对定位 ../../../../migrations）
